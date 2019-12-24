@@ -16,6 +16,9 @@
 		D9330DAC23B1A9B300FA3405 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9330DAA23B1A9B300FA3405 /* LaunchScreen.storyboard */; };
 		D9330DB723B1A9B300FA3405 /* UpNextMkIITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DB623B1A9B300FA3405 /* UpNextMkIITests.swift */; };
 		D9330DC223B1A9B400FA3405 /* UpNextMkIIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DC123B1A9B400FA3405 /* UpNextMkIIUITests.swift */; };
+		D9330DD223B1A9EC00FA3405 /* Domain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DD023B1A9EC00FA3405 /* Domain.swift */; };
+		D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DD123B1A9EC00FA3405 /* DomainItem.swift */; };
+		D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DD523B1AB2700FA3405 /* DomainList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		D9330DBD23B1A9B400FA3405 /* UpNextMkIIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UpNextMkIIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9330DC123B1A9B400FA3405 /* UpNextMkIIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextMkIIUITests.swift; sourceTree = "<group>"; };
 		D9330DC323B1A9B400FA3405 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9330DD023B1A9EC00FA3405 /* Domain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Domain.swift; sourceTree = "<group>"; };
+		D9330DD123B1A9EC00FA3405 /* DomainItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainItem.swift; sourceTree = "<group>"; };
+		D9330DD523B1AB2700FA3405 /* DomainList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,8 @@
 		D9330D9B23B1A9B100FA3405 /* UpNextMkII */ = {
 			isa = PBXGroup;
 			children = (
+				D9330DCF23B1A9CA00FA3405 /* Domain */,
+				D9330DD423B1AA4B00FA3405 /* Views */,
 				D9330D9C23B1A9B100FA3405 /* AppDelegate.swift */,
 				D9330D9E23B1A9B100FA3405 /* SceneDelegate.swift */,
 				D9330DA323B1A9B100FA3405 /* ContentView.swift */,
@@ -137,6 +145,23 @@
 				D9330DC323B1A9B400FA3405 /* Info.plist */,
 			);
 			path = UpNextMkIIUITests;
+			sourceTree = "<group>";
+		};
+		D9330DCF23B1A9CA00FA3405 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				D9330DD023B1A9EC00FA3405 /* Domain.swift */,
+				D9330DD123B1A9EC00FA3405 /* DomainItem.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		D9330DD423B1AA4B00FA3405 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D9330DD523B1AB2700FA3405 /* DomainList.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,9 +296,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9330D9D23B1A9B100FA3405 /* AppDelegate.swift in Sources */,
+				D9330DD223B1A9EC00FA3405 /* Domain.swift in Sources */,
 				D9330DA223B1A9B100FA3405 /* UpNextMkII.xcdatamodeld in Sources */,
 				D9330DA423B1A9B100FA3405 /* ContentView.swift in Sources */,
+				D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */,
 				D9330D9F23B1A9B100FA3405 /* SceneDelegate.swift in Sources */,
+				D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

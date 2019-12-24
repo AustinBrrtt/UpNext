@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="true" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Domain" representedClassName="Domain" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="backlog" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DomainItem" inverseName="inBacklogOf" inverseEntity="DomainItem"/>
+        <relationship name="queue" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DomainItem" inverseName="inQueueOf" inverseEntity="DomainItem"/>
+    </entity>
+    <entity name="DomainItem" representedClassName="DomainItem" syncable="YES">
+        <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="inBacklogOf" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Domain" inverseName="backlog" inverseEntity="Domain"/>
+        <relationship name="inQueueOf" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Domain" inverseName="queue" inverseEntity="Domain"/>
+    </entity>
+    <elements>
+        <element name="DomainItem" positionX="-54" positionY="-9" width="128" height="103"/>
+        <element name="Domain" positionX="-36" positionY="27" width="128" height="88"/>
+    </elements>
 </model>
