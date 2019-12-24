@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct DomainList: View {
+    @Environment(\.editMode) var editMode
     @Environment(\.managedObjectContext) var managedObjectContext
     @State var newDomainName: String = ""
     @FetchRequest(fetchRequest: Domain.getAll()) var domains: FetchedResults<Domain>
@@ -37,7 +38,13 @@ struct DomainList: View {
                 .padding()
                 List {
                     ForEach(domains) { domain in
-                        Text(domain.name ?? "Untitled")
+                        if (self.editMode?.wrappedValue == .active) {
+                            Text(domain.name ?? "Untitled")
+                        } else {
+                            NavigationLink(destination: DomainView(domain: domain)) {
+                                Text(domain.name ?? "Untitled")
+                            }
+                        }
                     }.onDelete { (offsets: IndexSet) in
                         for index in offsets {
                             self.managedObjectContext.delete(self.domains[index])

@@ -13,8 +13,8 @@ import CoreData
 class Domain: NSManagedObject, Identifiable {
     @NSManaged var name: String?
     
-    @NSManaged var queue: NSSet
-    @NSManaged var backlog: NSSet
+    @NSManaged var queue: Set<DomainItem>
+    @NSManaged var backlog: Set<DomainItem>
     
     static func getAll() -> NSFetchRequest<Domain> {
         let request: NSFetchRequest<Domain> = NSFetchRequest<Domain>(entityName: "Domain")
@@ -24,10 +24,20 @@ class Domain: NSManagedObject, Identifiable {
     
     static func create(context: NSManagedObjectContext, name: String) -> Domain {
         let domain = Domain(context: context)
-        domain.queue = NSSet()
-        domain.backlog = NSSet()
+        domain.queue = Set<DomainItem>()
+        domain.backlog = Set<DomainItem>()
         domain.name = name
         
         return domain
+    }
+    
+    func addToQueue(_ item: DomainItem) {
+        queue.insert(item)
+        item.inQueueOf = self
+    }
+    
+    func addToBacklog(_ item: DomainItem) {
+        backlog.insert(item)
+        item.inBacklogOf = self
     }
 }

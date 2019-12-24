@@ -19,6 +19,8 @@
 		D9330DD223B1A9EC00FA3405 /* Domain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DD023B1A9EC00FA3405 /* Domain.swift */; };
 		D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DD123B1A9EC00FA3405 /* DomainItem.swift */; };
 		D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DD523B1AB2700FA3405 /* DomainList.swift */; };
+		D9330DDB23B284DA00FA3405 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDA23B284DA00FA3405 /* ItemList.swift */; };
+		D9330DDD23B28A4F00FA3405 /* DomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDC23B28A4F00FA3405 /* DomainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		D9330DD023B1A9EC00FA3405 /* Domain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Domain.swift; sourceTree = "<group>"; };
 		D9330DD123B1A9EC00FA3405 /* DomainItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainItem.swift; sourceTree = "<group>"; };
 		D9330DD523B1AB2700FA3405 /* DomainList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainList.swift; sourceTree = "<group>"; };
+		D9330DDA23B284DA00FA3405 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
+		D9330DDC23B28A4F00FA3405 /* DomainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				D9330DD523B1AB2700FA3405 /* DomainList.swift */,
+				D9330DDA23B284DA00FA3405 /* ItemList.swift */,
+				D9330DDC23B28A4F00FA3405 /* DomainView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -297,8 +303,10 @@
 			files = (
 				D9330D9D23B1A9B100FA3405 /* AppDelegate.swift in Sources */,
 				D9330DD223B1A9EC00FA3405 /* Domain.swift in Sources */,
+				D9330DDD23B28A4F00FA3405 /* DomainView.swift in Sources */,
 				D9330DA223B1A9B100FA3405 /* UpNextMkII.xcdatamodeld in Sources */,
 				D9330DA423B1A9B100FA3405 /* ContentView.swift in Sources */,
+				D9330DDB23B284DA00FA3405 /* ItemList.swift in Sources */,
 				D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */,
 				D9330D9F23B1A9B100FA3405 /* SceneDelegate.swift in Sources */,
 				D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */,
