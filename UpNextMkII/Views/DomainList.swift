@@ -11,29 +11,13 @@ import SwiftUI
 struct DomainList: View {
     @Environment(\.editMode) var editMode
     @Environment(\.managedObjectContext) var managedObjectContext
-    @State var newDomainName: String = ""
     @FetchRequest(fetchRequest: Domain.getAll()) var domains: FetchedResults<Domain>
     
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    TextField("Add Domain", text: $newDomainName)
-                    Image(systemName: "plus.circle.fill")
-                        .foregroundColor(newDomainName == "" ? .secondary : .green)
-                        .onTapGesture {
-                            if (self.newDomainName != "") {
-                                let _ = Domain.create(context: self.managedObjectContext, name: self.newDomainName)
-                                
-                                do {
-                                    try self.managedObjectContext.save()
-                                    self.newDomainName = ""
-                                } catch let error as NSError {
-                                    // TODO: Handle CoreData save error
-                                    print("Saving failed. \(error), \(error.userInfo)")
-                                }
-                            }
-                    }
+                AddByNameField("Add Domain") { (name: String) in
+                    let _ = Domain.create(context: self.managedObjectContext, name: name)
                 }
                 .padding()
                 List {

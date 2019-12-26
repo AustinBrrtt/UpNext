@@ -10,29 +10,13 @@ import SwiftUI
 
 struct DomainView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
-    @State var newItemName: String = ""
     var domain: Domain
     
     var body: some View {
         VStack {
-            HStack {
-                TextField("Add Item", text: $newItemName)
-                Image(systemName: "plus.circle.fill")
-                    .foregroundColor(newItemName == "" ? .secondary : .green)
-                    .onTapGesture {
-                        if (self.newItemName != "") {
-                            let item = DomainItem.create(context: self.managedObjectContext, name: self.newItemName)
-                            self.domain.addToQueue(item)
-                            
-                            do {
-                                try self.managedObjectContext.save()
-                                self.newItemName = ""
-                            } catch let error as NSError {
-                                // TODO: Handle CoreData save error
-                                print("Saving failed. \(error), \(error.userInfo)")
-                            }
-                        }
-                }
+            AddByNameField("Add Item") { (name: String) in
+                let item = DomainItem.create(context: self.managedObjectContext, name: name)
+                self.domain.addToQueue(item)
             }
             .padding()
             ItemList(items: domain.queue)
