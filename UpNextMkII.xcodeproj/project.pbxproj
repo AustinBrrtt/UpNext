@@ -22,6 +22,7 @@
 		D9330DDB23B284DA00FA3405 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDA23B284DA00FA3405 /* ItemList.swift */; };
 		D9330DDD23B28A4F00FA3405 /* DomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDC23B28A4F00FA3405 /* DomainView.swift */; };
 		D9330DDF23B4730E00FA3405 /* AddByNameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDE23B4730E00FA3405 /* AddByNameField.swift */; };
+		D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DE123B5D32300FA3405 /* LazyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		D9330DDA23B284DA00FA3405 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		D9330DDC23B28A4F00FA3405 /* DomainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainView.swift; sourceTree = "<group>"; };
 		D9330DDE23B4730E00FA3405 /* AddByNameField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddByNameField.swift; sourceTree = "<group>"; };
+		D9330DE123B5D32300FA3405 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 		D9330D9B23B1A9B100FA3405 /* UpNextMkII */ = {
 			isa = PBXGroup;
 			children = (
+				D9330DE023B5D30D00FA3405 /* Containers */,
 				D9330DCF23B1A9CA00FA3405 /* Domain */,
 				D9330DD423B1AA4B00FA3405 /* Views */,
 				D9330D9C23B1A9B100FA3405 /* AppDelegate.swift */,
@@ -171,6 +174,14 @@
 				D9330DDE23B4730E00FA3405 /* AddByNameField.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D9330DE023B5D30D00FA3405 /* Containers */ = {
+			isa = PBXGroup;
+			children = (
+				D9330DE123B5D32300FA3405 /* LazyView.swift */,
+			);
+			path = Containers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,6 +322,7 @@
 				D9330DDF23B4730E00FA3405 /* AddByNameField.swift in Sources */,
 				D9330DA423B1A9B100FA3405 /* ContentView.swift in Sources */,
 				D9330DDB23B284DA00FA3405 /* ItemList.swift in Sources */,
+				D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */,
 				D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */,
 				D9330D9F23B1A9B100FA3405 /* SceneDelegate.swift in Sources */,
 				D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */,

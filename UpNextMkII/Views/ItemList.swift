@@ -10,22 +10,15 @@ import SwiftUI
 
 struct ItemList: View {
     @Environment(\.managedObjectContext) var managedObjectContext
-    var _items: Set<DomainItem>
-    var items: [DomainItem] {
-        return _items.map() { (item: DomainItem) in item } // TODO: Inefficiently regenerated each time
-    }
-    
-    init (items: Set<DomainItem>) {
-        _items = items
-    }
+    var items: Set<DomainItem>
     
     var body: some View {
-        List {
-            ForEach(items) { item in
+        return List {
+            ForEach(Array(items).sorted()) { item in
                 Text(item.name ?? "Untitled")
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {
-                    self.managedObjectContext.delete(self.items[index])
+                    self.managedObjectContext.delete((Array(self.items).sorted())[index])
                 }
             }
         }

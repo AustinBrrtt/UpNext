@@ -25,3 +25,9 @@ class DomainItem: NSManagedObject, Identifiable {
         return domainItem
     }
 }
+
+extension DomainItem: Comparable {
+    static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
+        lhs.name ?? "Untitled" < rhs.name ?? "Untitled"
+    }
+}
