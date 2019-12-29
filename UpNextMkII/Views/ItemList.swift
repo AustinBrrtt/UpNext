@@ -10,23 +10,18 @@ import SwiftUI
 
 struct ItemList: View {
     @Environment(\.managedObjectContext) var managedObjectContext
-    var _items: Set<DomainItem>
-    var items: [DomainItem] {
-        return _items.map() { (item: DomainItem) in item } // TODO: Inefficiently regenerated each time
-    }
-    
-    init (items: Set<DomainItem>) {
-        _items = items
-    }
+    var items: [DomainItem]
+    @Binding var dirtyHack: Bool
     
     var body: some View {
-        List {
+        return List {
             ForEach(items) { item in
                 Text(item.name ?? "Untitled")
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {
                     self.managedObjectContext.delete(self.items[index])
                 }
+                self.dirtyHack.toggle()
             }
         }
     }
@@ -34,6 +29,6 @@ struct ItemList: View {
 
 struct ItemList_Previews: PreviewProvider {
     static var previews: some View {
-        ItemList(items: Set<DomainItem>()) // TODO: CoreData preview
+        ItemList(items: [], dirtyHack: .constant(true)) // TODO: CoreData preview
     }
 }

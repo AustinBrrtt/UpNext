@@ -12,6 +12,7 @@ struct DomainList: View {
     @Environment(\.editMode) var editMode
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: Domain.getAll()) var domains: FetchedResults<Domain>
+    @State var dirtyHack: Bool = true
     
     var body: some View {
         NavigationView {
@@ -23,10 +24,10 @@ struct DomainList: View {
                 List {
                     ForEach(domains) { domain in
                         if (self.editMode?.wrappedValue == .active) {
-                            Text(domain.name ?? "Untitled")
+                            Text(domain.displayName)
                         } else {
-                            NavigationLink(destination: DomainView(domain: domain)) {
-                                Text(domain.name ?? "Untitled")
+                            NavigationLink(destination: DomainView(domain: domain, dirtyHack: self.$dirtyHack)) {
+                                Text(domain.displayName)
                             }
                         }
                     }.onDelete { (offsets: IndexSet) in
