@@ -16,6 +16,18 @@ class Domain: NSManagedObject, Identifiable {
     @NSManaged var queue: Set<DomainItem>
     @NSManaged var backlog: Set<DomainItem>
     
+    public var displayName: String {
+        name ?? "Untitled"
+    }
+    
+    public var queueItems: [DomainItem] {
+        Array(queue).sorted()
+    }
+    
+    public var backlogItems: [DomainItem] {
+        Array(queue).sorted()
+    }
+    
     static func getAll() -> NSFetchRequest<Domain> {
         let request: NSFetchRequest<Domain> = NSFetchRequest<Domain>(entityName: "Domain")
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
@@ -31,12 +43,12 @@ class Domain: NSManagedObject, Identifiable {
         return domain
     }
     
-    func addToQueue(_ item: DomainItem) {
+    public func addToQueue(_ item: DomainItem) {
         queue.insert(item)
         item.inQueueOf = self
     }
     
-    func addToBacklog(_ item: DomainItem) {
+    public func addToBacklog(_ item: DomainItem) {
         backlog.insert(item)
         item.inBacklogOf = self
     }

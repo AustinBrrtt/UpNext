@@ -11,17 +11,19 @@ import SwiftUI
 struct DomainView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     var domain: Domain
+    @Binding var dirtyHack: Bool
     
     var body: some View {
         VStack {
             AddByNameField("Add Item") { (name: String) in
                 let item = DomainItem.create(context: self.managedObjectContext, name: name)
                 self.domain.addToQueue(item)
+                self.dirtyHack.toggle()
             }
             .padding()
-            ItemList(items: domain.queue)
+            ItemList(items: domain.queueItems, dirtyHack: $dirtyHack)
         }
-        .navigationBarTitle(domain.name ?? "Untitled")
+        .navigationBarTitle(domain.displayName)
         .navigationBarItems(trailing: EditButton())
     }
 }

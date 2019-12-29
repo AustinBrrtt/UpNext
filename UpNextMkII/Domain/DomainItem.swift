@@ -17,6 +17,10 @@ class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var inQueueOf: Domain?
     @NSManaged public var inBacklogOf: Domain?
     
+    public var displayName: String {
+        name ?? "Untitled"
+    }
+    
     static func create(context: NSManagedObjectContext, name: String) -> DomainItem {
         let domainItem = DomainItem(context: context)
         domainItem.name = name
