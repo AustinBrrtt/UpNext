@@ -25,7 +25,7 @@ class Domain: NSManagedObject, Identifiable {
     }
     
     public var backlogItems: [DomainItem] {
-        Array(queue).sorted()
+        Array(backlog).sorted()
     }
     
     static func getAll() -> NSFetchRequest<Domain> {

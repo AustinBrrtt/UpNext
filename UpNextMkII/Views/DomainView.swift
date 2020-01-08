@@ -11,20 +11,38 @@ import SwiftUI
 struct DomainView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     var domain: Domain
+    @State var showBacklog: Bool = false
     @Binding var dirtyHack: Bool
     
     var body: some View {
         VStack {
+            Picker("Show Up Next or Backlog", selection: $showBacklog) {
+                Text("Up Next").tag(false)
+                Text("Backlog").tag(true)
+            }
+                .pickerStyle(SegmentedPickerStyle())
+                .labelsHidden()
+                .padding()
+            
             AddByNameField("Add Item") { (name: String) in
                 let item = DomainItem.create(context: self.managedObjectContext, name: name)
-                self.domain.addToQueue(item)
+                self.addToList(item)
                 self.dirtyHack.toggle()
             }
             .padding()
-            ItemList(items: domain.queueItems, dirtyHack: $dirtyHack)
+            
+            ItemList(items: showBacklog ? domain.backlogItems : domain.queueItems, dirtyHack: $dirtyHack)
         }
         .navigationBarTitle(domain.displayName)
         .navigationBarItems(trailing: EditButton())
+    }
+    
+    func addToList(_ item: DomainItem) {
+        if self.showBacklog {
+            self.domain.addToBacklog(item)
+        } else {
+            self.domain.addToQueue(item)
+        }
     }
 }
 
