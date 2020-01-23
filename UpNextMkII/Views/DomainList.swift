@@ -12,26 +12,29 @@ struct DomainList: View {
     @Environment(\.editMode) var editMode
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: Domain.getAll()) var domains: FetchedResults<Domain>
+    @State var dirtyHack: Bool = false
     
     var body: some View {
         NavigationView {
             VStack {
-                AddByNameField("Add Domain") { (name: String) in
+                AddByNameField("Add Domain", dirtyHack: $dirtyHack) { (name: String) in
                     let _ = Domain.create(context: self.managedObjectContext, name: name)
+                    self.dirtyHack.toggle()
                 }
                 .padding()
                 List {
-                    ForEach(domains) { domain in
+                    ForEach(dirtyHack ? domains : domains) { domain in
                         if (self.editMode?.wrappedValue == .active) {
                             Text(domain.displayName)
                         } else {
-                            NavigationLink(destination: DomainView(domain: domain)) {
+                            NavigationLink(destination: DomainView(domain: domain, dirtyHack: self.$dirtyHack)) {
                                 Text(domain.displayName)
                             }
                         }
                     }.onDelete { (offsets: IndexSet) in
                         for index in offsets {
                             self.managedObjectContext.delete(self.domains[index])
+                            self.dirtyHack.toggle()
                         }
                     }
                 }

@@ -13,10 +13,12 @@ struct AddByNameField: View {
     @State var name: String = ""
     var addAction: (String) -> Void
     var placeholder: String
+    @Binding var dirtyHack: Bool
     
-    init(_ placeholder: String, addAction: @escaping (String) -> Void) {
+    init(_ placeholder: String, dirtyHack: Binding<Bool>, addAction: @escaping (String) -> Void) {
         self.placeholder = placeholder
         self.addAction = addAction
+        self._dirtyHack = dirtyHack
     }
     
     var body: some View {
@@ -29,6 +31,7 @@ struct AddByNameField: View {
                         self.addAction(self.name)
                         do {
                            try self.managedObjectContext.save()
+                           self.dirtyHack.toggle()
                            self.name = ""
                        } catch let error as NSError {
                            // TODO: Handle CoreData save error
@@ -42,7 +45,7 @@ struct AddByNameField: View {
 
 struct AddByNameField_Previews: PreviewProvider {
     static var previews: some View {
-        AddByNameField("Add Item") { (name: String) in
+        AddByNameField("Add Item", dirtyHack: .constant(true)) { (name: String) in
             print(name)
         }
     }

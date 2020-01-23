@@ -11,9 +11,11 @@ import SwiftUI
 struct ItemList: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     var items: [DomainItem]
+    @Binding var dirtyHack: Bool
     
-    init(_ items: [DomainItem]) {
+    init(_ items: [DomainItem], dirtyHack: Binding<Bool>) {
         self.items = items
+        self._dirtyHack = dirtyHack
     }
     
     var body: some View {
@@ -23,6 +25,7 @@ struct ItemList: View {
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {
                     self.managedObjectContext.delete(self.items[index])
+                    self.dirtyHack.toggle()
                 }
             }
             .onMove { (src: IndexSet, dst: Int) in
@@ -53,6 +56,7 @@ struct ItemList: View {
     private func saveCoreData() {
         do {
             try managedObjectContext.save()
+            self.dirtyHack.toggle()
         } catch let error as NSError {
             // TODO: Handle CoreData save error
             print("Saving failed. \(error), \(error.userInfo)")
@@ -62,6 +66,6 @@ struct ItemList: View {
 
 struct ItemList_Previews: PreviewProvider {
     static var previews: some View {
-        ItemList([]) // TODO: CoreData preview
+        ItemList([], dirtyHack: .constant(true)) // TODO: CoreData preview
     }
 }
