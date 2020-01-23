@@ -44,11 +44,13 @@ class Domain: NSManagedObject, Identifiable {
     }
     
     public func addToQueue(_ item: DomainItem) {
+        item.sortIndex = Int16(queue.count)
         queue.insert(item)
         item.inQueueOf = self
     }
     
     public func addToBacklog(_ item: DomainItem) {
+        item.sortIndex = Int16(backlog.count)
         backlog.insert(item)
         item.inBacklogOf = self
     }

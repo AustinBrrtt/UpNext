@@ -12,10 +12,13 @@ struct DomainView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     var domain: Domain
     @State var showBacklog: Bool = false
-    @Binding var dirtyHack: Bool
     
     var body: some View {
         VStack {
+            EditableTitle(title: domain.name ?? "Untitled") { title in
+                self.domain.name = title
+                return (try? self.managedObjectContext.save()) != nil
+            }.padding()
             Picker("Show Up Next or Backlog", selection: $showBacklog) {
                 Text("Up Next").tag(false)
                 Text("Backlog").tag(true)
@@ -27,14 +30,18 @@ struct DomainView: View {
             AddByNameField("Add Item") { (name: String) in
                 let item = DomainItem.create(context: self.managedObjectContext, name: name)
                 self.addToList(item)
-                self.dirtyHack.toggle()
             }
             .padding()
             
-            ItemList(items: showBacklog ? domain.backlogItems : domain.queueItems, dirtyHack: $dirtyHack)
+            if showBacklog {
+                ItemList(self.domain.backlogItems)
+            } else {
+                ItemList(self.domain.queueItems)
+            }
         }
-        .navigationBarTitle(domain.displayName)
-        .navigationBarItems(trailing: EditButton())
+        .navigationBarItems(
+            trailing: EditButton()
+        )
     }
     
     func addToList(_ item: DomainItem) {

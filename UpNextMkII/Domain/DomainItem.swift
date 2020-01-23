@@ -13,12 +13,21 @@ import CoreData
 class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var name: String?
     @NSManaged public var completed: Bool
+    @NSManaged public var sortIndex: Int16
     
     @NSManaged public var inQueueOf: Domain?
     @NSManaged public var inBacklogOf: Domain?
     
     public var displayName: String {
         name ?? "Untitled"
+    }
+    
+    public var domain: Domain {
+        inQueueOf ?? inBacklogOf! // We should never have an item in neither the queue nor the backlog
+    }
+    
+    public var isInQueue: Bool {
+        inQueueOf != nil
     }
     
     static func create(context: NSManagedObjectContext, name: String) -> DomainItem {
@@ -32,6 +41,6 @@ class DomainItem: NSManagedObject, Identifiable {
 
 extension DomainItem: Comparable {
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
-        lhs.name ?? "Untitled" < rhs.name ?? "Untitled"
+        lhs.sortIndex < rhs.sortIndex
     }
 }

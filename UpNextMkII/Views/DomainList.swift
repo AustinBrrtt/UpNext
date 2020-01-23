@@ -12,7 +12,6 @@ struct DomainList: View {
     @Environment(\.editMode) var editMode
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: Domain.getAll()) var domains: FetchedResults<Domain>
-    @State var dirtyHack: Bool = true
     
     var body: some View {
         NavigationView {
@@ -26,7 +25,7 @@ struct DomainList: View {
                         if (self.editMode?.wrappedValue == .active) {
                             Text(domain.displayName)
                         } else {
-                            NavigationLink(destination: DomainView(domain: domain, dirtyHack: self.$dirtyHack)) {
+                            NavigationLink(destination: DomainView(domain: domain)) {
                                 Text(domain.displayName)
                             }
                         }

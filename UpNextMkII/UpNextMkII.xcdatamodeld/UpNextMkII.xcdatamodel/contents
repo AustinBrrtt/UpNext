@@ -8,11 +8,12 @@
     <entity name="DomainItem" representedClassName="DomainItem" syncable="YES">
         <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sortIndex" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="inBacklogOf" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Domain" inverseName="backlog" inverseEntity="Domain"/>
         <relationship name="inQueueOf" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Domain" inverseName="queue" inverseEntity="Domain"/>
     </entity>
     <elements>
-        <element name="DomainItem" positionX="-54" positionY="-9" width="128" height="103"/>
+        <element name="DomainItem" positionX="-54" positionY="-9" width="128" height="118"/>
         <element name="Domain" positionX="-36" positionY="27" width="128" height="88"/>
     </elements>
 </model>

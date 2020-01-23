@@ -23,6 +23,7 @@
 		D9330DDD23B28A4F00FA3405 /* DomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDC23B28A4F00FA3405 /* DomainView.swift */; };
 		D9330DDF23B4730E00FA3405 /* AddByNameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDE23B4730E00FA3405 /* AddByNameField.swift */; };
 		D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DE123B5D32300FA3405 /* LazyView.swift */; };
+		D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D972F44823D418C200558CD7 /* EditableTitle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		D9330DDC23B28A4F00FA3405 /* DomainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainView.swift; sourceTree = "<group>"; };
 		D9330DDE23B4730E00FA3405 /* AddByNameField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddByNameField.swift; sourceTree = "<group>"; };
 		D9330DE123B5D32300FA3405 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		D972F44823D418C200558CD7 /* EditableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				D9330DDA23B284DA00FA3405 /* ItemList.swift */,
 				D9330DDC23B28A4F00FA3405 /* DomainView.swift */,
 				D9330DDE23B4730E00FA3405 /* AddByNameField.swift */,
+				D972F44823D418C200558CD7 /* EditableTitle.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */,
 				D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */,
 				D9330D9F23B1A9B100FA3405 /* SceneDelegate.swift in Sources */,
+				D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */,
 				D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
