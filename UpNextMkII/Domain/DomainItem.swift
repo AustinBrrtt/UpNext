@@ -37,6 +37,23 @@ class DomainItem: NSManagedObject, Identifiable {
         
         return domainItem
     }
+    
+    func move(context: NSManagedObjectContext) {
+        if isInQueue {
+            sortIndex = Int16(inQueueOf!.backlog.count)
+            inBacklogOf = inQueueOf
+            inQueueOf = nil
+        } else {
+            sortIndex = Int16(inBacklogOf!.backlog.count)
+            inQueueOf = inBacklogOf
+            inBacklogOf = nil
+        }
+        do {
+            try context.save()
+        } catch {
+            print("failed to save")
+        }
+    }
 }
 
 extension DomainItem: Comparable {

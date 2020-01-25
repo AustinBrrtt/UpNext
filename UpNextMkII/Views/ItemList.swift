@@ -22,6 +22,36 @@ struct ItemList: View {
         return List {
             ForEach(items) { item in
                 Text(item.name ?? "Untitled")
+                    .contextMenu {
+                        Button(action: {
+                            print("WIP - Add Edit Screen")
+                        }) {
+                            HStack {
+                                Text("Edit")
+                                Image(systemName: "pencil")
+                            }
+                        }
+                        
+                        Button(action: {
+                            item.move(context: self.managedObjectContext)
+                            self.dirtyHack.toggle()
+                        }) {
+                            HStack {
+                                Text(item.isInQueue ? "Move to Backlog" : "Move to Queue")
+                                Image(systemName: item.isInQueue ? "arrow.right.to.line" : "arrow.left.to.line")
+                            }
+                        }
+                        
+                        Button(action: {
+                            self.managedObjectContext.delete(item)
+                            self.dirtyHack.toggle()
+                        }) {
+                            HStack {
+                                Text("Delete")
+                                Image(systemName: "trash")
+                            }
+                        }.foregroundColor(.red) // As of January 2020, this doesn't work due to a bug in SwiftUI
+                }
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {
                     self.managedObjectContext.delete(self.items[index])
