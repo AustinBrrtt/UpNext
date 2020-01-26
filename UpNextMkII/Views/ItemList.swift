@@ -65,8 +65,6 @@ struct ItemList: View {
                 // let domain = self.items[0].domain
                 // let set = self.items[0].isInQueue ? domain.queue : domain.backlog
                 
-                // TODO: toggling DirtyHack does not refresh core data anymore
-                
                 // print("original")
                 // for (index, item) in self.items.enumerated() {
                 //     print(item.name ?? "Untitled", index)

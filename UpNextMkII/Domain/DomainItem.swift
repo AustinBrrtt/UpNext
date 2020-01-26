@@ -40,11 +40,13 @@ class DomainItem: NSManagedObject, Identifiable {
     
     func move(context: NSManagedObjectContext) {
         if isInQueue {
-            sortIndex = Int16(inQueueOf!.backlog.count)
+            let sorted = inQueueOf!.backlog.sorted()
+            sortIndex = sorted[sorted.count - 1].sortIndex + 1
             inBacklogOf = inQueueOf
             inQueueOf = nil
         } else {
-            sortIndex = Int16(inBacklogOf!.backlog.count)
+            let sorted = inBacklogOf!.queue.sorted()
+            sortIndex = sorted[sorted.count - 1].sortIndex + 1
             inQueueOf = inBacklogOf
             inBacklogOf = nil
         }
