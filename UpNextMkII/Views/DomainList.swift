@@ -26,9 +26,11 @@ struct DomainList: View {
                     ForEach(dirtyHack ? domains : domains) { domain in
                         if (self.editMode?.wrappedValue == .active) {
                             Text(domain.displayName)
+                                .listItem()
                         } else {
                             NavigationLink(destination: DomainView(domain: domain, dirtyHack: self.$dirtyHack)) {
                                 Text(domain.displayName)
+                                    .listItem()
                             }
                         }
                     }.onDelete { (offsets: IndexSet) in

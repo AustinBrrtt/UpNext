@@ -22,6 +22,7 @@ struct ItemList: View {
         return List {
             ForEach(items) { item in
                 Text(item.name ?? "Untitled")
+                    .listItem()
                     .contextMenu {
                         Button(action: {
                             print("WIP - Add Edit Screen")

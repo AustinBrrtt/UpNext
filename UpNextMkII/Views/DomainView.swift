@@ -25,21 +25,20 @@ struct DomainView: View {
                 } catch {
                     return false
                 }
-            }.padding()
+            }.padding(.top).padding(.horizontal)
             Picker("Show Up Next or Backlog", selection: $showBacklog) {
                 Text("Up Next").tag(false)
                 Text("Backlog").tag(true)
             }
                 .pickerStyle(SegmentedPickerStyle())
                 .labelsHidden()
-                .padding()
+            .padding(.horizontal)
             
             AddByNameField("Add Item", dirtyHack: $dirtyHack) { (name: String) in
                 let item = DomainItem.create(context: self.managedObjectContext, name: name)
                 self.addToList(item)
                 self.dirtyHack.toggle()
-            }
-            .padding()
+            }.padding(.top).padding(.horizontal)
             
             if showBacklog {
                 ItemList(self.domain.backlogItems, dirtyHack: $dirtyHack)

@@ -40,6 +40,7 @@ struct AddByNameField: View {
                     }
             }
         }
+        .bigText()
     }
 }
 
