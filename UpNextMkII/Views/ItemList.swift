@@ -24,9 +24,7 @@ struct ItemList: View {
                 Text(item.name ?? "Untitled")
                     .listItem()
                     .contextMenu {
-                        Button(action: {
-                            print("WIP - Add Edit Screen")
-                        }) {
+                        NavigationLink(destination: ItemProperties(item, dirtyHack: self.$dirtyHack)) {
                             HStack {
                                 Text("Edit")
                                 Image(systemName: "pencil")

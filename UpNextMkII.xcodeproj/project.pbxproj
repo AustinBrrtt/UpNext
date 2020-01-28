@@ -25,6 +25,7 @@
 		D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DE123B5D32300FA3405 /* LazyView.swift */; };
 		D95D185923DD596400A3586E /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185823DD596400A3586E /* ListItem.swift */; };
 		D95D185B23DD5BD800A3586E /* BigText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185A23DD5BD800A3586E /* BigText.swift */; };
+		D95D185D23DE79D800A3586E /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185C23DE79D800A3586E /* ItemProperties.swift */; };
 		D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D972F44823D418C200558CD7 /* EditableTitle.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		D9330DE123B5D32300FA3405 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		D95D185823DD596400A3586E /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		D95D185A23DD5BD800A3586E /* BigText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigText.swift; sourceTree = "<group>"; };
+		D95D185C23DE79D800A3586E /* ItemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
 		D972F44823D418C200558CD7 /* EditableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +183,7 @@
 				D972F44823D418C200558CD7 /* EditableTitle.swift */,
 				D95D185823DD596400A3586E /* ListItem.swift */,
 				D95D185A23DD5BD800A3586E /* BigText.swift */,
+				D95D185C23DE79D800A3586E /* ItemProperties.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				D95D185923DD596400A3586E /* ListItem.swift in Sources */,
 				D95D185B23DD5BD800A3586E /* BigText.swift in Sources */,
 				D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */,
+				D95D185D23DE79D800A3586E /* ItemProperties.swift in Sources */,
 				D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
