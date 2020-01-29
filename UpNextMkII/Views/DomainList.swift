@@ -19,6 +19,7 @@ struct DomainList: View {
             VStack {
                 AddByNameField("Add Domain", dirtyHack: $dirtyHack) { (name: String) in
                     let _ = Domain.create(context: self.managedObjectContext, name: name)
+                    self.save()
                     self.dirtyHack.toggle()
                 }
                 .padding()
@@ -38,11 +39,20 @@ struct DomainList: View {
                             self.managedObjectContext.delete(self.domains[index])
                             self.dirtyHack.toggle()
                         }
+                        self.save()
                     }
                 }
             }
             .navigationBarTitle("Domains")
             .navigationBarItems(trailing: EditButton())
+        }
+    }
+    
+    private func save() {
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("TODO: Saving Failed")
         }
     }
 }

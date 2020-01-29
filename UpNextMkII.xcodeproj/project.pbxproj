@@ -26,6 +26,8 @@
 		D95D185923DD596400A3586E /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185823DD596400A3586E /* ListItem.swift */; };
 		D95D185B23DD5BD800A3586E /* BigText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185A23DD5BD800A3586E /* BigText.swift */; };
 		D95D185D23DE79D800A3586E /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185C23DE79D800A3586E /* ItemProperties.swift */; };
+		D95D185F23E13DD900A3586E /* DomainUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185E23E13DD900A3586E /* DomainUITests.swift */; };
+		D95D186123E145C100A3586E /* ElementExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186023E145C100A3586E /* ElementExtensions.swift */; };
 		D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D972F44823D418C200558CD7 /* EditableTitle.swift */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +74,8 @@
 		D95D185823DD596400A3586E /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		D95D185A23DD5BD800A3586E /* BigText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigText.swift; sourceTree = "<group>"; };
 		D95D185C23DE79D800A3586E /* ItemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
+		D95D185E23E13DD900A3586E /* DomainUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainUITests.swift; sourceTree = "<group>"; };
+		D95D186023E145C100A3586E /* ElementExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementExtensions.swift; sourceTree = "<group>"; };
 		D972F44823D418C200558CD7 /* EditableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,6 +164,8 @@
 			children = (
 				D9330DC123B1A9B400FA3405 /* UpNextMkIIUITests.swift */,
 				D9330DC323B1A9B400FA3405 /* Info.plist */,
+				D95D185E23E13DD900A3586E /* DomainUITests.swift */,
+				D95D186023E145C100A3586E /* ElementExtensions.swift */,
 			);
 			path = UpNextMkIIUITests;
 			sourceTree = "<group>";
@@ -358,6 +364,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9330DC223B1A9B400FA3405 /* UpNextMkIIUITests.swift in Sources */,
+				D95D185F23E13DD900A3586E /* DomainUITests.swift in Sources */,
+				D95D186123E145C100A3586E /* ElementExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
