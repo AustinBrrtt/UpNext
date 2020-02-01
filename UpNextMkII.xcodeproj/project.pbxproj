@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D90A9A8D23E546DF006E8632 /* XCUIElementExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90A9A8C23E546DF006E8632 /* XCUIElementExtension.swift */; };
 		D9330D9D23B1A9B100FA3405 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330D9C23B1A9B100FA3405 /* AppDelegate.swift */; };
 		D9330D9F23B1A9B100FA3405 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330D9E23B1A9B100FA3405 /* SceneDelegate.swift */; };
 		D9330DA223B1A9B100FA3405 /* UpNextMkII.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D9330DA023B1A9B100FA3405 /* UpNextMkII.xcdatamodeld */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D90A9A8C23E546DF006E8632 /* XCUIElementExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElementExtension.swift; sourceTree = "<group>"; };
 		D9330D9923B1A9B100FA3405 /* UpNextMkII.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpNextMkII.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9330D9C23B1A9B100FA3405 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9330D9E23B1A9B100FA3405 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				D95D185E23E13DD900A3586E /* DomainUITests.swift */,
 				D95D186423E2983400A3586E /* BacklogUITests.swift */,
 				D95D186623E29CEC00A3586E /* BaseUITests.swift */,
+				D90A9A8C23E546DF006E8632 /* XCUIElementExtension.swift */,
 			);
 			path = UpNextMkIIUITests;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				D9330DC223B1A9B400FA3405 /* UpNextMkIIUITests.swift in Sources */,
 				D95D185F23E13DD900A3586E /* DomainUITests.swift in Sources */,
 				D95D186523E2983400A3586E /* BacklogUITests.swift in Sources */,
+				D90A9A8D23E546DF006E8632 /* XCUIElementExtension.swift in Sources */,
 				D95D186723E29CEC00A3586E /* BaseUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

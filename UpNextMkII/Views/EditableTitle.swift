@@ -19,6 +19,7 @@ struct EditableTitle: View {
                 TextField("Title", text: $titleField)
                     .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                     .onDisappear {
+                        self.titleField = self.titleField.trimmingCharacters(in: .whitespaces)
                         _ = self.saveTitle(self.titleField)
                         
                     }

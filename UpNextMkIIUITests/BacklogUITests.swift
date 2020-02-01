@@ -23,7 +23,7 @@ class BacklogUITests: BaseUITests {
         super.setUp()
         
         // Navigate into test domain
-        app.tables.buttons["Domain Test"].firstMatch.tap()
+        app.tables.buttons[testDomainTitle].firstMatch.tap()
         
         // Add items to the queue
         addItem("QA")
@@ -44,7 +44,7 @@ class BacklogUITests: BaseUITests {
     }
     
     // #170438798 - I want to see the backlog
-    func testBacklog() {
+    func testViewBacklog() {
         // Go to queue
         queueSegment.tap()
         
@@ -55,6 +55,24 @@ class BacklogUITests: BaseUITests {
         // Check for lack of queue element and presence backlog element to confirm we are there.
         XCTAssertFalse(getItem("QA").exists)
         XCTAssert(getItem("BA").exists)
+    }
+    
+    // #170438808 - I want to add items to the backlog
+    func testAddItemsToBacklog() {
+        // Add an item
+        addItem("BC")
+        
+        // Check that the item is there
+        XCTAssert(getItem("BC").exists)
+        
+        // Restart the app
+        app.terminate()
+        app.launch()
+        getDomain(testDomainTitle).tap()
+        backlogSegment.tap()
+        
+        // Check that the item is still there
+        XCTAssert(getItem("BC").exists)
     }
     
     private func goBack() {
