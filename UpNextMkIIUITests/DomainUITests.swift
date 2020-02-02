@@ -23,8 +23,7 @@ class DomainUITests: BaseUITests {
     
     // #170374984 - I want my lists to persist between sessions
     func testPersistLists() {
-        app.terminate()
-        app.launch()
+        restartApp()
         XCTAssert(getDomain(testDomainTitle).exists)
     }
     

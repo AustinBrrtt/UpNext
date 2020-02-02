@@ -76,4 +76,9 @@ class BaseUITests: XCTestCase {
     func getNavigationBar() -> XCUIElement {
         return app.navigationBars.firstMatch
     }
+    
+    func restartApp() {
+        app.terminate()
+        app.launch()
+    }
 }

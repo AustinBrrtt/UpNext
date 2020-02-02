@@ -22,4 +22,8 @@ extension XCUIElement {
     func soonExists() -> Bool {
         return self.waitForExistence(timeout: 5)
     }
+    
+    func isHigherThan(_ other: XCUIElement) -> Bool {
+        return self.frame.origin.y < other.frame.origin.y
+    }
 }
