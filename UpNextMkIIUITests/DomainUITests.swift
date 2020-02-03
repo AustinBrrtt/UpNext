@@ -38,10 +38,8 @@ class DomainUITests: BaseUITests {
         
         // Tap the title and type
         let title = app.textFields["Title"]
-        title.tap()
-        title.clearText()
         let newTitle = "New Title Test"
-        title.typeText(newTitle)
+        title.replaceText(newTitle)
         
         // Tap Done
         navigationBar.buttons["Done"].tap()

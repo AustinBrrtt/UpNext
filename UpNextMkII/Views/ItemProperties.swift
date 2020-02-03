@@ -12,11 +12,12 @@ struct ItemProperties: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var item: DomainItem
-    @State var title: String = ""
+    @State var title: String
     @Binding var dirtyHack: Bool
     
     init(_ item: DomainItem, dirtyHack: Binding<Bool>) {
         self.item = item
+        self._title = State(initialValue: item.name ?? "")
         self._dirtyHack = dirtyHack
     }
     
@@ -25,8 +26,8 @@ struct ItemProperties: View {
                 TextField("Title", text: $title)
                     .padding()
                     .bigText()
+                    .accessibility(identifier: "Item Title")
         }
-            .onAppear(perform: initializeFields)
             .navigationBarItems(
                 leading: Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
@@ -43,10 +44,6 @@ struct ItemProperties: View {
                     Text("Save")
                 }
             )
-    }
-    
-    private func initializeFields() {
-        title = item.name ?? ""
     }
     
     private func saveFields() {

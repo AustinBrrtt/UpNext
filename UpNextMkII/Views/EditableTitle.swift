@@ -10,18 +10,22 @@ import SwiftUI
 
 struct EditableTitle: View {
     @Environment(\.editMode) var editMode
-    @State var titleField: String = ""
-    var title: String
+    @State var title: String
     var saveTitle: (String) -> Bool
+    
+    init(title: String, saveTitle: @escaping (String) -> Bool) {
+        self._title = State(initialValue: title)
+        self.saveTitle = saveTitle
+    }
+    
     var body: some View {
         HStack {
             if editMode?.wrappedValue == .active {
-                TextField("Title", text: $titleField)
+                TextField("Title", text: $title)
                     .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                     .onDisappear {
-                        self.titleField = self.titleField.trimmingCharacters(in: .whitespaces)
-                        _ = self.saveTitle(self.titleField)
-                        
+                        self.title = self.title.trimmingCharacters(in: .whitespaces)
+                        _ = self.saveTitle(self.title)
                     }
             }
             if editMode?.wrappedValue != .active {
@@ -29,11 +33,6 @@ struct EditableTitle: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
-                    .onAppear {
-                        if self.titleField == "" {
-                            self.titleField = self.title
-                        }
-                    }
             }
             Spacer()
         }

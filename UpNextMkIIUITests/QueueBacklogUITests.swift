@@ -17,6 +17,10 @@ class QueueBacklogUITests: BaseUITests {
     var queueSegment: XCUIElement {
         app.buttons["Up Next"]
     }
+    
+    var editItemNameField: XCUIElement {
+        app.textFields["Item Title"]
+    }
 
     // Adds items to queue and backlog, ends in queue
     override func setUp() {
@@ -42,36 +46,59 @@ class QueueBacklogUITests: BaseUITests {
     
     // Go back to main view for final teardown
     override func tearDown() {
-        goBack()
+        goBackToDomains()
         super.tearDown()
     }
     
+    // #171043130 - I want to see the queue
     // #170438798 - I want to see the backlog
-    func testViewBacklog() {
+    func testViewQueueAndBacklog() {
+        let qItem = getItem("QA")
+        let bItem = getItem("BA")
+        
+        // Check that we are in queue
+        XCTAssert(qItem.exists)
+        XCTAssertFalse(bItem.exists)
+        
         // Check if backlog segment exists and tap on it
         XCTAssert(backlogSegment.exists)
         backlogSegment.tap()
         
-        // Check for lack of queue element and presence backlog element to confirm we are there.
-        XCTAssertFalse(getItem("QA").exists)
-        XCTAssert(getItem("BA").exists)
+        // Check that we are in backlog
+        XCTAssert(bItem.exists)
+        XCTAssertFalse(qItem.exists)
+        
+        // Check if queue segment exists and tap on it
+        XCTAssert(queueSegment.exists)
+        queueSegment.tap()
+        
+        // Check that we are in queue
+        XCTAssert(qItem.exists)
+        XCTAssertFalse(bItem.exists)
     }
     
+    // #171043188 - I want to add items to the queue
     // #170438808 - I want to add items to the backlog
-    func testAddItemsToBacklog() {
-        // Add an item
-        addItem("BC")
+    func testAddItemsToQueueAndBacklog() {
+        // Add an item to queue and check that it is there
+        addItem("QC")
+        XCTAssert(getItem("QC").exists)
         
-        // Check that the item is there
+        // Go to the backlog, add an item to backlog, and check that it is there
+        backlogSegment.tap()
+        addItem("BC")
         XCTAssert(getItem("BC").exists)
         
         // Restart the app
         app.terminate()
         app.launch()
         getDomain(testDomainTitle).tap()
-        backlogSegment.tap()
         
-        // Check that the item is still there
+        // Check that the item is still in the queue
+        XCTAssert(getItem("QC").exists)
+        
+        // Go to the backlog and check that the item is still in the backlog
+        backlogSegment.tap()
         XCTAssert(getItem("BC").exists)
     }
     
@@ -84,8 +111,7 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssert(qa.isHigherThan(qb))
         
         // Tap Edit
-        let navigationBar = getNavigationBar()
-        navigationBar.buttons["Edit"].tap()
+        tapNavButton("Edit")
         
         // Check QA's drag handle exists and drag QA below QB
         let dragHandle = app.tables.children(matching: .cell).element(boundBy: 0).buttons["Reorder"]
@@ -93,13 +119,14 @@ class QueueBacklogUITests: BaseUITests {
         dragHandle.swipeDown()
         
         // Tap Done
-        navigationBar.buttons["Done"].tap()
+        tapNavButton("Done")
         
         // Check that QB is above QA and the drag handle is gone
         XCTAssert(qb.isHigherThan(qa))
         XCTAssertFalse(dragHandle.exists)
         
         // Go back and re-enter domain - Quitting app instead of going back as workaround for #171037978
+        // (#171037978 prevents navigation to a child view immediately after pressing back from that view - Simulator only)
         restartApp()
         getDomain(testDomainTitle).tap()
         
@@ -117,7 +144,7 @@ class QueueBacklogUITests: BaseUITests {
         
         // Long press QA and choose Move To Backlog in menu
         qa.longPress()
-        app.buttons["Move to Backlog"].tap()
+        chooseFromContextMenu("Move to Backlog")
         
         // Check that QA is gone
         XCTAssertFalse(qa.exists)
@@ -130,7 +157,7 @@ class QueueBacklogUITests: BaseUITests {
         
         // Long press BA and choose Move To Queue in menu
         ba.longPress()
-        app.buttons["Move to Queue"].tap()
+        chooseFromContextMenu("Move to Queue")
         
         // Check that BA is gone
         XCTAssertFalse(ba.exists)
@@ -141,10 +168,70 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssert(qb.isHigherThan(ba))
     }
     
-    private func goBack() {
+    // #170897812 - I want to be able to edit item properties
+    func testEditItemProperties() {
+        let qa = getItem("QA")
+        let qb = getItem("QB")
+        let editedTitle1 = "Modern Twist"
+        let editedTitle2 = "Antiquated Meme"
+        
+        // Long press QA and choose Edit
+        qa.longPress()
+        chooseFromContextMenu("Edit")
+        
+        // Expect edit title field to be shown
+        XCTAssert(editItemNameField.exists)
+        
+        // Edit Title to "Modern Twist" and tap "Save"
+        editItemNameField.replaceText(editedTitle1)
+        tapNavButton("Save")
+        
+        // Confirm we are back on the previous page
+        XCTAssert(qb.exists)
+        
+        // Check that name has changed
+        let editedItem = getItem(editedTitle1)
+        XCTAssertFalse(qa.exists)
+        XCTAssert(editedItem.exists)
+        
+        // Go to backlog and back to queue as workaround for #171037978
+        // (#171037978 prevents navigation to a child view immediately after pressing back from that view - Simulator only)
+        backlogSegment.tap()
+        queueSegment.tap()
+        
+        // Reenter Edit Page
+        editedItem.longPress()
+        chooseFromContextMenu("Edit")
+        
+        // Edit title to "Antiquated Meme" and tap "Cancel"
+        editItemNameField.replaceText(editedTitle2)
+        tapNavButton("Cancel")
+        
+        // Confirm we are back on the previous page
+        XCTAssert(qb.exists)
+        
+        // Check that name has not been changed
+        let reeditedItem = getItem(editedTitle2)
+        XCTAssert(editedItem.exists)
+        XCTAssertFalse(reeditedItem.exists)
+    }
+    
+    private func goBackToDomains() {
         let back = app.navigationBars.buttons["Domains"]
         if (back.exists) {
             back.tap()
         }
+    }
+    
+    private func contextMenu(_ name: String) -> XCUIElement {
+        return app.scrollViews.otherElements.buttons[name]
+    }
+    
+    private func chooseFromContextMenu(_ name: String) {
+        contextMenu(name).tap()
+    }
+    
+    private func tapNavButton(_ name: String) {
+        getNavigationBar().buttons[name].tap()
     }
 }

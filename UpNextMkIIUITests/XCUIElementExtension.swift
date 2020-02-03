@@ -14,9 +14,14 @@ extension XCUIElement {
             XCTFail("Tried to clear text from a non-text element")
             return
         }
-        self.tap()
+        tap()
         let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentText.count)
-        self.typeText(deleteString)
+        typeText(deleteString)
+    }
+    
+    func replaceText(_ text: String) {
+        clearText()
+        typeText(text)
     }
     
     func soonExists() -> Bool {
@@ -24,10 +29,10 @@ extension XCUIElement {
     }
     
     func isHigherThan(_ other: XCUIElement) -> Bool {
-        return self.frame.origin.y < other.frame.origin.y
+        return frame.origin.y < other.frame.origin.y
     }
     
     func longPress() {
-        press(forDuration: 0.5)
+        press(forDuration: 0.75)
     }
 }
