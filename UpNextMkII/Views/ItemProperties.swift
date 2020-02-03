@@ -14,6 +14,7 @@ struct ItemProperties: View {
     var item: DomainItem
     @State var title: String
     @Binding var dirtyHack: Bool
+    let language = DomainSpecificLanguage.defaultLanguage
     
     init(_ item: DomainItem, dirtyHack: Binding<Bool>) {
         self.item = item
@@ -23,10 +24,10 @@ struct ItemProperties: View {
     
     var body: some View {
         ScrollView {
-                TextField("Title", text: $title)
-                    .padding()
-                    .bigText()
-                    .accessibility(identifier: "Item Title")
+            TextField(language.itemTitle.title, text: $title)
+                .padding()
+                .bigText()
+                .accessibility(identifier: "Item Title")
         }
             .navigationBarItems(
                 leading: Button(action: {

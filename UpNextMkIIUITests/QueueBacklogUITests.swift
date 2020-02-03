@@ -46,7 +46,7 @@ class QueueBacklogUITests: BaseUITests {
     
     // Go back to main view for final teardown
     override func tearDown() {
-        goBackToDomains()
+        goBack()
         super.tearDown()
     }
     
@@ -144,7 +144,7 @@ class QueueBacklogUITests: BaseUITests {
         
         // Long press QA and choose Move To Backlog in menu
         qa.longPress()
-        chooseFromContextMenu("Move to Backlog")
+        chooseFromContextMenu("Move to Backlog") // Can't get item to be recognized by accessibility identifier, resorting to literal string
         
         // Check that QA is gone
         XCTAssertFalse(qa.exists)
@@ -157,7 +157,7 @@ class QueueBacklogUITests: BaseUITests {
         
         // Long press BA and choose Move To Queue in menu
         ba.longPress()
-        chooseFromContextMenu("Move to Queue")
+        chooseFromContextMenu("Move to Up Next") // Can't get item to be recognized by accessibility identifier, resorting to literal string
         
         // Check that BA is gone
         XCTAssertFalse(ba.exists)
@@ -214,13 +214,6 @@ class QueueBacklogUITests: BaseUITests {
         let reeditedItem = getItem(editedTitle2)
         XCTAssert(editedItem.exists)
         XCTAssertFalse(reeditedItem.exists)
-    }
-    
-    private func goBackToDomains() {
-        let back = app.navigationBars.buttons["Domains"]
-        if (back.exists) {
-            back.tap()
-        }
     }
     
     private func contextMenu(_ name: String) -> XCUIElement {

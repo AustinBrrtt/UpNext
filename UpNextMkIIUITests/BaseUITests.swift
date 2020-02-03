@@ -81,4 +81,11 @@ class BaseUITests: XCTestCase {
         app.terminate()
         app.launch()
     }
+    
+    func goBack() {
+        let backButton = getNavigationBar().buttons.element(boundBy: 0)
+        if backButton.exists {
+            backButton.tap()
+        }
+    }
 }

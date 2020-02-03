@@ -12,6 +12,7 @@ struct ItemList: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     var items: [DomainItem]
     @Binding var dirtyHack: Bool
+    let language = DomainSpecificLanguage.defaultLanguage
     
     init(_ items: [DomainItem], dirtyHack: Binding<Bool>) {
         self.items = items
@@ -21,7 +22,7 @@ struct ItemList: View {
     var body: some View {
         return List {
             ForEach(items) { item in
-                Text(item.name ?? "Untitled")
+                Text(item.name ?? self.language.defaultItemTitle.title)
                     .listItem()
                     .contextMenu {
                         NavigationLink(destination: ItemProperties(item, dirtyHack: self.$dirtyHack)) {
@@ -36,7 +37,7 @@ struct ItemList: View {
                             self.dirtyHack.toggle()
                         }) {
                             HStack {
-                                Text(item.isInQueue ? "Move to Backlog" : "Move to Queue")
+                                Text(item.isInQueue ? "Move to \(self.language.backlog.title)" : "Move to \(self.language.queue.title)")
                                 Image(systemName: item.isInQueue ? "arrow.right.to.line" : "arrow.left.to.line")
                             }
                         }
@@ -49,7 +50,7 @@ struct ItemList: View {
                                 Text("Delete")
                                 Image(systemName: "trash")
                             }
-                        }.foregroundColor(.red) // As of January 2020, this doesn't work due to a bug in SwiftUI
+                        }.foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
                 }
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {
@@ -72,7 +73,7 @@ struct ItemList: View {
                 mutableList.move(fromOffsets: src, toOffset: dst)
                 // print("reordered")
                 for (index, item) in mutableList.enumerated() {
-                    print(item.name ?? "Untitled", index)
+                    print(item.name ?? self.language.defaultItemTitle.title, index)
                     item.sortIndex = Int16(index)
                 }
                 self.saveCoreData()

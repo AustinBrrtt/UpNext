@@ -13,10 +13,11 @@ struct DomainView: View {
     var domain: Domain
     @State var showBacklog: Bool = false
     @Binding var dirtyHack: Bool
+    let language = DomainSpecificLanguage.defaultLanguage
     
     var body: some View {
         VStack {
-            EditableTitle(title: domain.name ?? "Untitled") { title in
+            EditableTitle(title: domain.name ?? language.defaultItemTitle.title) { title in
                 self.domain.name = title
                 do {
                     try self.managedObjectContext.save()
@@ -26,19 +27,26 @@ struct DomainView: View {
                     return false
                 }
             }.padding(.top).padding(.horizontal)
-            Picker("Show Up Next or Backlog", selection: $showBacklog) {
-                Text("Up Next").tag(false)
-                Text("Backlog").tag(true)
+            Picker("Show \(language.queue.title) or \(language.backlog.title)", selection: $showBacklog) {
+                Text(language.queue.title)
+                    .accessibility(identifier: "Queue Segment")
+                    .tag(false)
+                Text(language.backlog.title)
+                    .accessibility(identifier: "Backlog Segment")
+                    .tag(true)
             }
                 .pickerStyle(SegmentedPickerStyle())
                 .labelsHidden()
-            .padding(.horizontal)
+                .padding(.horizontal)
+                .accessibility(identifier: "Queue/Backlog Segment")
             
-            AddByNameField("Add Item", dirtyHack: $dirtyHack) { (name: String) in
+            AddByNameField("Add \(language.item.title)", dirtyHack: $dirtyHack) { (name: String) in
                 let item = DomainItem.create(context: self.managedObjectContext, name: name)
                 self.addToList(item)
                 self.dirtyHack.toggle()
-            }.padding(.top).padding(.horizontal)
+            }
+                .padding(.top).padding(.horizontal)
+                .accessibility(identifier: "Add Item")
             
             if showBacklog {
                 ItemList(self.domain.backlogItems, dirtyHack: $dirtyHack)

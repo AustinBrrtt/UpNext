@@ -13,16 +13,18 @@ struct DomainList: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(fetchRequest: Domain.getAll()) var domains: FetchedResults<Domain>
     @State var dirtyHack: Bool = false
+    let language = DomainSpecificLanguage.defaultLanguage
     
     var body: some View {
         NavigationView {
             VStack {
-                AddByNameField("Add Domain", dirtyHack: $dirtyHack) { (name: String) in
+                AddByNameField("Add \(language.domain.title)", dirtyHack: $dirtyHack) { (name: String) in
                     let _ = Domain.create(context: self.managedObjectContext, name: name)
                     self.save()
                     self.dirtyHack.toggle()
                 }
-                .padding()
+                    .padding()
+                    .accessibility(identifier: "Add Domain")
                 List {
                     ForEach(dirtyHack ? domains : domains) { domain in
                         if (self.editMode?.wrappedValue == .active) {
@@ -43,7 +45,7 @@ struct DomainList: View {
                     }
                 }
             }
-            .navigationBarTitle("Domains")
+            .navigationBarTitle(language.domain.pluralTitle)
             .navigationBarItems(trailing: EditButton())
         }
     }

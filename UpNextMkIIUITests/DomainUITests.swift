@@ -48,7 +48,7 @@ class DomainUITests: BaseUITests {
         XCTAssert(app.staticTexts[newTitle].soonExists())
         
         // Go back to list of Domains
-        navigationBar.buttons["Domains"].tap()
+        goBack()
         
         // Check for updated title in Domain List
         XCTAssert(app.buttons[newTitle].soonExists())

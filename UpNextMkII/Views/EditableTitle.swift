@@ -12,6 +12,7 @@ struct EditableTitle: View {
     @Environment(\.editMode) var editMode
     @State var title: String
     var saveTitle: (String) -> Bool
+    let language = DomainSpecificLanguage.defaultLanguage
     
     init(title: String, saveTitle: @escaping (String) -> Bool) {
         self._title = State(initialValue: title)
@@ -21,12 +22,13 @@ struct EditableTitle: View {
     var body: some View {
         HStack {
             if editMode?.wrappedValue == .active {
-                TextField("Title", text: $title)
+                TextField(language.domainTitle.title, text: $title)
                     .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                     .onDisappear {
                         self.title = self.title.trimmingCharacters(in: .whitespaces)
                         _ = self.saveTitle(self.title)
                     }
+                    .accessibility(identifier: "Domain Title")
             }
             if editMode?.wrappedValue != .active {
                 Text(title)
