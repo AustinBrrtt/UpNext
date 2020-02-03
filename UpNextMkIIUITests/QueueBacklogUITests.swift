@@ -105,7 +105,33 @@ class QueueBacklogUITests: BaseUITests {
         
         // Check that QB is still above QA
         XCTAssert(qb.isHigherThan(qa))
+    }
+    
+    // #170640293 - I want to move items from my backlog to my queue and vice versa
+    func testMoveItems() {
+        let qa = getItem("QA")
         
+        // Long press QA and choose Move To Backlog in menu
+        qa.press(forDuration: 0.5)
+        app.buttons["Move to Backlog"].tap()
+        
+        // Check that QA is gone
+        XCTAssertFalse(qa.exists)
+        
+        // Go to backlog and check that QA appears
+        backlogSegment.tap()
+        XCTAssert(qa.exists)
+        
+        // Long press QA and choose Move To Queue in menu
+        qa.press(forDuration: 0.5)
+        app.buttons["Move to Queue"].tap()
+        
+        // Check that QA is gone
+        XCTAssertFalse(qa.exists)
+        
+        // Go to queue and check that QA appears
+        queueSegment.tap()
+        XCTAssert(qa.exists)
     }
     
     private func goBack() {
