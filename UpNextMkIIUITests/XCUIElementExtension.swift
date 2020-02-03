@@ -26,4 +26,8 @@ extension XCUIElement {
     func isHigherThan(_ other: XCUIElement) -> Bool {
         return self.frame.origin.y < other.frame.origin.y
     }
+    
+    func longPress() {
+        press(forDuration: 0.5)
+    }
 }
