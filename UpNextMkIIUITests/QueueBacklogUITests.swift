@@ -216,6 +216,31 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssertFalse(reeditedItem.exists)
     }
     
+    // #171120829 - I want to delete items
+    // #170967352 - Deleted objects should remain deleted after quitting and reopening the app
+    func testDeleteItem() {
+        // Delete from queue through standard list delete button
+        deleteItem("QA")
+        XCTAssertFalse(getItem("QA").exists)
+        
+        // Delete from backlog via context menu
+        backlogSegment.tap()
+        getItem("BB").longPress()
+        chooseFromContextMenu("Delete")
+        XCTAssertFalse(getItem("BB").exists)
+        
+        restartApp()
+        getDomain(testDomainTitle).tap()
+        
+        // Check that QA is still gone after restarting the app
+        XCTAssertFalse(getItem("QA").exists)
+        
+        // Check that BB is still gone after restarting the app
+        backlogSegment.tap()
+        XCTAssertFalse(getItem("BB").exists)
+                
+    }
+    
     private func contextMenu(_ name: String) -> XCUIElement {
         return app.scrollViews.otherElements.buttons[name]
     }
@@ -226,5 +251,11 @@ class QueueBacklogUITests: BaseUITests {
     
     private func tapNavButton(_ name: String) {
         getNavigationBar().buttons[name].tap()
+    }
+    
+    private func deleteItem(_ name: String) {
+        let item = getItem(name)
+        item.manualSwipeLeft()
+        app.tables/*@START_MENU_TOKEN@*/.buttons["trailing0"]/*[[".cells",".buttons[\"Delete\"]",".buttons[\"trailing0\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
     }
 }

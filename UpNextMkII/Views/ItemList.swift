@@ -44,6 +44,7 @@ struct ItemList: View {
                         
                         Button(action: {
                             self.managedObjectContext.delete(item)
+                            self.saveCoreData()
                             self.dirtyHack.toggle()
                         }) {
                             HStack {
@@ -55,6 +56,7 @@ struct ItemList: View {
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {
                     self.managedObjectContext.delete(self.items[index])
+                    self.saveCoreData()
                     self.dirtyHack.toggle()
                 }
             }

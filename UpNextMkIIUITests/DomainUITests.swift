@@ -16,8 +16,13 @@ class DomainUITests: BaseUITests {
     }
     
     // #170967099 - I want to delete Lists
+    // #170967352 - Deleted objects should remain deleted after quitting and reopening the app
     func testDeleteLists() {
         deleteTestingDomain()
+        XCTAssertFalse(getDomain(testDomainTitle).exists)
+        
+        // Make sure it doesn't return on relaunch
+        restartApp()
         XCTAssertFalse(getDomain(testDomainTitle).exists)
     }
     

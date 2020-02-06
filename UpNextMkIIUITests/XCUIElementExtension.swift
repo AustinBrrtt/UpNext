@@ -35,4 +35,8 @@ extension XCUIElement {
     func longPress() {
         press(forDuration: 0.75)
     }
+    
+    func manualSwipeLeft() {
+        self.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 0.25, thenDragTo: self.coordinate(withNormalizedOffset: CGVector(dx: -1, dy: 0.5)))
+    }
 }
