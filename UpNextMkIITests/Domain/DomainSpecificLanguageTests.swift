@@ -22,4 +22,28 @@ class DomainSpecificLanguageTests: XCTestCase {
         XCTAssertEqual(noun.pluralCapitalized, "Test words")
         XCTAssertEqual(noun.pluralTitle, "Test Words")
     }
+    
+    // Noun.init() with normal and capitalized provided
+    func testNounInitCapitalized() {
+        let noun = Noun("test word", capitalized: "fiNger paLace")
+        
+        XCTAssertEqual(noun.normal, "test word")
+        XCTAssertEqual(noun.capitalized, "fiNger paLace")
+        XCTAssertEqual(noun.title, "Test Word")
+        XCTAssertEqual(noun.plural, "test words")
+        XCTAssertEqual(noun.pluralCapitalized, "fiNger paLaces")
+        XCTAssertEqual(noun.pluralTitle, "Test Words")
+    }
+    
+    // Noun.init() with normal and title provided
+    func testNounInitTitle() {
+        let noun = Noun("test word", title: "fiNger paLace")
+        
+        XCTAssertEqual(noun.normal, "test word")
+        XCTAssertEqual(noun.capitalized, "Test word")
+        XCTAssertEqual(noun.title, "fiNger paLace")
+        XCTAssertEqual(noun.plural, "test words")
+        XCTAssertEqual(noun.pluralCapitalized, "Test words")
+        XCTAssertEqual(noun.pluralTitle, "fiNger paLaces")
+    }
 }
