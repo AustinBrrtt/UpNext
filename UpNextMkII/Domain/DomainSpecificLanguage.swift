@@ -21,13 +21,13 @@ struct DomainSpecificLanguage {
     let defaultItemTitle: Noun
     
     init(
-        domain: Noun = Noun(normal: "list"),
-        domainTitle: Noun = Noun(normal: "title"),
-        queue: Noun = Noun(normal: "up next"),
-        backlog: Noun = Noun(normal: "backlog"),
-        item: Noun = Noun(normal: "item"),
-        itemTitle: Noun = Noun(normal: "title"),
-        defaultItemTitle: Noun = Noun(normal: "untitled")
+        domain: Noun = Noun("list"),
+        domainTitle: Noun = Noun("title"),
+        queue: Noun = Noun("up next"),
+        backlog: Noun = Noun("backlog"),
+        item: Noun = Noun("item"),
+        itemTitle: Noun = Noun("title"),
+        defaultItemTitle: Noun = Noun("untitled")
     ) {
         self.domain = domain
         self.item = item
@@ -60,7 +60,7 @@ struct Noun {
     
     // Add more as needed
     
-    init(normal: String, capitalized: String? = nil, title: String? = nil, plural: String? = nil, pluralCapitalized: String? = nil, pluralTitle: String? = nil) {
+    init(_ normal: String, capitalized: String? = nil, title: String? = nil, plural: String? = nil, pluralCapitalized: String? = nil, pluralTitle: String? = nil) {
         self.normal = normal
         
         // Use custom value if provided or capitalize the first letter of normal

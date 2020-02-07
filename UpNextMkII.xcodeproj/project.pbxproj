@@ -32,6 +32,7 @@
 		D95D186523E2983400A3586E /* QueueBacklogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186423E2983400A3586E /* QueueBacklogUITests.swift */; };
 		D95D186723E29CEC00A3586E /* BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186623E29CEC00A3586E /* BaseUITests.swift */; };
 		D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D972F44823D418C200558CD7 /* EditableTitle.swift */; };
+		D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		D95D186423E2983400A3586E /* QueueBacklogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueBacklogUITests.swift; sourceTree = "<group>"; };
 		D95D186623E29CEC00A3586E /* BaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
 		D972F44823D418C200558CD7 /* EditableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
+		D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainSpecificLanguageTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 		D9330DB523B1A9B300FA3405 /* UpNextMkIITests */ = {
 			isa = PBXGroup;
 			children = (
+				D98C41B823ED173B009FA8E3 /* Domain */,
 				D9330DB623B1A9B300FA3405 /* UpNextMkIITests.swift */,
 				D9330DB823B1A9B300FA3405 /* Info.plist */,
 			);
@@ -209,6 +212,14 @@
 				D9330DE123B5D32300FA3405 /* LazyView.swift */,
 			);
 			path = Containers;
+			sourceTree = "<group>";
+		};
+		D98C41B823ED173B009FA8E3 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */,
+			);
+			path = Domain;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -366,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9330DB723B1A9B300FA3405 /* UpNextMkIITests.swift in Sources */,
+				D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
