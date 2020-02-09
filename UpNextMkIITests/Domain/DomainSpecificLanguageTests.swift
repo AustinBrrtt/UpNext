@@ -46,4 +46,64 @@ class DomainSpecificLanguageTests: XCTestCase {
         XCTAssertEqual(noun.pluralCapitalized, "Test words")
         XCTAssertEqual(noun.pluralTitle, "fiNger paLaces")
     }
+    
+    // Noun.init() with normal and plural provided
+    func testNounInitPlural() {
+        let noun = Noun("northern moose", plural: "northern meese")
+        
+        XCTAssertEqual(noun.normal, "northern moose")
+        XCTAssertEqual(noun.capitalized, "Northern moose")
+        XCTAssertEqual(noun.title, "Northern Moose")
+        XCTAssertEqual(noun.plural, "northern meese")
+        XCTAssertEqual(noun.pluralCapitalized, "Northern meese")
+        XCTAssertEqual(noun.pluralTitle, "Northern Meese")
+    }
+    
+    // Noun.init() with normal and pluralCapitalized provided
+    func testNounInitPluralCapitalized() {
+        let noun = Noun("federal nomenclature", pluralCapitalized: "feDeral noMenclatures")
+        
+        XCTAssertEqual(noun.normal, "federal nomenclature")
+        XCTAssertEqual(noun.capitalized, "Federal nomenclature")
+        XCTAssertEqual(noun.title, "Federal Nomenclature")
+        XCTAssertEqual(noun.plural, "federal nomenclatures")
+        XCTAssertEqual(noun.pluralCapitalized, "feDeral noMenclatures")
+        XCTAssertEqual(noun.pluralTitle, "Federal Nomenclatures")
+    }
+    
+    // Noun.init() with normal and pluralTitle provided
+    func testNounInitPluralTitle() {
+        let noun = Noun("federal nomenclature", pluralTitle: "feDeral noMenclatures")
+        
+        XCTAssertEqual(noun.normal, "federal nomenclature")
+        XCTAssertEqual(noun.capitalized, "Federal nomenclature")
+        XCTAssertEqual(noun.title, "Federal Nomenclature")
+        XCTAssertEqual(noun.plural, "federal nomenclatures")
+        XCTAssertEqual(noun.pluralCapitalized, "Federal nomenclatures")
+        XCTAssertEqual(noun.pluralTitle, "feDeral noMenclatures")
+    }
+    
+    // Noun.init() with normal, capitalized, and plural provided
+    func testNounInitCapitalizedAndPlural() {
+        let noun = Noun("northern moose", capitalized: "northERn mooSe", plural: "northern meese")
+        
+        XCTAssertEqual(noun.normal, "northern moose")
+        XCTAssertEqual(noun.capitalized, "northERn mooSe")
+        XCTAssertEqual(noun.title, "Northern Moose")
+        XCTAssertEqual(noun.plural, "northern meese")
+        XCTAssertEqual(noun.pluralCapitalized, "Northern meese")
+        XCTAssertEqual(noun.pluralTitle, "Northern Meese")
+    }
+    
+    // Noun.init() with normal, title, and plural provided
+    func testNounInitTitleAndPlural() {
+        let noun = Noun("northern moose", title: "northERn mooSe", plural: "northern meese")
+        
+        XCTAssertEqual(noun.normal, "northern moose")
+        XCTAssertEqual(noun.capitalized, "Northern moose")
+        XCTAssertEqual(noun.title, "northERn mooSe")
+        XCTAssertEqual(noun.plural, "northern meese")
+        XCTAssertEqual(noun.pluralCapitalized, "Northern meese")
+        XCTAssertEqual(noun.pluralTitle, "Northern Meese")
+    }
 }
