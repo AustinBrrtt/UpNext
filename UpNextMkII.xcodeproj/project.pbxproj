@@ -27,6 +27,8 @@
 		D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DE123B5D32300FA3405 /* LazyView.swift */; };
 		D95CBE3623F119D100C40C92 /* NounTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3523F119D100C40C92 /* NounTests.swift */; };
 		D95CBE3823F11A4800C40C92 /* Noun.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3723F11A4800C40C92 /* Noun.swift */; };
+		D95CBE3A23F2673700C40C92 /* DomainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3923F2673700C40C92 /* DomainTests.swift */; };
+		D95CBE3C23F2681A00C40C92 /* CoreDataMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3B23F2681A00C40C92 /* CoreDataMock.swift */; };
 		D95D185923DD596400A3586E /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185823DD596400A3586E /* ListItem.swift */; };
 		D95D185B23DD5BD800A3586E /* BigText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185A23DD5BD800A3586E /* BigText.swift */; };
 		D95D185D23DE79D800A3586E /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185C23DE79D800A3586E /* ItemProperties.swift */; };
@@ -81,6 +83,8 @@
 		D9330DE123B5D32300FA3405 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		D95CBE3523F119D100C40C92 /* NounTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NounTests.swift; sourceTree = "<group>"; };
 		D95CBE3723F11A4800C40C92 /* Noun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Noun.swift; sourceTree = "<group>"; };
+		D95CBE3923F2673700C40C92 /* DomainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainTests.swift; sourceTree = "<group>"; };
+		D95CBE3B23F2681A00C40C92 /* CoreDataMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMock.swift; sourceTree = "<group>"; };
 		D95D185823DD596400A3586E /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		D95D185A23DD5BD800A3586E /* BigText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigText.swift; sourceTree = "<group>"; };
 		D95D185C23DE79D800A3586E /* ItemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 				D98C41B823ED173B009FA8E3 /* Domain */,
 				D9330DB623B1A9B300FA3405 /* UpNextMkIITests.swift */,
 				D9330DB823B1A9B300FA3405 /* Info.plist */,
+				D95CBE3B23F2681A00C40C92 /* CoreDataMock.swift */,
 			);
 			path = UpNextMkIITests;
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 			children = (
 				D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */,
 				D95CBE3523F119D100C40C92 /* NounTests.swift */,
+				D95CBE3923F2673700C40C92 /* DomainTests.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -384,8 +390,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9330DB723B1A9B300FA3405 /* UpNextMkIITests.swift in Sources */,
+				D95CBE3C23F2681A00C40C92 /* CoreDataMock.swift in Sources */,
 				D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */,
 				D95CBE3623F119D100C40C92 /* NounTests.swift in Sources */,
+				D95CBE3A23F2673700C40C92 /* DomainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
