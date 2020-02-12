@@ -9,23 +9,32 @@
 import XCTest
 @testable import UpNextMkII
 
-class DomainTests: XCTestCase {
+class DomainTests: CoreDataTestCase {
     // Returns name if it is not nil, otherwise "Untitled"
     func testDisplayName() {
-        let testDomainFoo = construct(name: "Foo")
+        let testDomainFoo = constructDomain(name: "Foo")
         XCTAssert(testDomainFoo.displayName == "Foo")
         
-        let testDomainNil = construct()
+        let testDomainNil = constructDomain()
         XCTAssert(testDomainNil.displayName == "Untitled")
     }
     
-    private func construct(name: String? = nil, queue: [DomainItem] = [], backlog: [DomainItem] = []) -> Domain {
-        let domain = Domain(context: createManagedObjectContext())
+    // Returns the queue as an Array, sorted by sortIndex
+    func testQueueItems() {
+        let testDomain = constructDomain(queue: [
+            constructDomainItem(name: "foo"),
+            constructDomainItem(name: "bar"),
+            constructDomainItem(name: "baz"),
+            constructDomainItem(name: "bat")
+        ])
         
-        domain.name = name
-        domain.queue = Set(queue)
-        domain.backlog = Set(backlog)
+        let queueItems = testDomain.queueItems
         
-        return domain
+        XCTAssert(queueItems[0].name == "foo")
+        XCTAssert(queueItems[1].name == "bar")
+        XCTAssert(queueItems[2].name == "baz")
+        XCTAssert(queueItems[3].name == "bat")
     }
 }
+
+
