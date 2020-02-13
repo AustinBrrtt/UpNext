@@ -35,6 +35,23 @@ class DomainTests: CoreDataTestCase {
         XCTAssert(queueItems[2].name == "baz")
         XCTAssert(queueItems[3].name == "bat")
     }
+    
+    // Returns the backlog as an Array, sorted by sortIndex
+    func testBacklogItems() {
+        let testDomain = constructDomain(backlog: [
+            constructDomainItem(name: "foo"),
+            constructDomainItem(name: "bar"),
+            constructDomainItem(name: "baz"),
+            constructDomainItem(name: "bat")
+        ])
+        
+        let backlogItems = testDomain.backlogItems
+        
+        XCTAssert(backlogItems[0].name == "foo")
+        XCTAssert(backlogItems[1].name == "bar")
+        XCTAssert(backlogItems[2].name == "baz")
+        XCTAssert(backlogItems[3].name == "bat")
+    }
 }
 
 
