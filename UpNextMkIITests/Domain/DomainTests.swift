@@ -52,6 +52,38 @@ class DomainTests: CoreDataTestCase {
         XCTAssert(backlogItems[2].name == "baz")
         XCTAssert(backlogItems[3].name == "bat")
     }
+    
+    // Adds the item to the end of the queue
+    func testAddToQueue() {
+        let testDomain = constructDomain(queue: [
+            constructDomainItem(name: "foo"),
+            constructDomainItem(name: "bar")
+        ])
+        
+        let baz = constructDomainItem(name: "baz")
+        
+        testDomain.addToQueue(baz)
+        
+        let queueItems = testDomain.queueItems
+        XCTAssert(queueItems[queueItems.count - 1].name == "baz")
+        XCTAssert(baz.inQueueOf == testDomain)
+    }
+    
+    // Adds the item to the end of the backlog
+    func testAddToBacklog() {
+        let testDomain = constructDomain(backlog: [
+            constructDomainItem(name: "foo"),
+            constructDomainItem(name: "bar")
+        ])
+        
+        let baz = constructDomainItem(name: "baz")
+        
+        testDomain.addToBacklog(baz)
+        
+        let backlogItems = testDomain.backlogItems
+        XCTAssert(backlogItems[backlogItems.count - 1].name == "baz")
+        XCTAssert(baz.inBacklogOf == testDomain)
+    }
 }
 
 
