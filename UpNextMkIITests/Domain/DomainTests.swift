@@ -84,6 +84,25 @@ class DomainTests: CoreDataTestCase {
         XCTAssert(backlogItems[backlogItems.count - 1].name == "baz")
         XCTAssert(baz.inBacklogOf == testDomain)
     }
+    
+    // Returns a FetchRequest for all Domains, sorted by name (ascending)
+    func testGetAll() {
+        let fetchRequest = Domain.getAll()
+        let sortDescriptor = fetchRequest.sortDescriptors![0]
+        
+        XCTAssert(fetchRequest.entityName == "Domain")
+        XCTAssert(sortDescriptor.key == "name")
+        XCTAssert(sortDescriptor.ascending == true)
+    }
+    
+    // Creates a Domain in the provided context with the given name, an empty queue, and an empty backlog
+    func testCreate() {
+        let testDomain = Domain.create(context: managedObjectContext, name: "test")
+        
+        XCTAssert(testDomain.name == "test")
+        XCTAssert(testDomain.queue.isEmpty)
+        XCTAssert(testDomain.backlog.isEmpty)
+    }
 }
 
 
