@@ -25,6 +25,11 @@
 		D9330DDD23B28A4F00FA3405 /* DomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDC23B28A4F00FA3405 /* DomainView.swift */; };
 		D9330DDF23B4730E00FA3405 /* AddByNameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DDE23B4730E00FA3405 /* AddByNameField.swift */; };
 		D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330DE123B5D32300FA3405 /* LazyView.swift */; };
+		D95CBE3623F119D100C40C92 /* NounTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3523F119D100C40C92 /* NounTests.swift */; };
+		D95CBE3823F11A4800C40C92 /* Noun.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3723F11A4800C40C92 /* Noun.swift */; };
+		D95CBE3A23F2673700C40C92 /* DomainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3923F2673700C40C92 /* DomainTests.swift */; };
+		D95CBE3C23F2681A00C40C92 /* CoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3B23F2681A00C40C92 /* CoreDataTestCase.swift */; };
+		D95CBE3E23F3B75400C40C92 /* DomainItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CBE3D23F3B75400C40C92 /* DomainItemTests.swift */; };
 		D95D185923DD596400A3586E /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185823DD596400A3586E /* ListItem.swift */; };
 		D95D185B23DD5BD800A3586E /* BigText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185A23DD5BD800A3586E /* BigText.swift */; };
 		D95D185D23DE79D800A3586E /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185C23DE79D800A3586E /* ItemProperties.swift */; };
@@ -32,6 +37,7 @@
 		D95D186523E2983400A3586E /* QueueBacklogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186423E2983400A3586E /* QueueBacklogUITests.swift */; };
 		D95D186723E29CEC00A3586E /* BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186623E29CEC00A3586E /* BaseUITests.swift */; };
 		D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D972F44823D418C200558CD7 /* EditableTitle.swift */; };
+		D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +82,11 @@
 		D9330DDC23B28A4F00FA3405 /* DomainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainView.swift; sourceTree = "<group>"; };
 		D9330DDE23B4730E00FA3405 /* AddByNameField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddByNameField.swift; sourceTree = "<group>"; };
 		D9330DE123B5D32300FA3405 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		D95CBE3523F119D100C40C92 /* NounTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NounTests.swift; sourceTree = "<group>"; };
+		D95CBE3723F11A4800C40C92 /* Noun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Noun.swift; sourceTree = "<group>"; };
+		D95CBE3923F2673700C40C92 /* DomainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainTests.swift; sourceTree = "<group>"; };
+		D95CBE3B23F2681A00C40C92 /* CoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestCase.swift; sourceTree = "<group>"; };
+		D95CBE3D23F3B75400C40C92 /* DomainItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainItemTests.swift; sourceTree = "<group>"; };
 		D95D185823DD596400A3586E /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		D95D185A23DD5BD800A3586E /* BigText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigText.swift; sourceTree = "<group>"; };
 		D95D185C23DE79D800A3586E /* ItemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
@@ -83,6 +94,7 @@
 		D95D186423E2983400A3586E /* QueueBacklogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueBacklogUITests.swift; sourceTree = "<group>"; };
 		D95D186623E29CEC00A3586E /* BaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
 		D972F44823D418C200558CD7 /* EditableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
+		D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainSpecificLanguageTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,8 +171,10 @@
 		D9330DB523B1A9B300FA3405 /* UpNextMkIITests */ = {
 			isa = PBXGroup;
 			children = (
+				D98C41B823ED173B009FA8E3 /* Domain */,
 				D9330DB623B1A9B300FA3405 /* UpNextMkIITests.swift */,
 				D9330DB823B1A9B300FA3405 /* Info.plist */,
+				D95CBE3B23F2681A00C40C92 /* CoreDataTestCase.swift */,
 			);
 			path = UpNextMkIITests;
 			sourceTree = "<group>";
@@ -184,6 +198,7 @@
 				D9330DD023B1A9EC00FA3405 /* Domain.swift */,
 				D9330DD123B1A9EC00FA3405 /* DomainItem.swift */,
 				D90A9A8E23E84ED7006E8632 /* DomainSpecificLanguage.swift */,
+				D95CBE3723F11A4800C40C92 /* Noun.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -209,6 +224,17 @@
 				D9330DE123B5D32300FA3405 /* LazyView.swift */,
 			);
 			path = Containers;
+			sourceTree = "<group>";
+		};
+		D98C41B823ED173B009FA8E3 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */,
+				D95CBE3523F119D100C40C92 /* NounTests.swift */,
+				D95CBE3923F2673700C40C92 /* DomainTests.swift */,
+				D95CBE3D23F3B75400C40C92 /* DomainItemTests.swift */,
+			);
+			path = Domain;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +374,7 @@
 				D9330DA223B1A9B100FA3405 /* UpNextMkII.xcdatamodeld in Sources */,
 				D9330DDF23B4730E00FA3405 /* AddByNameField.swift in Sources */,
 				D9330DA423B1A9B100FA3405 /* ContentView.swift in Sources */,
+				D95CBE3823F11A4800C40C92 /* Noun.swift in Sources */,
 				D9330DDB23B284DA00FA3405 /* ItemList.swift in Sources */,
 				D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */,
 				D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */,
@@ -365,7 +392,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D95CBE3E23F3B75400C40C92 /* DomainItemTests.swift in Sources */,
 				D9330DB723B1A9B300FA3405 /* UpNextMkIITests.swift in Sources */,
+				D95CBE3C23F2681A00C40C92 /* CoreDataTestCase.swift in Sources */,
+				D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */,
+				D95CBE3623F119D100C40C92 /* NounTests.swift in Sources */,
+				D95CBE3A23F2673700C40C92 /* DomainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
