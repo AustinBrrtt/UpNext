@@ -15,6 +15,19 @@ class DomainUITests: BaseUITests {
         XCTAssert(getDomain(testDomainTitle).exists)
     }
     
+    // #170897714 - I want the first letter of each word to automatically capitalize as I enter a domain name
+    func testAutoCapitalizeCreate() {
+        let textField = app.textFields["Add Domain"]
+        let keys = [ "F", "o", "o", "space", "B", "a", "r" ]
+        
+        textField.tap()
+        for key in keys {
+            let key = app.keys[key]
+            XCTAssertTrue(key.exists)
+            key.tap()
+        }
+    }
+    
     // #171034497 - I want leading/trailing whitespace to be trimmed from titles
     func testCreateListWhitespace() {
         addDomain("  domainA")
@@ -111,6 +124,33 @@ class DomainUITests: BaseUITests {
         
         goBack()
         deleteDomain("Trailing Title")
+    }
+    
+    // #170897714 - I want the first letter of each word to automatically capitalize as I enter a domain name
+    func testAutoCapitalizeEdit() {
+        getDomain(testDomainTitle).tap()
+        
+        // Tap Edit
+        let navigationBar = getNavigationBar()
+        navigationBar.buttons["Edit"].tap()
+        
+        // Clear the title
+        let title = app.textFields["Title"]
+        title.clearText()
+        
+        // Type the keys
+        let keys = [ "F", "o", "o", "space", "B", "a", "r" ]
+        for key in keys {
+            let key = app.keys[key]
+            XCTAssertTrue(key.exists)
+            key.tap()
+        }
+        
+        // Reset the title for cleanup
+        title.replaceText(testDomainTitle)
+        navigationBar.buttons["Done"].tap()
+        
+        goBack()
     }
 }
 

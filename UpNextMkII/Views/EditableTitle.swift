@@ -23,6 +23,7 @@ struct EditableTitle: View {
         HStack {
             if editMode?.wrappedValue == .active {
                 TextField(language.domainTitle.title, text: $title)
+                    .autocapitalization(.words)
                     .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                     .onDisappear {
                         self.title = self.title.trimmingCharacters(in: .whitespaces)

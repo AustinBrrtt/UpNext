@@ -113,6 +113,21 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssert(getItem("trailing").exists)
     }
     
+    // #170897714 - I want the first letter of each word to automatically capitalize as I enter an item name
+    func testAddItemsAutoCapitalize() {
+        let textField = app.textFields["Add Item"]
+        let addButton: XCUIElement = app.images["plus.circle.fill"]
+        
+        textField.tap()
+        let keys = [ "F", "o", "o", "space", "B", "a", "r" ]
+        for key in keys {
+            let key = app.keys[key]
+            XCTAssertTrue(key.exists)
+            key.tap()
+        }
+        addButton.tap()
+    }
+    
     // #170640245 - I want to reorder items in my queue/backlog
     func testReorderItems() {
         let qa = getItem("QA")
@@ -258,6 +273,29 @@ class QueueBacklogUITests: BaseUITests {
         // Check that the trailing spaces have been removed
         XCTAssert(getItem("trailing").exists)
         XCTAssertFalse(getItem("trailing   ").exists)
+    }
+    
+    
+    // #170897714 - I want the first letter of each word to automatically capitalize as I enter an item name
+    func testEditItemAutoCapitalize() {
+        let qa = getItem("QA")
+        
+        // Long press QA and choose Edit
+        qa.longPress()
+        chooseFromContextMenu("Edit")
+
+        // Edit title and tap "Save"
+        editItemNameField.clearText()
+        
+        // Type the keys
+        let keys = [ "F", "o", "o", "space", "B", "a", "r" ]
+        for key in keys {
+            let key = app.keys[key]
+            XCTAssertTrue(key.exists)
+            key.tap()
+        }
+        
+        tapNavButton("Save")
     }
     
     // #171120829 - I want to delete items

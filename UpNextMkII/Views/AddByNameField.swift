@@ -25,6 +25,7 @@ struct AddByNameField: View {
         HStack {
             TextField(placeholder, text: $name)
                 .accessibility(identifier: "Add Field")
+                .autocapitalization(.words)
             Image(systemName: "plus.circle.fill")
                 .foregroundColor(name == "" ? .secondary : .green)
                 .onTapGesture {
