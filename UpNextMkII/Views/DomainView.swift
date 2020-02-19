@@ -49,16 +49,18 @@ struct DomainView: View {
                 .padding(.top).padding(.horizontal)
                 .accessibility(identifier: "Add Item")
             
-            HStack {
-                Spacer()
-                Image(systemName: showCompleted ? "eye.fill" : "eye.slash")
-                    .onTapGesture {
-                        self.showCompleted.toggle()
-                    }
-                    .accessibility(identifier: "Toggle Completed")
+            if !showBacklog {
+                HStack {
+                    Spacer()
+                    Image(systemName: showCompleted ? "eye.fill" : "eye.slash")
+                        .onTapGesture {
+                            self.showCompleted.toggle()
+                        }
+                        .accessibility(identifier: "Toggle Completed")
+                }
+                .padding(.horizontal)
+                .padding(.top)
             }
-            .padding(.horizontal)
-            .padding(.top)
             
             if showBacklog {
                 ItemList(self.domain.backlogItems, dirtyHack: $dirtyHack)
