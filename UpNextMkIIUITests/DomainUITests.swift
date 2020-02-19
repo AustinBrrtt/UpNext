@@ -15,6 +15,15 @@ class DomainUITests: BaseUITests {
         XCTAssert(getDomain(testDomainTitle).exists)
     }
     
+    // #171346745 - I want the keyboard to dismiss when I tap the add button
+    func testAddButtonDismissesKeyboard() {
+        addDomain("Foo")
+        
+        XCTAssert(app.keyboards.count == 0)
+        
+        deleteDomain("Foo")
+    }
+    
     // #170897714 - I want the first letter of each word to automatically capitalize as I enter a domain name
     func testAutoCapitalizeCreate() {
         let textField = app.textFields["Add Domain"]

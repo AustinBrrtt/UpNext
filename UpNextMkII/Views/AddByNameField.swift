@@ -40,6 +40,7 @@ struct AddByNameField: View {
                            print("Saving failed. \(error), \(error.userInfo)")
                        }
                     }
+                    dismissKeyboard()
             }
         }
         .bigText()

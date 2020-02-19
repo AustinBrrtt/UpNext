@@ -77,6 +77,13 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssertFalse(bItem.exists)
     }
     
+    // #171346745 - I want the keyboard to dismiss when I tap the add button
+    func testAddButtonDismissesKeyboard() {
+        addItem("Foo")
+        
+        XCTAssert(app.keyboards.count == 0)
+    }
+    
     // #171043188 - I want to add items to the queue
     // #170438808 - I want to add items to the backlog
     func testAddItemsToQueueAndBacklog() {

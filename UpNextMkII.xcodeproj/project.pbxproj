@@ -38,6 +38,7 @@
 		D95D186723E29CEC00A3586E /* BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186623E29CEC00A3586E /* BaseUITests.swift */; };
 		D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D972F44823D418C200558CD7 /* EditableTitle.swift */; };
 		D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */; };
+		D98F5A9223FCE63F000F885D /* OnTapDismissesKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		D95D186623E29CEC00A3586E /* BaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
 		D972F44823D418C200558CD7 /* EditableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
 		D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainSpecificLanguageTests.swift; sourceTree = "<group>"; };
+		D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTapDismissesKeyboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 		D9330D9B23B1A9B100FA3405 /* UpNextMkII */ = {
 			isa = PBXGroup;
 			children = (
+				D98F5A9023FCE616000F885D /* View Modifiers */,
 				D9330DE023B5D30D00FA3405 /* Containers */,
 				D9330DCF23B1A9CA00FA3405 /* Domain */,
 				D9330DD423B1AA4B00FA3405 /* Views */,
@@ -235,6 +238,14 @@
 				D95CBE3D23F3B75400C40C92 /* DomainItemTests.swift */,
 			);
 			path = Domain;
+			sourceTree = "<group>";
+		};
+		D98F5A9023FCE616000F885D /* View Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */,
+			);
+			path = "View Modifiers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,6 +396,7 @@
 				D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */,
 				D95D185D23DE79D800A3586E /* ItemProperties.swift in Sources */,
 				D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */,
+				D98F5A9223FCE63F000F885D /* OnTapDismissesKeyboard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
