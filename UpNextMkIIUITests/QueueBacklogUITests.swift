@@ -102,6 +102,17 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssert(getItem("BC").exists)
     }
     
+    // #171034497 - I want leading/trailing whitespace to be trimmed from titles
+    func testAddItemsWhitespace() {
+        addItem("   leading")
+        addItem("trailing   ")
+        
+        XCTAssertFalse(getItem("   leading").exists)
+        XCTAssertFalse(getItem("trailing   ").exists)
+        XCTAssert(getItem("leading").exists)
+        XCTAssert(getItem("trailing").exists)
+    }
+    
     // #170640245 - I want to reorder items in my queue/backlog
     func testReorderItems() {
         let qa = getItem("QA")
@@ -214,6 +225,39 @@ class QueueBacklogUITests: BaseUITests {
         let reeditedItem = getItem(editedTitle2)
         XCTAssert(editedItem.exists)
         XCTAssertFalse(reeditedItem.exists)
+    }
+    
+    // #171034497 - I want leading/trailing whitespace to be trimmed from titles
+    func testEditItemsWhitespace() {
+        let qa = getItem("QA")
+        let qb = getItem("QB")
+        
+        // Long press QA and choose Edit
+        qa.longPress()
+        chooseFromContextMenu("Edit")
+        
+        // Expect edit title field to be shown
+        XCTAssert(editItemNameField.exists)
+        
+        // Edit title and tap "Save"
+        editItemNameField.replaceText("   leading")
+        tapNavButton("Save")
+        
+        // Check that the leading spaces have been removed
+        XCTAssertFalse(getItem("   leading").exists)
+        XCTAssert(getItem("leading").exists)
+        
+        // Long press QB and choose Edit
+        qb.longPress()
+        chooseFromContextMenu("Edit")
+        
+        // Edit title and tap "Save"
+        editItemNameField.replaceText("trailing   ")
+        tapNavButton("Save")
+        
+        // Check that the trailing spaces have been removed
+        XCTAssert(getItem("trailing").exists)
+        XCTAssertFalse(getItem("trailing   ").exists)
     }
     
     // #171120829 - I want to delete items

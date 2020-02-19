@@ -48,7 +48,7 @@ struct ItemProperties: View {
     }
     
     private func saveFields() {
-        item.name = title
+        item.name = title.trimmingCharacters(in: .whitespaces)
         do {
             try managedObjectContext.save()
             dirtyHack.toggle()

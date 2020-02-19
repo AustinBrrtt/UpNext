@@ -29,7 +29,7 @@ struct AddByNameField: View {
                 .foregroundColor(name == "" ? .secondary : .green)
                 .onTapGesture {
                     if (self.name != "") {
-                        self.addAction(self.name)
+                        self.addAction(self.name.trimmingCharacters(in: .whitespaces))
                         do {
                            try self.managedObjectContext.save()
                            self.dirtyHack.toggle()

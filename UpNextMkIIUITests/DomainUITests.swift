@@ -15,6 +15,21 @@ class DomainUITests: BaseUITests {
         XCTAssert(getDomain(testDomainTitle).exists)
     }
     
+    // #171034497 - I want leading/trailing whitespace to be trimmed from titles
+    func testCreateListWhitespace() {
+        addDomain("  domainA")
+        addDomain("domainB  ")
+        
+        XCTAssert(getDomain("domainA").exists)
+        XCTAssertFalse(getDomain("  domainA").exists)
+        
+        XCTAssert(getDomain("domainB").exists)
+        XCTAssertFalse(getDomain("domainB  ").exists)
+        
+        deleteDomain("domainA")
+        deleteDomain("domainB")
+    }
+    
     // #170967099 - I want to delete Lists
     // #170967352 - Deleted objects should remain deleted after quitting and reopening the app
     func testDeleteLists() {
@@ -60,6 +75,42 @@ class DomainUITests: BaseUITests {
         
         // Clean up modified title
         deleteDomain(newTitle)
+    }
+    
+    // #171034497 - I want leading/trailing whitespace to be trimmed from titles
+    func testRenameDomainsWhitespace() {
+        getDomain(testDomainTitle).tap()
+        
+        // Tap Edit
+        let navigationBar = getNavigationBar()
+        navigationBar.buttons["Edit"].tap()
+        
+        // Tap the title and type
+        let title = app.textFields["Title"]
+        title.replaceText("   Leading Title")
+        
+        // Tap Done
+        navigationBar.buttons["Done"].tap()
+        
+        // Check for updated title in Domain View
+        XCTAssert(app.staticTexts["Leading Title"].soonExists())
+        XCTAssertFalse(app.staticTexts["   Leading Title"].soonExists())
+        
+        // Tap Edit
+        navigationBar.buttons["Edit"].tap()
+        
+        // Tap the title and type
+        title.replaceText("Trailing Title    ")
+        
+        // Tap Done
+        navigationBar.buttons["Done"].tap()
+        
+        // Check for updated title in Domain View
+        XCTAssert(app.staticTexts["Trailing Title"].soonExists())
+        XCTAssertFalse(app.staticTexts["Trailing Title    "].soonExists())
+        
+        goBack()
+        deleteDomain("Trailing Title")
     }
 }
 
