@@ -60,8 +60,10 @@ class DomainItemTests: CoreDataTestCase {
         XCTAssert(backlogItem.isInQueue)
     }
     
-    // returns true if and only if lhs.sortIndex < rhs.sortIndex
-    func testLessThan() {
+    // When lhs.completed == rhs.completed, returns lhs.sortIndex < rhs.sortIndex
+    // Returns true if lhs is completed and rhs is not
+    // Returns false if rhs is completed and lhs is not
+    func testLessThanBothNotCompleted() {
         let itemA = constructDomainItem()
         let itemB = constructDomainItem()
         let itemC = constructDomainItem()
@@ -73,5 +75,13 @@ class DomainItemTests: CoreDataTestCase {
         XCTAssertFalse(itemB < itemA)
         XCTAssertFalse(itemA < itemC)
         XCTAssertFalse(itemC < itemA)
+        
+        itemA.completed = true
+        
+        XCTAssert(itemA < itemC)
+        XCTAssertFalse(itemC < itemA)
+        
+        itemA.sortIndex = 2
+        XCTAssert(itemA < itemB)
     }
 }

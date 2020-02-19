@@ -60,6 +60,14 @@ class DomainItem: NSManagedObject, Identifiable {
 
 extension DomainItem: Comparable {
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
-        lhs.sortIndex < rhs.sortIndex
+        if lhs.completed && !rhs.completed {
+            return true
+        }
+        
+        if !lhs.completed && rhs.completed {
+            return false
+        }
+        
+        return lhs.sortIndex < rhs.sortIndex
     }
 }

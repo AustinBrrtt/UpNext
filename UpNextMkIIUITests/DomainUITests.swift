@@ -19,6 +19,7 @@ class DomainUITests: BaseUITests {
     func testAddButtonDismissesKeyboard() {
         addDomain("Foo")
         
+        sleep(1)
         XCTAssert(app.keyboards.count == 0)
         
         deleteDomain("Foo")
@@ -65,11 +66,13 @@ class DomainUITests: BaseUITests {
     
     // #170374984 - I want my lists to persist between sessions
     func testPersistLists() {
+        sleep(1) // Make sure save happens before quit
         restartApp()
         XCTAssert(getDomain(testDomainTitle).exists)
     }
     
     // #170863851 - I want to rename Domains
+    // #171034432 - I want to easily clear text in name editing/entering text fields
     func testRenameDomains() {
         // Enter Domain View
         getDomain(testDomainTitle).tap()
@@ -81,7 +84,9 @@ class DomainUITests: BaseUITests {
         // Tap the title and type
         let title = app.textFields["Title"]
         let newTitle = "New Title Test"
-        title.replaceText(newTitle)
+        title.tap()
+        app.images.firstMatch.tap() // Tap clear button
+        title.typeText(newTitle)
         
         // Tap Done
         navigationBar.buttons["Done"].tap()
@@ -109,7 +114,9 @@ class DomainUITests: BaseUITests {
         
         // Tap the title and type
         let title = app.textFields["Title"]
-        title.replaceText("   Leading Title")
+        app.images.firstMatch.tap() // Tap clear button
+        title.tap()
+        title.typeText("   Leading Title")
         
         // Tap Done
         navigationBar.buttons["Done"].tap()
@@ -122,7 +129,9 @@ class DomainUITests: BaseUITests {
         navigationBar.buttons["Edit"].tap()
         
         // Tap the title and type
-        title.replaceText("Trailing Title    ")
+        app.images.firstMatch.tap() // Tap clear button
+        title.tap()
+        title.typeText("Trailing Title    ")
         
         // Tap Done
         navigationBar.buttons["Done"].tap()
@@ -145,7 +154,8 @@ class DomainUITests: BaseUITests {
         
         // Clear the title
         let title = app.textFields["Title"]
-        title.clearText()
+        app.images.firstMatch.tap() // Tap clear button
+        title.tap()
         
         // Type the keys
         let keys = [ "F", "o", "o", "space", "B", "a", "r" ]
@@ -156,7 +166,9 @@ class DomainUITests: BaseUITests {
         }
         
         // Reset the title for cleanup
-        title.replaceText(testDomainTitle)
+        app.images.firstMatch.tap() // Tap clear button
+        title.tap()
+        title.typeText(testDomainTitle)
         navigationBar.buttons["Done"].tap()
         
         goBack()

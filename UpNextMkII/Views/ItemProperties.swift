@@ -26,6 +26,7 @@ struct ItemProperties: View {
         ScrollView {
             TextField(language.itemTitle.title, text: $title)
                 .autocapitalization(.words)
+                .clearButton(text: $title)
                 .padding()
                 .bigText()
                 .accessibility(identifier: "Item Title")

@@ -22,36 +22,47 @@ struct ItemList: View {
     var body: some View {
         return List {
             ForEach(items) { item in
-                Text(item.name ?? self.language.defaultItemTitle.title)
-                    .listItem()
-                    .contextMenu {
-                        NavigationLink(destination: ItemProperties(item, dirtyHack: self.$dirtyHack)) {
-                            HStack {
-                                Text("Edit")
-                                Image(systemName: "pencil")
+                HStack {
+                    if item.isInQueue {
+                        Image(systemName: item.completed ? "largecircle.fill.circle" : "circle")
+                            .accessibility(identifier: "Complete Item " + item.displayName)
+                            .onTapGesture {
+                                item.completed.toggle()
+                                self.saveCoreData()
+                                self.dirtyHack.toggle()
                             }
-                        }
-                        
-                        Button(action: {
-                            item.move(context: self.managedObjectContext)
-                            self.dirtyHack.toggle()
-                        }) {
-                            HStack {
-                                Text(item.isInQueue ? "Move to \(self.language.backlog.title)" : "Move to \(self.language.queue.title)")
-                                Image(systemName: item.isInQueue ? "arrow.right.to.line" : "arrow.left.to.line")
+                    }
+                    Text(item.name ?? self.language.defaultItemTitle.title)
+                        .listItem()
+                        .contextMenu {
+                            NavigationLink(destination: ItemProperties(item, dirtyHack: self.$dirtyHack)) {
+                                HStack {
+                                    Text("Edit")
+                                    Image(systemName: "pencil")
+                                }
                             }
-                        }
-                        
-                        Button(action: {
-                            self.managedObjectContext.delete(item)
-                            self.saveCoreData()
-                            self.dirtyHack.toggle()
-                        }) {
-                            HStack {
-                                Text("Delete")
-                                Image(systemName: "trash")
+                            
+                            Button(action: {
+                                item.move(context: self.managedObjectContext)
+                                self.dirtyHack.toggle()
+                            }) {
+                                HStack {
+                                    Text(item.isInQueue ? "Move to \(self.language.backlog.title)" : "Move to \(self.language.queue.title)")
+                                    Image(systemName: item.isInQueue ? "arrow.right.to.line" : "arrow.left.to.line")
+                                }
                             }
-                        }.foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
+                            
+                            Button(action: {
+                                self.managedObjectContext.delete(item)
+                                self.saveCoreData()
+                                self.dirtyHack.toggle()
+                            }) {
+                                HStack {
+                                    Text("Delete")
+                                    Image(systemName: "trash")
+                                }
+                            }.foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
+                    }
                 }
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {

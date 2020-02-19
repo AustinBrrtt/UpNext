@@ -12,6 +12,7 @@ struct DomainView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     var domain: Domain
     @State var showBacklog: Bool = false
+    @State var showCompleted: Bool = false
     @Binding var dirtyHack: Bool
     let language = DomainSpecificLanguage.defaultLanguage
     
@@ -48,10 +49,25 @@ struct DomainView: View {
                 .padding(.top).padding(.horizontal)
                 .accessibility(identifier: "Add Item")
             
+            HStack {
+                Spacer()
+                Image(systemName: showCompleted ? "eye.fill" : "eye.slash")
+                    .onTapGesture {
+                        self.showCompleted.toggle()
+                    }
+                    .accessibility(identifier: "Toggle Completed")
+            }
+            .padding(.horizontal)
+            .padding(.top)
+            
             if showBacklog {
                 ItemList(self.domain.backlogItems, dirtyHack: $dirtyHack)
-            } else {
+            } else if showCompleted {
                 ItemList(self.domain.queueItems, dirtyHack: $dirtyHack)
+            } else {
+                ItemList(self.domain.queueItems.filter { item in
+                    !item.completed
+                }, dirtyHack: $dirtyHack)
             }
         }
         .navigationBarItems(

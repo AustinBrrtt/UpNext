@@ -9,21 +9,6 @@
 import XCTest
 
 extension XCUIElement {
-    func clearText() {
-        guard let currentText = self.value as? String else {
-            XCTFail("Tried to clear text from a non-text element")
-            return
-        }
-        tap()
-        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentText.count)
-        typeText(deleteString)
-    }
-    
-    func replaceText(_ text: String) {
-        clearText()
-        typeText(text)
-    }
-    
     func soonExists() -> Bool {
         return self.waitForExistence(timeout: 5)
     }
@@ -38,5 +23,9 @@ extension XCUIElement {
     
     func manualSwipeLeft() {
         self.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 0.25, thenDragTo: self.coordinate(withNormalizedOffset: CGVector(dx: -1, dy: 0.5)))
+    }
+    
+    func manualSwipeDown() {
+        self.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 0.25, thenDragTo: self.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 1)))
     }
 }

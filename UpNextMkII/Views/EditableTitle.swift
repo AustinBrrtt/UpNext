@@ -24,6 +24,7 @@ struct EditableTitle: View {
             if editMode?.wrappedValue == .active {
                 TextField(language.domainTitle.title, text: $title)
                     .autocapitalization(.words)
+                    .clearButton(text: $title)
                     .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                     .onDisappear {
                         self.title = self.title.trimmingCharacters(in: .whitespaces)

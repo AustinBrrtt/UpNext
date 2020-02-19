@@ -39,6 +39,7 @@
 		D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D972F44823D418C200558CD7 /* EditableTitle.swift */; };
 		D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */; };
 		D98F5A9223FCE63F000F885D /* OnTapDismissesKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */; };
+		D9AFE04C23FD98DA002BC750 /* ClearButton2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AFE04B23FD98DA002BC750 /* ClearButton2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		D972F44823D418C200558CD7 /* EditableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
 		D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainSpecificLanguageTests.swift; sourceTree = "<group>"; };
 		D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTapDismissesKeyboard.swift; sourceTree = "<group>"; };
+		D9AFE04B23FD98DA002BC750 /* ClearButton2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */,
+				D9AFE04B23FD98DA002BC750 /* ClearButton2.swift */,
 			);
 			path = "View Modifiers";
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9AFE04C23FD98DA002BC750 /* ClearButton2.swift in Sources */,
 				D9330D9D23B1A9B100FA3405 /* AppDelegate.swift in Sources */,
 				D9330DD223B1A9EC00FA3405 /* Domain.swift in Sources */,
 				D9330DDD23B28A4F00FA3405 /* DomainView.swift in Sources */,
