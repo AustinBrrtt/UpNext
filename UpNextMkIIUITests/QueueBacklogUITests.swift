@@ -21,6 +21,14 @@ class QueueBacklogUITests: BaseUITests {
     var editItemNameField: XCUIElement {
         app.textFields["Item Title"]
     }
+    
+    var toggleItemReleaseDateField: XCUIElement {
+        app.scrollViews.otherElements.switches["Show Release Date"]
+    }
+    
+    var editItemReleaseDateField: XCUIElement {
+        app.scrollViews.otherElements.datePickers["Release Date"]
+    }
 
     // Adds items to queue and backlog, ends in queue
     override func setUp() {
@@ -214,20 +222,28 @@ class QueueBacklogUITests: BaseUITests {
         qa.longPress()
         chooseFromContextMenu("Edit")
         
-        // Expect edit title field to be shown
+        // Expect fields to be shown/hidden
         XCTAssert(editItemNameField.exists)
+        XCTAssert(toggleItemReleaseDateField.exists)
+        XCTAssertFalse(editItemReleaseDateField.exists)
         
-        // Edit Title to "Modern Twist" and tap "Save"
+        // Enable release date toggle and expect field to be shown
+        toggleItemReleaseDateField.tap()
+        XCTAssert(editItemReleaseDateField.exists)
+        
+        // Edit title to "Modern Twist", date to tomorrow, and tap "Save"
         app.images.firstMatch.tap() // Tap clear button
         editItemNameField.tap()
         editItemNameField.typeText(editedTitle1)
+        let dateString = setDatePickerValueToTodayPlus(days: 1)
         tapNavButton("Save")
         
         // Confirm we are back on the previous page
         XCTAssert(qb.exists)
         
         // Check that name has changed
-        let editedItem = getItem(editedTitle1)
+        let fullItemText = "\(editedTitle1) - \(dateString)"
+        let editedItem = getItem(fullItemText)
         XCTAssertFalse(qa.exists)
         XCTAssert(editedItem.exists)
         
@@ -240,17 +256,19 @@ class QueueBacklogUITests: BaseUITests {
         editedItem.longPress()
         chooseFromContextMenu("Edit")
         
-        // Edit title to "Antiquated Meme" and tap "Cancel"
+        // Edit title to "Antiquated Meme", date to 2 days from now, and tap "Cancel"
         app.images.firstMatch.tap() // Tap clear button
         editItemNameField.tap()
         editItemNameField.typeText(editedTitle2)
+        let secondDateString = setDatePickerValueToTodayPlus(days: 2)
         tapNavButton("Cancel")
         
         // Confirm we are back on the previous page
         XCTAssert(qb.exists)
         
         // Check that name has not been changed
-        let reeditedItem = getItem(editedTitle2)
+        let nextFullItemText = "\(editedTitle2) -> \(secondDateString)"
+        let reeditedItem = getItem(nextFullItemText)
         XCTAssert(editedItem.exists)
         XCTAssertFalse(reeditedItem.exists)
     }
@@ -373,6 +391,32 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssertFalse(qb.exists)
         XCTAssert(qc.exists)
         
+    }
+    
+    // Returns the string representation of the date
+    private func setDatePickerValueToTodayPlus(days: Int = 0, months: Int = 0, years: Int = 0) -> String {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMMM yyyy"
+        
+        var dateComponent = DateComponents()
+        dateComponent.year = years
+        dateComponent.month = months
+        dateComponent.day = days
+        guard let date = calendar.date(byAdding: dateComponent, to: Date()) else {
+            XCTFail("Tried to set datepicker to invalid date")
+            return "Fail"
+        }
+        
+        let year = calendar.component(.year, from: date)
+        let monthName = dateFormatter.monthSymbols[calendar.component(.month, from: date) - 1] // Apparently calendar.component() gives months 1-12 instead of 0-11
+        let day = calendar.component(.day, from: date)
+        
+        editItemReleaseDateField.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: "\(monthName)")
+        editItemReleaseDateField.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: "\(day)")
+        editItemReleaseDateField.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: "\(year)")
+        
+        return dateFormatter.string(from: date)
     }
     
     private func contextMenu(_ name: String) -> XCUIElement {

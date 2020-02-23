@@ -10,12 +10,19 @@ import XCTest
 @testable import UpNextMkII
 
 class DomainItemTests: CoreDataTestCase {
+    
+    // Returns the name if present or Untitled
+    // If releaseDate is present, a hyphen is appended, followed by the date in d MMMM yyy format
+    // e.g. Animal Crossing: New Horizons - 20 March 2020
     func testDisplayName() {
         let testDomainItemFoo = constructDomainItem(name: "Foo")
         XCTAssert(testDomainItemFoo.displayName == "Foo")
         
         let testDomainItemNil = constructDomainItem()
         XCTAssert(testDomainItemNil.displayName == "Untitled")
+        
+        testDomainItemFoo.releaseDate = dateFromComponents(year: 2032, month: 4, day: 17)
+        XCTAssert(testDomainItemFoo.displayName == "Foo - 17 April 2032")
         
     }
     
@@ -83,5 +90,14 @@ class DomainItemTests: CoreDataTestCase {
         
         itemA.sortIndex = 2
         XCTAssert(itemA < itemB)
+    }
+    
+    private func dateFromComponents(year: Int, month: Int, day: Int) -> Date? {
+        var components = DateComponents()
+        components.year = year
+        components.month = month
+        components.day = day
+        
+        return Calendar.current.date(from: components)
     }
 }

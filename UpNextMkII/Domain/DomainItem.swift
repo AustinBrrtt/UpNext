@@ -14,12 +14,20 @@ class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var name: String?
     @NSManaged public var completed: Bool
     @NSManaged public var sortIndex: Int16
+    @NSManaged public var releaseDate: Date?
     
     @NSManaged public var inQueueOf: Domain?
     @NSManaged public var inBacklogOf: Domain?
     
     public var displayName: String {
-        name ?? "Untitled"
+        let displayName = name ?? "Untitled"
+        guard let releaseDate = releaseDate else {
+            return displayName
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMMM yyyy"
+        return "\(displayName) - \(formatter.string(from: releaseDate))"
     }
     
     public var domain: Domain {
@@ -55,6 +63,18 @@ class DomainItem: NSManagedObject, Identifiable {
         } catch {
             print("failed to save")
         }
+    }
+    
+    func readyForRelease() -> Bool {
+        if let date = releaseDate {
+            if date < Date() {
+                releaseDate = nil
+                // Logic to move to queue will go here
+                return true
+            }
+            return false
+        }
+        return true
     }
 }
 

@@ -13,23 +13,37 @@ struct ItemProperties: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var item: DomainItem
     @State var title: String
+    @State var useDate: Bool
+    @State var date: Date
     @Binding var dirtyHack: Bool
     let language = DomainSpecificLanguage.defaultLanguage
     
     init(_ item: DomainItem, dirtyHack: Binding<Bool>) {
         self.item = item
         self._title = State(initialValue: item.name ?? "")
+        self._useDate = State(initialValue: item.releaseDate != nil)
+        self._date = State(initialValue: item.releaseDate ?? Date())
         self._dirtyHack = dirtyHack
     }
     
     var body: some View {
         ScrollView {
-            TextField(language.itemTitle.title, text: $title)
-                .autocapitalization(.words)
-                .clearButton(text: $title)
-                .padding()
-                .bigText()
-                .accessibility(identifier: "Item Title")
+            VStack {
+                TextField(language.itemTitle.title, text: $title)
+                    .autocapitalization(.words)
+                    .clearButton(text: $title)
+                    .bigText()
+                    .accessibility(identifier: "Item Title")
+                
+                Toggle(isOn: $useDate) {
+                    Text("Show Release Date")
+                }
+                if useDate {
+                    DatePicker("Release Date", selection: $date, displayedComponents: .date)
+                        .labelsHidden()
+                }
+            }
+            .padding()
         }
             .navigationBarItems(
                 leading: Button(action: {
@@ -51,6 +65,7 @@ struct ItemProperties: View {
     
     private func saveFields() {
         item.name = title.trimmingCharacters(in: .whitespaces)
+        item.releaseDate = useDate ? date : nil
         do {
             try managedObjectContext.save()
             dirtyHack.toggle()

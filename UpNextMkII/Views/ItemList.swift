@@ -32,7 +32,7 @@ struct ItemList: View {
                                 self.dirtyHack.toggle()
                             }
                     }
-                    Text(item.name ?? self.language.defaultItemTitle.title)
+                    Text(item.displayName)
                         .listItem()
                         .contextMenu {
                             NavigationLink(destination: ItemProperties(item, dirtyHack: self.$dirtyHack)) {
@@ -63,6 +63,7 @@ struct ItemList: View {
                                 }
                             }.foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
                     }
+                    .foregroundColor(item.releaseDate == nil ? .primary : .secondary)
                 }
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {
