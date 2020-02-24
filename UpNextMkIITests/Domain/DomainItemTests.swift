@@ -12,6 +12,7 @@ import XCTest
 class DomainItemTests: CoreDataTestCase {
     
     // Returns the name if present or Untitled
+    // Appends "(again)" if item is a repeat
     // If releaseDate is present, a hyphen is appended, followed by the date in d MMMM yyy format
     // e.g. Animal Crossing: New Horizons - 20 March 2020
     func testDisplayName() {
@@ -23,6 +24,9 @@ class DomainItemTests: CoreDataTestCase {
         
         testDomainItemFoo.releaseDate = dateFromComponents(year: 2032, month: 4, day: 17)
         XCTAssert(testDomainItemFoo.displayName == "Foo - 17 April 2032")
+        
+        testDomainItemFoo.isRepeat = true
+        XCTAssert(testDomainItemFoo.displayName == "Foo (again) - 17 April 2032")
         
     }
     

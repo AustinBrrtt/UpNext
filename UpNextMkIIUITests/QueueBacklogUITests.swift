@@ -22,6 +22,10 @@ class QueueBacklogUITests: BaseUITests {
         app.textFields["Item Title"]
     }
     
+    var editItemRepeatToggle: XCUIElement {
+        app.scrollViews.otherElements.switches["Completed Previously"]
+    }
+    
     var toggleItemReleaseDateField: XCUIElement {
         app.scrollViews.otherElements.switches["Show Release Date"]
     }
@@ -212,6 +216,8 @@ class QueueBacklogUITests: BaseUITests {
     
     // #170897812 - I want to be able to edit item properties
     // #171034432 - I want to easily clear text in name editing/entering text fields
+    // #170897793 - I want to set release dates for items
+    // #170897744 - I want to mark items as previously completed
     func testEditItemProperties() {
         let qa = getItem("QA")
         let qb = getItem("QB")
@@ -225,16 +231,18 @@ class QueueBacklogUITests: BaseUITests {
         // Expect fields to be shown/hidden
         XCTAssert(editItemNameField.exists)
         XCTAssert(toggleItemReleaseDateField.exists)
+        XCTAssert(editItemRepeatToggle.exists)
         XCTAssertFalse(editItemReleaseDateField.exists)
         
         // Enable release date toggle and expect field to be shown
         toggleItemReleaseDateField.tap()
         XCTAssert(editItemReleaseDateField.exists)
         
-        // Edit title to "Modern Twist", date to tomorrow, and tap "Save"
+        // Edit title to "Modern Twist", date to tomorrow, repeat to true, and tap "Save"
         app.images.firstMatch.tap() // Tap clear button
         editItemNameField.tap()
         editItemNameField.typeText(editedTitle1)
+        editItemRepeatToggle.tap()
         let dateString = setDatePickerValueToTodayPlus(days: 1)
         tapNavButton("Save")
         
@@ -242,7 +250,7 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssert(qb.exists)
         
         // Check that name has changed
-        let fullItemText = "\(editedTitle1) - \(dateString)"
+        let fullItemText = "\(editedTitle1) (again) - \(dateString)"
         let editedItem = getItem(fullItemText)
         XCTAssertFalse(qa.exists)
         XCTAssert(editedItem.exists)
@@ -256,10 +264,11 @@ class QueueBacklogUITests: BaseUITests {
         editedItem.longPress()
         chooseFromContextMenu("Edit")
         
-        // Edit title to "Antiquated Meme", date to 2 days from now, and tap "Cancel"
+        // Edit title to "Antiquated Meme", date to 2 days from now, repeat to false and tap "Cancel"
         app.images.firstMatch.tap() // Tap clear button
         editItemNameField.tap()
         editItemNameField.typeText(editedTitle2)
+        editItemRepeatToggle.tap()
         let secondDateString = setDatePickerValueToTodayPlus(days: 2)
         tapNavButton("Cancel")
         
@@ -267,7 +276,7 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssert(qb.exists)
         
         // Check that name has not been changed
-        let nextFullItemText = "\(editedTitle2) -> \(secondDateString)"
+        let nextFullItemText = "\(editedTitle2) - \(secondDateString)"
         let reeditedItem = getItem(nextFullItemText)
         XCTAssert(editedItem.exists)
         XCTAssertFalse(reeditedItem.exists)

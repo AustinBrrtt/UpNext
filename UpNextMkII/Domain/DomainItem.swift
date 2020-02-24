@@ -13,6 +13,7 @@ import CoreData
 class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var name: String?
     @NSManaged public var completed: Bool
+    @NSManaged public var isRepeat: Bool
     @NSManaged public var sortIndex: Int16
     @NSManaged public var releaseDate: Date?
     
@@ -20,14 +21,19 @@ class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var inBacklogOf: Domain?
     
     public var displayName: String {
-        let displayName = name ?? "Untitled"
-        guard let releaseDate = releaseDate else {
-            return displayName
+        var displayName = name ?? "Untitled"
+        
+        if isRepeat {
+            displayName += " (again)"
         }
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMMM yyyy"
-        return "\(displayName) - \(formatter.string(from: releaseDate))"
+        if let releaseDate = releaseDate {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "d MMMM yyyy"
+            displayName += " - \(formatter.string(from: releaseDate))"
+        }
+        
+        return displayName
     }
     
     public var domain: Domain {

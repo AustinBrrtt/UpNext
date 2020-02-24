@@ -13,6 +13,7 @@ struct ItemProperties: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var item: DomainItem
     @State var title: String
+    @State var isRepeat: Bool
     @State var useDate: Bool
     @State var date: Date
     @Binding var dirtyHack: Bool
@@ -21,6 +22,7 @@ struct ItemProperties: View {
     init(_ item: DomainItem, dirtyHack: Binding<Bool>) {
         self.item = item
         self._title = State(initialValue: item.name ?? "")
+        self._isRepeat = State(initialValue: item.isRepeat)
         self._useDate = State(initialValue: item.releaseDate != nil)
         self._date = State(initialValue: item.releaseDate ?? Date())
         self._dirtyHack = dirtyHack
@@ -34,6 +36,11 @@ struct ItemProperties: View {
                     .clearButton(text: $title)
                     .bigText()
                     .accessibility(identifier: "Item Title")
+                
+                Toggle(isOn: $isRepeat) {
+                    Text("Completed Previously")
+                }
+                    .accessibility(identifier: "Completed Previously")
                 
                 Toggle(isOn: $useDate) {
                     Text("Show Release Date")
@@ -65,6 +72,7 @@ struct ItemProperties: View {
     
     private func saveFields() {
         item.name = title.trimmingCharacters(in: .whitespaces)
+        item.isRepeat = isRepeat
         item.releaseDate = useDate ? date : nil
         do {
             try managedObjectContext.save()
