@@ -33,6 +33,10 @@ class QueueBacklogUITests: BaseUITests {
     var editItemReleaseDateField: XCUIElement {
         app.scrollViews.otherElements.datePickers["Release Date"]
     }
+    
+    var editItemAddOnReleaseToggle: XCUIElement {
+        app.scrollViews.otherElements.switches["Add to Queue on Release"]
+    }
 
     // Adds items to queue and backlog, ends in queue
     override func setUp() {
@@ -214,10 +218,53 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssert(qb.isHigherThan(ba))
     }
     
+    
+    // #170908104 - I want to set items to move automatically from the backlog to the queue on their release date
+    func testAddOnRelease() {
+        backlogSegment.tap()
+        let ba = getItem("BA")
+        
+        // Set release date to tomorrow
+        ba.longPress()
+        chooseFromContextMenu("Edit")
+        toggleItemReleaseDateField.tap()
+        let tomorrowText = "BA - \(setDatePickerValueToTodayPlus(days: 1))"
+        
+        // Add on release toggle exists for backlog, turn it on and save
+        XCTAssert(editItemAddOnReleaseToggle.exists)
+        editItemAddOnReleaseToggle.tap()
+        tapNavButton("Save")
+        
+        // Item is still in backlog
+        let baTomorrow = getItem(tomorrowText)
+        XCTAssert(baTomorrow.exists)
+        
+        // Workaround for #171037978 Simulator bug
+        queueSegment.tap()
+        backlogSegment.tap()
+        
+        // Set release date to today and save
+        baTomorrow.longPress()
+        chooseFromContextMenu("Edit")
+        let todayText = "BA - \(setDatePickerValueToTodayPlus())"
+        tapNavButton("Save")
+        
+        // Item is not in backlog
+        let baToday = getItem(todayText)
+        XCTAssertFalse(ba.exists)
+        XCTAssertFalse(baToday.exists)
+        
+        // Item has been moved to queue because release date has passed, and it is on top
+        queueSegment.tap()
+        XCTAssert(baToday.exists)
+        XCTAssert(baToday.isHigherThan(getItem("QA")))
+    }
+    
     // #170897812 - I want to be able to edit item properties
     // #171034432 - I want to easily clear text in name editing/entering text fields
     // #170897793 - I want to set release dates for items
     // #170897744 - I want to mark items as previously completed
+    // #170908104 - I want to set items to move automatically from the backlog to the queue on their release date
     func testEditItemProperties() {
         let qa = getItem("QA")
         let qb = getItem("QB")
@@ -234,11 +281,12 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssert(editItemRepeatToggle.exists)
         XCTAssertFalse(editItemReleaseDateField.exists)
         
-        // Enable release date toggle and expect field to be shown
+        // Enable release date toggle and expect fields to be shown
         toggleItemReleaseDateField.tap()
         XCTAssert(editItemReleaseDateField.exists)
+        XCTAssertFalse(editItemAddOnReleaseToggle.exists) // Only shows on backlog items
         
-        // Edit title to "Modern Twist", date to tomorrow, repeat to true, and tap "Save"
+        // Edit title to "Modern Twist", date to tomorrow,, repeat to true, and tap "Save"
         app.images.firstMatch.tap() // Tap clear button
         editItemNameField.tap()
         editItemNameField.typeText(editedTitle1)

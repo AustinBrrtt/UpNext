@@ -72,10 +72,20 @@ struct DomainView: View {
                 }, dirtyHack: $dirtyHack)
             }
         }
-        .navigationBarItems(
-            trailing: EditButton()
-        )
-        .navigationBarTitle("", displayMode: .inline)
+            .navigationBarItems(
+                trailing: EditButton()
+            )
+            .navigationBarTitle("", displayMode: .inline)
+            .onAppear() {
+                if self.domain.processScheduledMoves() {
+                    do {
+                        try self.managedObjectContext.save()
+                        self.dirtyHack.toggle()
+                    } catch {
+                        print("Failed to save changes.")
+                    }
+                }
+            }
     }
     
     func addToList(_ item: DomainItem) {

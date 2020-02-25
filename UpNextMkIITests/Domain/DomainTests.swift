@@ -53,6 +53,22 @@ class DomainTests: CoreDataTestCase {
         XCTAssert(backlogItems[3].name == "bat")
     }
     
+    // Adds the item to the beginning of the queue
+    func testPrependToQueue() {
+        let testDomain = constructDomain(queue: [
+            constructDomainItem(name: "foo"),
+            constructDomainItem(name: "bar")
+        ])
+        
+        let baz = constructDomainItem(name: "baz")
+        
+        testDomain.prependToQueue(baz)
+        
+        let queueItems = testDomain.queueItems
+        XCTAssert(queueItems[0].name == "baz")
+        XCTAssert(baz.inQueueOf == testDomain)
+    }
+    
     // Adds the item to the end of the queue
     func testAddToQueue() {
         let testDomain = constructDomain(queue: [
@@ -102,6 +118,23 @@ class DomainTests: CoreDataTestCase {
         XCTAssert(testDomain.name == "test")
         XCTAssert(testDomain.queue.isEmpty)
         XCTAssert(testDomain.backlog.isEmpty)
+    }
+    
+    // Moves any backlog items set to automatically move to queue that have passed their release dates
+    // Returns true if any changes are made
+    func testProcessScheduledMoves() {
+        let testDomain = constructDomain()
+        
+        XCTAssertFalse(testDomain.processScheduledMoves())
+        
+        let item = constructDomainItem()
+        item.releaseDate = Date()
+        item.moveOnRelease = true
+        testDomain.addToBacklog(item)
+        
+        XCTAssert(testDomain.processScheduledMoves())
+        XCTAssert(testDomain.backlog.isEmpty)
+        XCTAssert(testDomain.queue.first == item)
     }
 }
 

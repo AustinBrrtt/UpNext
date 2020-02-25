@@ -16,6 +16,7 @@ struct ItemProperties: View {
     @State var isRepeat: Bool
     @State var useDate: Bool
     @State var date: Date
+    @State var moveOnRelease: Bool
     @Binding var dirtyHack: Bool
     let language = DomainSpecificLanguage.defaultLanguage
     
@@ -25,6 +26,7 @@ struct ItemProperties: View {
         self._isRepeat = State(initialValue: item.isRepeat)
         self._useDate = State(initialValue: item.releaseDate != nil)
         self._date = State(initialValue: item.releaseDate ?? Date())
+        self._moveOnRelease = State(initialValue: item.moveOnRelease)
         self._dirtyHack = dirtyHack
     }
     
@@ -48,6 +50,11 @@ struct ItemProperties: View {
                 if useDate {
                     DatePicker("Release Date", selection: $date, displayedComponents: .date)
                         .labelsHidden()
+                    if !item.isInQueue {
+                        Toggle(isOn: $moveOnRelease) {
+                            Text("Move to \(language.queue.title) on Release Date")
+                        }.accessibility(identifier: "Add to Queue on Release")
+                    }
                 }
             }
             .padding()
@@ -74,6 +81,7 @@ struct ItemProperties: View {
         item.name = title.trimmingCharacters(in: .whitespaces)
         item.isRepeat = isRepeat
         item.releaseDate = useDate ? date : nil
+        item.moveOnRelease = moveOnRelease
         do {
             try managedObjectContext.save()
             dirtyHack.toggle()

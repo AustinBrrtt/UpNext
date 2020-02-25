@@ -43,6 +43,20 @@ class Domain: NSManagedObject, Identifiable {
         return domain
     }
     
+    public func prependToQueue(_ item: DomainItem) {
+        updateSortIndices(for: queueItems, add: 1)
+        item.sortIndex = 0
+        queue.insert(item)
+        item.inQueueOf = self
+    }
+    
+    // public func prependToBacklog(_ item: DomainItem) {
+    //     updateSortIndices(for: backlogItems, add: 1)
+    //     item.sortIndex = 0
+    //     backlog.insert(item)
+    //     item.inBacklogOf = self
+    // }
+    
     public func addToQueue(_ item: DomainItem) {
         item.sortIndex = Int16(queue.count)
         queue.insert(item)
@@ -53,5 +67,26 @@ class Domain: NSManagedObject, Identifiable {
         item.sortIndex = Int16(backlog.count)
         backlog.insert(item)
         item.inBacklogOf = self
+    }
+    
+    // returns true if any changes are made
+    public func processScheduledMoves() -> Bool {
+        var found = false
+        for item in backlog {
+            if item.moveOnRelease, let date = item.releaseDate, date < Date() {
+                found = true
+                item.inBacklogOf = nil
+                prependToQueue(item)
+                item.moveOnRelease = false
+                // item.releaseDate = nil TODO: Consider whether this is desired. Do release dates in queue get in the way?
+            }
+        }
+        return found
+    }
+    
+    private func updateSortIndices(for items: [DomainItem], add offset: Int16 = 0) {
+        for (index, item) in items.enumerated() {
+            item.sortIndex = Int16(index) + offset
+        }
     }
 }

@@ -14,6 +14,7 @@ class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var name: String?
     @NSManaged public var completed: Bool
     @NSManaged public var isRepeat: Bool
+    @NSManaged public var moveOnRelease: Bool
     @NSManaged public var sortIndex: Int16
     @NSManaged public var releaseDate: Date?
     

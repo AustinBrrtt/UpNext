@@ -8,6 +8,7 @@
     <entity name="DomainItem" representedClassName="DomainItem" syncable="YES">
         <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isRepeat" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="moveOnRelease" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="sortIndex" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -16,6 +17,6 @@
     </entity>
     <elements>
         <element name="Domain" positionX="-36" positionY="27" width="128" height="88"/>
-        <element name="DomainItem" positionX="-54" positionY="-9" width="128" height="148"/>
+        <element name="DomainItem" positionX="-54" positionY="-9" width="128" height="163"/>
     </elements>
 </model>
