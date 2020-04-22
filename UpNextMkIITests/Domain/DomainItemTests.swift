@@ -7,10 +7,9 @@
 //
 
 import XCTest
-@testable import UpNextMkII
+@testable import Up_Next
 
 class DomainItemTests: CoreDataTestCase {
-    
     // Returns the name if present or Untitled
     // Appends "(again)" if item is a repeat
     // If releaseDate is present, a hyphen is appended, followed by the date in d MMMM yyy format
@@ -27,7 +26,21 @@ class DomainItemTests: CoreDataTestCase {
         
         testDomainItemFoo.isRepeat = true
         XCTAssert(testDomainItemFoo.displayName == "Foo (again) - 17 April 2032")
+    }
+    
+    // Returns false if release date is undefined, today, or in the past
+    // Returns true if release date is in the future
+    func testHasFutureReleaseDate() {
+        let item = constructDomainItem()
         
+        item.releaseDate = nil
+        XCTAssertFalse(item.hasFutureReleaseDate)
+        
+        item.releaseDate = dateFromComponents(year: 2020, month: 1, day: 30)
+        XCTAssertFalse(item.hasFutureReleaseDate)
+        
+        item.releaseDate = dateFromComponents(year: 3000, month: 1, day: 30)
+        XCTAssert(item.hasFutureReleaseDate)
     }
     
     // Returns the domain that the item is in the queue or backlog of
@@ -94,14 +107,5 @@ class DomainItemTests: CoreDataTestCase {
         
         itemA.sortIndex = 2
         XCTAssert(itemA < itemB)
-    }
-    
-    private func dateFromComponents(year: Int, month: Int, day: Int) -> Date? {
-        var components = DateComponents()
-        components.year = year
-        components.month = month
-        components.day = day
-        
-        return Calendar.current.date(from: components)
     }
 }

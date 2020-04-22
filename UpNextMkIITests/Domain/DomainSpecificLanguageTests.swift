@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import UpNextMkII
+@testable import Up_Next
 
-class DomainSpecificLanguageTests: XCTestCase {
+class DomainSpecificLanguageTests: UpNextTestCase {
     
     // init() with defaults
     func testInitWithDefaults() {

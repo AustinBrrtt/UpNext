@@ -36,6 +36,9 @@
 		D95D185F23E13DD900A3586E /* DomainUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185E23E13DD900A3586E /* DomainUITests.swift */; };
 		D95D186523E2983400A3586E /* QueueBacklogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186423E2983400A3586E /* QueueBacklogUITests.swift */; };
 		D95D186723E29CEC00A3586E /* BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186623E29CEC00A3586E /* BaseUITests.swift */; };
+		D96CA218244FE410001BE37D /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96CA217244FE410001BE37D /* Date.swift */; };
+		D96CA21B244FE807001BE37D /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96CA21A244FE807001BE37D /* DateTests.swift */; };
+		D96CA21D244FE889001BE37D /* UpNextTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96CA21C244FE889001BE37D /* UpNextTestCase.swift */; };
 		D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D972F44823D418C200558CD7 /* EditableTitle.swift */; };
 		D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */; };
 		D98F5A9223FCE63F000F885D /* OnTapDismissesKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */; };
@@ -62,7 +65,7 @@
 /* Begin PBXFileReference section */
 		D90A9A8C23E546DF006E8632 /* XCUIElementExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElementExtension.swift; sourceTree = "<group>"; };
 		D90A9A8E23E84ED7006E8632 /* DomainSpecificLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainSpecificLanguage.swift; sourceTree = "<group>"; };
-		D9330D9923B1A9B100FA3405 /* UpNextMkII.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpNextMkII.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9330D9923B1A9B100FA3405 /* Up Next.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Up Next.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9330D9C23B1A9B100FA3405 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9330D9E23B1A9B100FA3405 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D9330DA123B1A9B100FA3405 /* UpNextMkII.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UpNextMkII.xcdatamodel; sourceTree = "<group>"; };
@@ -95,6 +98,9 @@
 		D95D185E23E13DD900A3586E /* DomainUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainUITests.swift; sourceTree = "<group>"; };
 		D95D186423E2983400A3586E /* QueueBacklogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueBacklogUITests.swift; sourceTree = "<group>"; };
 		D95D186623E29CEC00A3586E /* BaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
+		D96CA217244FE410001BE37D /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		D96CA21A244FE807001BE37D /* DateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTests.swift; sourceTree = "<group>"; };
+		D96CA21C244FE889001BE37D /* UpNextTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextTestCase.swift; sourceTree = "<group>"; };
 		D972F44823D418C200558CD7 /* EditableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
 		D98C41B923ED1779009FA8E3 /* DomainSpecificLanguageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainSpecificLanguageTests.swift; sourceTree = "<group>"; };
 		D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTapDismissesKeyboard.swift; sourceTree = "<group>"; };
@@ -139,7 +145,7 @@
 		D9330D9A23B1A9B100FA3405 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D9330D9923B1A9B100FA3405 /* UpNextMkII.app */,
+				D9330D9923B1A9B100FA3405 /* Up Next.app */,
 				D9330DB223B1A9B300FA3405 /* UpNextMkIITests.xctest */,
 				D9330DBD23B1A9B400FA3405 /* UpNextMkIIUITests.xctest */,
 			);
@@ -149,6 +155,7 @@
 		D9330D9B23B1A9B100FA3405 /* UpNextMkII */ = {
 			isa = PBXGroup;
 			children = (
+				D96CA216244FE403001BE37D /* System Extensions */,
 				D98F5A9023FCE616000F885D /* View Modifiers */,
 				D9330DE023B5D30D00FA3405 /* Containers */,
 				D9330DCF23B1A9CA00FA3405 /* Domain */,
@@ -176,10 +183,12 @@
 		D9330DB523B1A9B300FA3405 /* UpNextMkIITests */ = {
 			isa = PBXGroup;
 			children = (
+				D96CA219244FE7E5001BE37D /* System Extensions */,
 				D98C41B823ED173B009FA8E3 /* Domain */,
 				D9330DB623B1A9B300FA3405 /* UpNextMkIITests.swift */,
 				D9330DB823B1A9B300FA3405 /* Info.plist */,
 				D95CBE3B23F2681A00C40C92 /* CoreDataTestCase.swift */,
+				D96CA21C244FE889001BE37D /* UpNextTestCase.swift */,
 			);
 			path = UpNextMkIITests;
 			sourceTree = "<group>";
@@ -231,6 +240,22 @@
 			path = Containers;
 			sourceTree = "<group>";
 		};
+		D96CA216244FE403001BE37D /* System Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D96CA217244FE410001BE37D /* Date.swift */,
+			);
+			path = "System Extensions";
+			sourceTree = "<group>";
+		};
+		D96CA219244FE7E5001BE37D /* System Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D96CA21A244FE807001BE37D /* DateTests.swift */,
+			);
+			path = "System Extensions";
+			sourceTree = "<group>";
+		};
 		D98C41B823ED173B009FA8E3 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,7 +293,7 @@
 			);
 			name = UpNextMkII;
 			productName = UpNextMkII;
-			productReference = D9330D9923B1A9B100FA3405 /* UpNextMkII.app */;
+			productReference = D9330D9923B1A9B100FA3405 /* Up Next.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D9330DB123B1A9B300FA3405 /* UpNextMkIITests */ = {
@@ -393,6 +418,7 @@
 				D9330DDB23B284DA00FA3405 /* ItemList.swift in Sources */,
 				D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */,
 				D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */,
+				D96CA218244FE410001BE37D /* Date.swift in Sources */,
 				D90A9A8F23E84ED7006E8632 /* DomainSpecificLanguage.swift in Sources */,
 				D9330D9F23B1A9B100FA3405 /* SceneDelegate.swift in Sources */,
 				D95D185923DD596400A3586E /* ListItem.swift in Sources */,
@@ -411,9 +437,11 @@
 				D95CBE3E23F3B75400C40C92 /* DomainItemTests.swift in Sources */,
 				D9330DB723B1A9B300FA3405 /* UpNextMkIITests.swift in Sources */,
 				D95CBE3C23F2681A00C40C92 /* CoreDataTestCase.swift in Sources */,
+				D96CA21B244FE807001BE37D /* DateTests.swift in Sources */,
 				D98C41BA23ED1779009FA8E3 /* DomainSpecificLanguageTests.swift in Sources */,
 				D95CBE3623F119D100C40C92 /* NounTests.swift in Sources */,
 				D95CBE3A23F2673700C40C92 /* DomainTests.swift in Sources */,
+				D96CA21D244FE889001BE37D /* UpNextTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,7 +612,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.austinbarrett.UpNextMkII;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Up Next";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -604,7 +632,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.austinbarrett.UpNextMkII;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Up Next";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -628,7 +656,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UpNextMkII.app/UpNextMkII";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Up Next.app/Up Next";
 			};
 			name = Debug;
 		};
@@ -650,7 +678,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UpNextMkII.app/UpNextMkII";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Up Next.app/Up Next";
 			};
 			name = Release;
 		};

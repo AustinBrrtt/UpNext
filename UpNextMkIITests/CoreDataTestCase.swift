@@ -8,9 +8,9 @@
 
 import CoreData
 import XCTest
-@testable import UpNextMkII
+@testable import Up_Next
 
-class CoreDataTestCase: XCTestCase {
+class CoreDataTestCase: UpNextTestCase {
     
     var managedObjectContext: NSManagedObjectContext!
 

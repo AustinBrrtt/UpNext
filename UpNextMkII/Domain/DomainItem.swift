@@ -45,6 +45,13 @@ class DomainItem: NSManagedObject, Identifiable {
         inQueueOf != nil
     }
     
+    public var hasFutureReleaseDate: Bool {
+        guard let releaseDate = releaseDate else {
+            return false
+        }
+        return Date().noon < releaseDate.noon
+    }
+    
     static func create(context: NSManagedObjectContext, name: String) -> DomainItem {
         let domainItem = DomainItem(context: context)
         domainItem.name = name

@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import UpNextMkII
+@testable import Up_Next
 
-class NounTests: XCTestCase {
+class NounTests: UpNextTestCase {
     
     // init() with only normal provided
     func testInitNormalOnly() {

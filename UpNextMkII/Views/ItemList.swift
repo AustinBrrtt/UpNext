@@ -63,7 +63,7 @@ struct ItemList: View {
                                 }
                             }.foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
                     }
-                    .foregroundColor(item.releaseDate == nil ? .primary : .secondary)
+                    .foregroundColor(item.hasFutureReleaseDate ? .secondary : .primary)
                 }
             }.onDelete { (offsets: IndexSet) in
                 for index in offsets {

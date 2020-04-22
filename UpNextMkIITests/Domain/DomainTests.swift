@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import UpNextMkII
+@testable import Up_Next
 
 class DomainTests: CoreDataTestCase {
     // Returns name if it is not nil, otherwise "Untitled"

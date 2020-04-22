@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import UpNextMkII
+@testable import Up_Next
 
 class UpNextMkIITests: XCTestCase {
 
