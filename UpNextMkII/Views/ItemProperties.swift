@@ -30,6 +30,15 @@ struct ItemProperties: View {
         self._dirtyHack = dirtyHack
     }
     
+    var saveButton: some View {
+        Button(action: {
+            self.saveFields()
+            self.goBack()
+        }) {
+            Text("Save")
+        }
+    }
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -59,22 +68,9 @@ struct ItemProperties: View {
             }
             .padding()
         }
-            .navigationBarItems(
-                leading: Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                        Text("Cancel")
-                    }
-                },
-                trailing: Button(action: {
-                    self.saveFields()
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Save")
-                }
-            )
+            .withCustomBackButton(Text("Cancel"), andTrailingItem: saveButton) {
+                self.goBack()
+            }
     }
     
     private func saveFields() {
@@ -89,10 +85,14 @@ struct ItemProperties: View {
             print("Failed to save changes.")
         }
     }
+    
+    private func goBack() {
+        self.presentationMode.wrappedValue.dismiss()
+    }
 }
 
 struct ItemProperties_Previews: PreviewProvider {
     static var previews: some View {
-        Text("TODO") // TODO: CoreData previews ItemProperties()
+        return Text("TODO") // TODO: CoreData previews ItemProperties()
     }
 }

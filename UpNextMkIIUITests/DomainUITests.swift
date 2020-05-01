@@ -131,17 +131,17 @@ class DomainUITests: BaseUITests {
         // Tap the title and type
         app.images.firstMatch.tap() // Tap clear button
         title.tap()
-        title.typeText("Trailing Title    ")
+        title.typeText("A Trailing Title     ")
         
         // Tap Done
         navigationBar.buttons["Done"].tap()
         
         // Check for updated title in Domain View
-        XCTAssert(app.staticTexts["Trailing Title"].soonExists())
-        XCTAssertFalse(app.staticTexts["Trailing Title    "].soonExists())
+        XCTAssert(app.staticTexts["A Trailing Title"].soonExists())
+        XCTAssertFalse(app.staticTexts["A Trailing Title    "].soonExists())
         
         goBack()
-        deleteDomain("Trailing Title")
+        deleteDomain("A Trailing Title")
     }
     
     // #170897714 - I want the first letter of each word to automatically capitalize as I enter a domain name

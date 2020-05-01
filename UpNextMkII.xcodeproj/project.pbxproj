@@ -36,6 +36,8 @@
 		D95D185F23E13DD900A3586E /* DomainUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D185E23E13DD900A3586E /* DomainUITests.swift */; };
 		D95D186523E2983400A3586E /* QueueBacklogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186423E2983400A3586E /* QueueBacklogUITests.swift */; };
 		D95D186723E29CEC00A3586E /* BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D186623E29CEC00A3586E /* BaseUITests.swift */; };
+		D9691F7B245A863C00F7C69D /* WithCustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9691F7A245A863C00F7C69D /* WithCustomBackButton.swift */; };
+		D9691F7D245A86F800F7C69D /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9691F7C245A86F800F7C69D /* CustomBackButton.swift */; };
 		D96CA218244FE410001BE37D /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96CA217244FE410001BE37D /* Date.swift */; };
 		D96CA21B244FE807001BE37D /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96CA21A244FE807001BE37D /* DateTests.swift */; };
 		D96CA21D244FE889001BE37D /* UpNextTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96CA21C244FE889001BE37D /* UpNextTestCase.swift */; };
@@ -98,6 +100,8 @@
 		D95D185E23E13DD900A3586E /* DomainUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainUITests.swift; sourceTree = "<group>"; };
 		D95D186423E2983400A3586E /* QueueBacklogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueBacklogUITests.swift; sourceTree = "<group>"; };
 		D95D186623E29CEC00A3586E /* BaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
+		D9691F7A245A863C00F7C69D /* WithCustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithCustomBackButton.swift; sourceTree = "<group>"; };
+		D9691F7C245A86F800F7C69D /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		D96CA217244FE410001BE37D /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		D96CA21A244FE807001BE37D /* DateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTests.swift; sourceTree = "<group>"; };
 		D96CA21C244FE889001BE37D /* UpNextTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextTestCase.swift; sourceTree = "<group>"; };
@@ -228,6 +232,7 @@
 				D95D185823DD596400A3586E /* ListItem.swift */,
 				D95D185A23DD5BD800A3586E /* BigText.swift */,
 				D95D185C23DE79D800A3586E /* ItemProperties.swift */,
+				D9691F7C245A86F800F7C69D /* CustomBackButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -272,6 +277,7 @@
 			children = (
 				D98F5A9123FCE63F000F885D /* OnTapDismissesKeyboard.swift */,
 				D9AFE04B23FD98DA002BC750 /* ClearButton.swift */,
+				D9691F7A245A863C00F7C69D /* WithCustomBackButton.swift */,
 			);
 			path = "View Modifiers";
 			sourceTree = "<group>";
@@ -416,6 +422,7 @@
 				D9330DA423B1A9B100FA3405 /* ContentView.swift in Sources */,
 				D95CBE3823F11A4800C40C92 /* Noun.swift in Sources */,
 				D9330DDB23B284DA00FA3405 /* ItemList.swift in Sources */,
+				D9691F7D245A86F800F7C69D /* CustomBackButton.swift in Sources */,
 				D9330DE223B5D32300FA3405 /* LazyView.swift in Sources */,
 				D9330DD323B1A9EC00FA3405 /* DomainItem.swift in Sources */,
 				D96CA218244FE410001BE37D /* Date.swift in Sources */,
@@ -425,6 +432,7 @@
 				D95D185B23DD5BD800A3586E /* BigText.swift in Sources */,
 				D972F44923D418C200558CD7 /* EditableTitle.swift in Sources */,
 				D95D185D23DE79D800A3586E /* ItemProperties.swift in Sources */,
+				D9691F7B245A863C00F7C69D /* WithCustomBackButton.swift in Sources */,
 				D9330DD623B1AB2700FA3405 /* DomainList.swift in Sources */,
 				D98F5A9223FCE63F000F885D /* OnTapDismissesKeyboard.swift in Sources */,
 			);
