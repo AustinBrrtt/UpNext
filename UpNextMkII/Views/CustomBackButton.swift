@@ -18,6 +18,8 @@ struct CustomBackButton<Content: View>: View {
             HStack {
                 if showChevron {
                     Image(systemName: "chevron.left")
+                        .font(.system(size: 24, weight: .medium))
+                        .padding(.horizontal, -4)
                 }
                 content
             }
@@ -27,8 +29,24 @@ struct CustomBackButton<Content: View>: View {
 
 struct CustomBackButton_Previews: PreviewProvider {
     static var previews: some View {
-        CustomBackButton(showChevron: true, content: Text("Foo")) {
-            print("going back")
+        NavigationView {
+            NavigationLink(
+                destination: (
+                    VStack {
+                        HStack {
+                            CustomBackButton(showChevron: true, content: Text("Foo - Custom"), goBack: {})
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                    .navigationBarTitle(Text("Sample"), displayMode: .inline)
+                ),
+                isActive: .constant(true)
+            ) {
+                Text("Sample")
+            }
+            .navigationBarTitle("Foo - System")
         }
     }
 }
