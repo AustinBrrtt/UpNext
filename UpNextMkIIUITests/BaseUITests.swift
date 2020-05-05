@@ -55,7 +55,7 @@ class BaseUITests: XCTestCase {
     func deleteDomain(_ name: String) {
         let domain = getDomain(name)
         domain.swipeLeft()
-        app.tables/*@START_MENU_TOKEN@*/.buttons["trailing0"]/*[[".cells",".buttons[\"Delete\"]",".buttons[\"trailing0\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.tables.buttons["trailing0"].tap()
     }
     
     // Deletes any remaining test domains
@@ -66,7 +66,7 @@ class BaseUITests: XCTestCase {
     }
     
     func getItem(_ name: String) -> XCUIElement {
-        return app.tables.staticTexts[name].firstMatch
+        return app.tables.buttons[name].firstMatch
     }
     
     func getDomain(_ name: String) -> XCUIElement {

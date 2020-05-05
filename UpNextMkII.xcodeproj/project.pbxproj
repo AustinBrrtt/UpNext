@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D9095C2524610F3B00D5A663 /* ItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9095C2424610F3B00D5A663 /* ItemCardView.swift */; };
 		D90A9A8D23E546DF006E8632 /* XCUIElementExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90A9A8C23E546DF006E8632 /* XCUIElementExtension.swift */; };
 		D90A9A8F23E84ED7006E8632 /* DomainSpecificLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90A9A8E23E84ED7006E8632 /* DomainSpecificLanguage.swift */; };
 		D9330D9D23B1A9B100FA3405 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9330D9C23B1A9B100FA3405 /* AppDelegate.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D9095C2424610F3B00D5A663 /* ItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCardView.swift; sourceTree = "<group>"; };
 		D90A9A8C23E546DF006E8632 /* XCUIElementExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElementExtension.swift; sourceTree = "<group>"; };
 		D90A9A8E23E84ED7006E8632 /* DomainSpecificLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainSpecificLanguage.swift; sourceTree = "<group>"; };
 		D9330D9923B1A9B100FA3405 /* Up Next.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Up Next.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,6 +235,7 @@
 				D95D185A23DD5BD800A3586E /* BigText.swift */,
 				D95D185C23DE79D800A3586E /* ItemProperties.swift */,
 				D9691F7C245A86F800F7C69D /* CustomBackButton.swift */,
+				D9095C2424610F3B00D5A663 /* ItemCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9095C2524610F3B00D5A663 /* ItemCardView.swift in Sources */,
 				D9AFE04C23FD98DA002BC750 /* ClearButton.swift in Sources */,
 				D9330D9D23B1A9B100FA3405 /* AppDelegate.swift in Sources */,
 				D9330DD223B1A9EC00FA3405 /* Domain.swift in Sources */,

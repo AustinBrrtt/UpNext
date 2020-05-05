@@ -265,7 +265,8 @@ class QueueBacklogUITests: BaseUITests {
     // #170897793 - I want to set release dates for items
     // #170897744 - I want to mark items as previously completed
     // #170908104 - I want to set items to move automatically from the backlog to the queue on their release date
-    func testEditItemProperties() {
+    // #172666238 - I want to tap on an item to visit its properties page
+    func testEditItemProperties() {        
         let qa = getItem("QA")
         let qb = getItem("QB")
         let editedTitle1 = "Modern Twist"
@@ -309,8 +310,7 @@ class QueueBacklogUITests: BaseUITests {
         queueSegment.tap()
         
         // Reenter Edit Page
-        editedItem.longPress()
-        chooseFromContextMenu("Edit")
+        editedItem.tap()
         
         // Edit title to "Antiquated Meme", date to 2 days from now, repeat to false and tap "Cancel"
         app.images.firstMatch.tap() // Tap clear button
