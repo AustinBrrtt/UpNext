@@ -16,20 +16,29 @@ struct ItemCardView: View {
     var item: DomainItem
     @Binding var dirtyHack: Bool
     
+    var startDoneButtonIcon: String {
+        item.completed ? "checkmark.circle.fill" : item.started ? "play.fill" : "play"
+    }
+    
+    var startDoneButtonColor: Color {
+        item.completed ? .green : .primary
+    }
+    
     var body: some View {
         NavigationLink(destination: ItemProperties(item, dirtyHack: self.$dirtyHack), isActive: $isPropertiesLinkActivated) {
             HStack {
                 if item.isInQueue {
-                    Image(systemName: item.completed ? "largecircle.fill.circle" : "circle")
+                    Image(systemName: startDoneButtonIcon)
+                        .foregroundColor(startDoneButtonColor)
                         .accessibility(identifier: "Complete Item " + item.displayName)
                         .onTapGesture {
-                            self.item.completed.toggle()
+                            self.advanceItemStatus()
                             self.saveCoreData()
                             self.dirtyHack.toggle()
                         }
                 }
                 Text(item.displayName)
-                    .listItem()
+                    .listItem(bold: item.statusIsStarted)
                     .contextMenu {
                         Button(action: {
                             self.isPropertiesLinkActivated = true
@@ -63,6 +72,7 @@ struct ItemCardView: View {
                 }
             }
             .foregroundColor(item.hasFutureReleaseDate ? .secondary : .primary)
+            // .background(Color.secondaryBackground, if: item.statusIsStarted) // TODO: After changing to card style
         }
     }
     
@@ -73,6 +83,17 @@ struct ItemCardView: View {
         } catch let error as NSError {
             // TODO: Handle CoreData save error
             print("Saving failed. \(error), \(error.userInfo)")
+        }
+    }
+    
+    private func advanceItemStatus() {
+        if item.completed {
+            item.completed = false
+            item.started = false
+        } else if item.started {
+            item.completed = true
+        } else {
+            item.started = true
         }
     }
 }

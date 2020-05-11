@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct BigText: ViewModifier {
+    let bold: Bool
+    
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 20))
+            .font(.system(size: 20, weight: bold ? .bold : .regular))
     }
 }
 
 extension View {
-    func bigText() -> some View {
-        self.modifier(BigText())
+    func bigText(bold: Bool = false) -> some View {
+        self.modifier(BigText(bold: bold))
     }
 }
 

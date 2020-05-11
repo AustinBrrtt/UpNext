@@ -49,6 +49,8 @@
 		D9BA8A182468F9690005CE9A /* UpNextMkIIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA8A132468F9690005CE9A /* UpNextMkIIUITests.swift */; };
 		D9BA8A192468F9690005CE9A /* BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA8A142468F9690005CE9A /* BaseUITests.swift */; };
 		D9BA8A1A2468F9690005CE9A /* QueueBacklogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA8A152468F9690005CE9A /* QueueBacklogUITests.swift */; };
+		D9BA8A1C246906390005CE9A /* ConditionalBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA8A1B246906390005CE9A /* ConditionalBackground.swift */; };
+		D9BA8A1E246907560005CE9A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA8A1D246907560005CE9A /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,8 @@
 		D9BA8A132468F9690005CE9A /* UpNextMkIIUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpNextMkIIUITests.swift; sourceTree = "<group>"; };
 		D9BA8A142468F9690005CE9A /* BaseUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
 		D9BA8A152468F9690005CE9A /* QueueBacklogUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueBacklogUITests.swift; sourceTree = "<group>"; };
+		D9BA8A1B246906390005CE9A /* ConditionalBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalBackground.swift; sourceTree = "<group>"; };
+		D9BA8A1D246907560005CE9A /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +249,7 @@
 				D9BA89C92468F87A0005CE9A /* OnTapDismissesKeyboard.swift */,
 				D9BA89CA2468F87A0005CE9A /* ClearButton.swift */,
 				D9BA89CB2468F87A0005CE9A /* WithCustomBackButton.swift */,
+				D9BA8A1B246906390005CE9A /* ConditionalBackground.swift */,
 			);
 			path = "View Modifiers";
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				D9BA89CD2468F87A0005CE9A /* Date.swift */,
+				D9BA8A1D246907560005CE9A /* Color.swift */,
 			);
 			path = "System Extensions";
 			sourceTree = "<group>";
@@ -427,6 +433,7 @@
 			files = (
 				D9BA89E42468F87A0005CE9A /* ListItem.swift in Sources */,
 				D9BA89E92468F87A0005CE9A /* ImportExportView.swift in Sources */,
+				D9BA8A1C246906390005CE9A /* ConditionalBackground.swift in Sources */,
 				D9BA89F42468F93F0005CE9A /* UpNext.xcdatamodeld in Sources */,
 				D9BA89E22468F87A0005CE9A /* WithCustomBackButton.swift in Sources */,
 				D9BA89DA2468F87A0005CE9A /* DomainSpecificLanguage.swift in Sources */,
@@ -441,6 +448,7 @@
 				D9BA89E12468F87A0005CE9A /* ClearButton.swift in Sources */,
 				D9BA89E32468F87A0005CE9A /* Date.swift in Sources */,
 				D9BA89DB2468F87A0005CE9A /* Noun.swift in Sources */,
+				D9BA8A1E246907560005CE9A /* Color.swift in Sources */,
 				D9BA89E62468F87A0005CE9A /* BigText.swift in Sources */,
 				D9BA89E72468F87A0005CE9A /* ItemProperties.swift in Sources */,
 				D9BA89DF2468F87A0005CE9A /* LazyView.swift in Sources */,
