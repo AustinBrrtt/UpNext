@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D90D821B246B781400FF09C5 /* QueueUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D821A246B781400FF09C5 /* QueueUITests.swift */; };
 		D9BA898E2468F8670005CE9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898D2468F8670005CE9A /* AppDelegate.swift */; };
 		D9BA89902468F8670005CE9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898F2468F8670005CE9A /* SceneDelegate.swift */; };
 		D9BA89952468F8670005CE9A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89942468F8670005CE9A /* ContentView.swift */; };
@@ -71,6 +72,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D90D821A246B781400FF09C5 /* QueueUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueUITests.swift; sourceTree = "<group>"; };
 		D9BA898A2468F8670005CE9A /* UpNext.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpNext.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BA898D2468F8670005CE9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9BA898F2468F8670005CE9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				D9BA8A112468F9690005CE9A /* XCUIElementExtension.swift */,
 				D9BA89B22468F8670005CE9A /* UpNextUITests.swift */,
 				D9BA89B42468F8670005CE9A /* Info.plist */,
+				D90D821A246B781400FF09C5 /* QueueUITests.swift */,
 			);
 			path = UpNextUITests;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				D9BA8A1A2468F9690005CE9A /* QueueBacklogUITests.swift in Sources */,
 				D9BA8A182468F9690005CE9A /* UpNextMkIIUITests.swift in Sources */,
 				D9BA8A162468F9690005CE9A /* XCUIElementExtension.swift in Sources */,
+				D90D821B246B781400FF09C5 /* QueueUITests.swift in Sources */,
 				D9BA8A172468F9690005CE9A /* DomainUITests.swift in Sources */,
 				D9BA8A192468F9690005CE9A /* BaseUITests.swift in Sources */,
 			);
