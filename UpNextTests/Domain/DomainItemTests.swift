@@ -84,28 +84,102 @@ class DomainItemTests: CoreDataTestCase {
         XCTAssert(backlogItem.isInQueue)
     }
     
-    // When lhs.completed == rhs.completed, returns lhs.sortIndex < rhs.sortIndex
+    // When lhs.completed == rhs.completed and lhs.started == rhs.started, returns lhs.sortIndex < rhs.sortIndex
     // Returns true if lhs is completed and rhs is not
     // Returns false if rhs is completed and lhs is not
-    func testLessThanBothNotCompleted() {
-        let itemA = constructDomainItem()
-        let itemB = constructDomainItem()
-        let itemC = constructDomainItem()
-        itemA.sortIndex = 5
-        itemB.sortIndex = 7
-        itemC.sortIndex = 5
+    // Returns true if lhs is started and rhs is not started or completed
+    // Returns false if rhs is started and lhs is not started or completed
+    // States: Unstarted (started = false, completed = false), Started (started = true, completed = false), completed (started = any, completed = true)
+    func testLessThan() {
+        let subject = constructDomainItem()
+        let higher = constructDomainItem()
+        let same = constructDomainItem()
+        let lower = constructDomainItem()
+        subject.sortIndex = 5
+        higher.sortIndex = 7
+        same.sortIndex = 5
+        lower.sortIndex = 2
         
-        XCTAssert(itemA < itemB)
-        XCTAssertFalse(itemB < itemA)
-        XCTAssertFalse(itemA < itemC)
-        XCTAssertFalse(itemC < itemA)
+        // Uses sortIndex < when both are unstarted
+        XCTAssert(subject < higher)
+        XCTAssertFalse(higher < subject)
         
-        itemA.completed = true
+        XCTAssertFalse(subject < same)
+        XCTAssertFalse(same < subject)
         
-        XCTAssert(itemA < itemC)
-        XCTAssertFalse(itemC < itemA)
+        XCTAssert(lower < subject)
+        XCTAssertFalse(subject < lower)
         
-        itemA.sortIndex = 2
-        XCTAssert(itemA < itemB)
+        
+        subject.started = true
+        
+        // Sorts started items before unstarted
+        XCTAssert(subject < higher)
+        XCTAssertFalse(higher < subject)
+        
+        XCTAssert(subject < same)
+        XCTAssertFalse(same < subject)
+        
+        XCTAssert(subject < lower)
+        XCTAssertFalse(lower < subject)
+        
+        higher.started = true
+        same.started = true
+        lower.started = true
+        
+        // Uses sortIndex < when both are started
+        XCTAssert(subject < higher)
+        XCTAssertFalse(higher < subject)
+        
+        XCTAssertFalse(subject < same)
+        XCTAssertFalse(same < subject)
+        
+        XCTAssert(lower < subject)
+        XCTAssertFalse(subject < lower)
+        
+        subject.completed = true
+        
+        // Sorts completed items before started
+        XCTAssert(subject < higher)
+        XCTAssertFalse(higher < subject)
+        
+        XCTAssert(subject < same)
+        XCTAssertFalse(same < subject)
+        
+        XCTAssert(subject < lower)
+        XCTAssertFalse(lower < subject)
+        
+        higher.completed = true
+        same.completed = true
+        lower.completed = true
+        
+        // Uses sortIndex < when both are completed
+        XCTAssert(subject < higher)
+        XCTAssertFalse(higher < subject)
+        
+        XCTAssertFalse(subject < same)
+        XCTAssertFalse(same < subject)
+        
+        XCTAssert(lower < subject)
+        XCTAssertFalse(subject < lower)
+        
+        higher.completed = false
+        same.completed = false
+        lower.completed = false
+        higher.started = false
+        same.started = false
+        lower.started = false
+        
+        // Sorts completed items before unstarted
+        XCTAssert(subject < higher)
+        XCTAssertFalse(higher < subject)
+        
+        XCTAssert(subject < same)
+        XCTAssertFalse(same < subject)
+        
+        XCTAssert(subject < lower)
+        XCTAssertFalse(lower < subject)
+        
+        
     }
 }

@@ -93,14 +93,6 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssertFalse(bItem.exists)
     }
     
-    // #171346745 - I want the keyboard to dismiss when I tap the add button
-    func testAddButtonDismissesKeyboard() {
-        addItem("Foo")
-        sleep(1)
-        
-        XCTAssert(app.keyboards.count == 0)
-    }
-    
     // #171043188 - I want to add items to the queue
     // #170438808 - I want to add items to the backlog
     func testAddItemsToQueueAndBacklog() {
@@ -124,64 +116,6 @@ class QueueBacklogUITests: BaseUITests {
         // Go to the backlog and check that the item is still in the backlog
         backlogSegment.tap()
         XCTAssert(getItem("BC").exists)
-    }
-    
-    // #171034497 - I want leading/trailing whitespace to be trimmed from titles
-    func testAddItemsWhitespace() {
-        addItem("   leading")
-        addItem("trailing   ")
-        
-        XCTAssertFalse(getItem("   leading").exists)
-        XCTAssertFalse(getItem("trailing   ").exists)
-        XCTAssert(getItem("leading").exists)
-        XCTAssert(getItem("trailing").exists)
-    }
-    
-    // #170897714 - I want the first letter of each word to automatically capitalize as I enter an item name
-    func testAddItemsAutoCapitalize() {
-        let textField = app.textFields["Add Item"]
-        let addButton: XCUIElement = app.images["plus.circle.fill"]
-        
-        textField.tap()
-        let keys = [ "F", "o", "o", "space", "B", "a", "r" ]
-        for key in keys {
-            let key = app.keys[key]
-            XCTAssertTrue(key.exists)
-            key.tap()
-        }
-        addButton.tap()
-    }
-    
-    // #170640245 - I want to reorder items in my queue/backlog
-    func testReorderItems() {
-        let qa = getItem("QA")
-        let qb = getItem("QB")
-        
-        // Check that QA is above QB
-        XCTAssert(qa.isHigherThan(qb))
-        
-        // Tap Edit
-        tapNavButton("Edit")
-        
-        // Check QA's drag handle exists and drag QA below QB
-        let dragHandle = app.tables.children(matching: .cell).element(boundBy: 0).buttons["Reorder"]
-        XCTAssert(dragHandle.exists)
-        dragHandle.manualSwipeDown()
-        
-        // Tap Done
-        tapNavButton("Done")
-        
-        // Check that QB is above QA and the drag handle is gone
-        XCTAssert(qb.isHigherThan(qa))
-        XCTAssertFalse(dragHandle.exists)
-        
-        // Go back and re-enter domain - Quitting app instead of going back as workaround for #171037978
-        // (#171037978 prevents navigation to a child view immediately after pressing back from that view - Simulator only)
-        restartApp()
-        getDomain(testDomainTitle).tap()
-        
-        // Check that QB is still above QA
-        XCTAssert(qb.isHigherThan(qa))
     }
     
     // #170640293 - I want to move items from my backlog to my queue and vice versa
@@ -330,67 +264,6 @@ class QueueBacklogUITests: BaseUITests {
         XCTAssertFalse(reeditedItem.exists)
     }
     
-    // #171034497 - I want leading/trailing whitespace to be trimmed from titles
-    func testEditItemsWhitespace() {
-        let qa = getItem("QA")
-        let qb = getItem("QB")
-        
-        // Long press QA and choose Edit
-        qa.longPress()
-        chooseFromContextMenu("Edit")
-        
-        // Expect edit title field to be shown
-        XCTAssert(editItemNameField.exists)
-        
-        // Edit title and tap "Save"
-        app.images.firstMatch.tap() // Tap clear button
-        editItemNameField.tap()
-        editItemNameField.typeText("   leading")
-        tapNavButton("Save")
-        
-        // Check that the leading spaces have been removed
-        XCTAssertFalse(getItem("   leading").exists)
-        XCTAssert(getItem("leading").exists)
-        
-        // Long press QB and choose Edit
-        qb.longPress()
-        chooseFromContextMenu("Edit")
-        
-        // Edit title and tap "Save"
-        app.images.firstMatch.tap() // Tap clear button
-        editItemNameField.tap()
-        editItemNameField.typeText("trailing   ")
-        tapNavButton("Save")
-        
-        // Check that the trailing spaces have been removed
-        XCTAssert(getItem("trailing").exists)
-        XCTAssertFalse(getItem("trailing   ").exists)
-    }
-    
-    
-    // #170897714 - I want the first letter of each word to automatically capitalize as I enter an item name
-    func testEditItemAutoCapitalize() {
-        let qa = getItem("QA")
-        
-        // Long press QA and choose Edit
-        qa.longPress()
-        chooseFromContextMenu("Edit")
-
-        // Edit title and tap "Save"
-        app.images.firstMatch.tap() // Tap clear button
-        editItemNameField.tap()
-        
-        // Type the keys
-        let keys = [ "F", "o", "o", "space", "B", "a", "r" ]
-        for key in keys {
-            let key = app.keys[key]
-            XCTAssertTrue(key.exists)
-            key.tap()
-        }
-        
-        tapNavButton("Save")
-    }
-    
     // #171120829 - I want to delete items
     // #170967352 - Deleted objects should remain deleted after quitting and reopening the app
     func testDeleteItem() {
@@ -414,45 +287,6 @@ class QueueBacklogUITests: BaseUITests {
         backlogSegment.tap()
         XCTAssertFalse(getItem("BB").exists)
                 
-    }
-    
-    // #170914920 - I want to be able to mark items as completed
-    func testMarkItemsCompleted() {
-        
-        let tablesQuery = XCUIApplication().tables
-        tablesQuery/*@START_MENU_TOKEN@*/.buttons["Test"]/*[[".cells.buttons[\"Test\"]",".buttons[\"Test\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        tablesQuery/*@START_MENU_TOKEN@*/.buttons["Baz - 22 April 2020"]/*[[".cells.buttons[\"Baz - 22 April 2020\"]",".buttons[\"Baz - 22 April 2020\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        
-        addItem("QC")
-        let qa = getItem("QA")
-        let qb = getItem("QB")
-        let qc = getItem("QC")
-        
-        toggleItemCompleted("QA")
-        toggleItemCompleted("QB")
-        
-        // Items disappear
-        XCTAssertFalse(qa.exists)
-        XCTAssertFalse(qb.exists)
-        XCTAssert(qc.exists)
-        
-        toggleShowCompletedItems() // Show
-        
-        XCTAssert(qa.exists)
-        XCTAssert(qb.exists)
-        XCTAssert(qc.exists)
-        
-        toggleItemCompleted("QA")
-        
-        // Since QB is completed, QB should be above QA
-        XCTAssert(qb.isHigherThan(qa))
-        
-        toggleShowCompletedItems() // Hide
-        
-        XCTAssert(qa.exists)
-        XCTAssertFalse(qb.exists)
-        XCTAssert(qc.exists)
-        
     }
     
     // Returns the string representation of the date
@@ -497,14 +331,5 @@ class QueueBacklogUITests: BaseUITests {
         let item = getItem(name)
         item.manualSwipeLeft()
         app.tables/*@START_MENU_TOKEN@*/.buttons["trailing0"]/*[[".cells",".buttons[\"Delete\"]",".buttons[\"trailing0\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
-    }
-    
-    // TODO: Implement below
-    private func toggleItemCompleted(_ name: String) {
-        app.images["Complete Item " + name].tap()
-    }
-    
-    private func toggleShowCompletedItems() {
-        app.images["Toggle Completed"].tap()
     }
 }

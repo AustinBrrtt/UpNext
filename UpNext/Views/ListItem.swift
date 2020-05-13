@@ -9,16 +9,18 @@
 import SwiftUI
 
 struct ListItem: ViewModifier {
+    let bold: Bool
+    
     func body(content: Content) -> some View {
         content
-            .bigText()
+            .bigText(bold: bold)
             .padding(.vertical)
     }
 }
 
 extension View {
-    func listItem() -> some View {
-        self.modifier(ListItem())
+    func listItem(bold: Bool = false) -> some View {
+        self.modifier(ListItem(bold: bold))
     }
 }
 

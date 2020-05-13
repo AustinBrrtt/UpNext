@@ -12,6 +12,7 @@ import CoreData
 @objc(DomainItem)
 class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var name: String?
+    @NSManaged public var started: Bool
     @NSManaged public var completed: Bool
     @NSManaged public var isRepeat: Bool
     @NSManaged public var moveOnRelease: Bool
@@ -52,9 +53,14 @@ class DomainItem: NSManagedObject, Identifiable {
         return Date().noon < releaseDate.noon
     }
     
+    public var statusIsStarted: Bool {
+        started && !completed
+    }
+    
     static func create(context: NSManagedObjectContext, name: String) -> DomainItem {
         let domainItem = DomainItem(context: context)
         domainItem.name = name
+        domainItem.started = false
         domainItem.completed = false
         
         return domainItem
@@ -92,6 +98,9 @@ class DomainItem: NSManagedObject, Identifiable {
     }
 }
 
+// Sorts such that first all completed items are shown in sort order,
+// then all started items are shown in sort order,
+// then all unstarted items are shown in sort order
 extension DomainItem: Comparable {
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
         if lhs.completed && !rhs.completed {
@@ -99,6 +108,14 @@ extension DomainItem: Comparable {
         }
         
         if !lhs.completed && rhs.completed {
+            return false
+        }
+        
+        if lhs.started && !rhs.started {
+            return true
+        }
+        
+        if !lhs.started && rhs.started {
             return false
         }
         

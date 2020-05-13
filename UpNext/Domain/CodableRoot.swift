@@ -85,6 +85,7 @@ class CodableRoot: Codable {
     
     struct CodableDomainItem: Codable {
         public var name: String?
+        public var started: Bool
         public var completed: Bool
         public var isRepeat: Bool
         public var moveOnRelease: Bool
@@ -93,6 +94,7 @@ class CodableRoot: Codable {
         
         init(_ item: DomainItem) {
             name = item.name
+            started = item.started
             completed = item.completed
             isRepeat = item.isRepeat
             moveOnRelease = item.moveOnRelease
@@ -103,6 +105,7 @@ class CodableRoot: Codable {
         func asDomainItem(context: NSManagedObjectContext) -> DomainItem {
             let item = DomainItem(context: context)
             item.name = name
+            item.started = started
             item.completed = completed
             item.isRepeat = isRepeat
             item.moveOnRelease = moveOnRelease
