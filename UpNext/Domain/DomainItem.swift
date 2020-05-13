@@ -101,7 +101,7 @@ class DomainItem: NSManagedObject, Identifiable {
 // Sorts such that first all completed items are shown in sort order,
 // then all started items are shown in sort order,
 // then all unstarted items are shown in sort order
-extension DomainItem: Comparable { // TODO: Update Unit Tests for started behavior
+extension DomainItem: Comparable {
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
         if lhs.completed && !rhs.completed {
             return true
