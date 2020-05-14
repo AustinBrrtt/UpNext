@@ -12,6 +12,7 @@ import CoreData
 @objc(DomainItem)
 class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var name: String?
+    @NSManaged public var notes: String?
     @NSManaged public var started: Bool
     @NSManaged public var completed: Bool
     @NSManaged public var isRepeat: Bool
@@ -36,6 +37,10 @@ class DomainItem: NSManagedObject, Identifiable {
         }
         
         return displayName
+    }
+    
+    public var displayNotes: String {
+        notes ?? ""
     }
     
     public var domain: Domain {

@@ -22,6 +22,10 @@ class QueueBacklogUITests: BaseUITests {
         app.textFields["Item Title"]
     }
     
+    var editItemNotesField: XCUIElement {
+        app.textViews["Item Notes"]
+    }
+    
     var editItemRepeatToggle: XCUIElement {
         app.scrollViews.otherElements.switches["Completed Previously"]
     }
@@ -200,11 +204,14 @@ class QueueBacklogUITests: BaseUITests {
     // #170897744 - I want to mark items as previously completed
     // #170908104 - I want to set items to move automatically from the backlog to the queue on their release date
     // #172666238 - I want to tap on an item to visit its properties page
-    func testEditItemProperties() {        
+    // Note: This test requires Auto-Correction and Smart Punctuation to be turned off, which I have currently done in the Simulator
+    func testEditItemProperties() {
         let qa = getItem("QA")
         let qb = getItem("QB")
         let editedTitle1 = "Modern Twist"
         let editedTitle2 = "Antiquated Meme"
+        let editedNotes1 = "To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows..."
+        let editNotes2 = "Not "
         
         // Long press QA and choose Edit
         qa.longPress()
@@ -227,6 +234,8 @@ class QueueBacklogUITests: BaseUITests {
         editItemNameField.typeText(editedTitle1)
         editItemRepeatToggle.tap()
         let dateString = setDatePickerValueToTodayPlus(days: 1)
+        editItemNotesField.tap()
+        type(editedNotes1)
         tapNavButton("Save")
         
         // Confirm we are back on the previous page
@@ -245,12 +254,15 @@ class QueueBacklogUITests: BaseUITests {
         
         // Reenter Edit Page
         editedItem.tap()
+        XCTAssertEqual(editItemNotesField.value as! String, editedNotes1) // TODO: Cannot currently check notes value, check the static text when card the view is added
         
         // Edit title to "Antiquated Meme", date to 2 days from now, repeat to false and tap "Cancel"
         app.images.firstMatch.tap() // Tap clear button
         editItemNameField.tap()
         editItemNameField.typeText(editedTitle2)
         editItemRepeatToggle.tap()
+        editItemNotesField.tap()
+        type(editNotes2) // Note that we currently don't test that this value is discarded. Check the static text when the card view is added
         let secondDateString = setDatePickerValueToTodayPlus(days: 2)
         tapNavButton("Cancel")
         

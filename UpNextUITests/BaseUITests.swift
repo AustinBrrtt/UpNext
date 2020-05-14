@@ -88,4 +88,32 @@ class BaseUITests: XCTestCase {
             backButton.tap()
         }
     }
+    
+    // For typing when item is not focusable. Typable characters are limited.
+    // Capital characters seem to work automatically.
+    // The "123"/"ABC" button is called "more", and the "#+="/"123" button is considered "shift"
+    func type(_ text: String) {
+        let keys: [String] = text.map { char in
+            switch char {
+            case "\n":
+                return ["return"]
+            case " ":
+                return ["space"]
+            case ",", ".", ":": // These don't automatically return to letter mode after being typed
+                return ["more", String(char), "more"]
+            case "'": // These do automatically return to letter mode after being typed
+                return ["more", String(char)]
+            default:
+                return [String(char)]
+            }
+        }.reduce([], +)
+        
+        keys.forEach { key in
+            if key == "return" {
+                app.buttons[key].tap()
+            } else {
+                app.keys[key].tap()
+            }
+        }
+    }
 }

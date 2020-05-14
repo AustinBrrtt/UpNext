@@ -20,7 +20,7 @@ class DomainUITests: BaseUITests {
         addDomain("Foo")
         
         sleep(1)
-        XCTAssert(app.keyboards.count == 0)
+        XCTAssertEqual(app.keyboards.count, 0)
         
         deleteDomain("Foo")
     }

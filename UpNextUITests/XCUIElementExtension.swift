@@ -17,6 +17,10 @@ extension XCUIElement {
         return frame.origin.y < other.frame.origin.y
     }
     
+    func tapBlockedElement() {
+        coordinate(withNormalizedOffset: CGVector(dx:0.5, dy:0.5)).tap()
+    }
+    
     func longPress() {
         press(forDuration: 0.75)
     }

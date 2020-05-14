@@ -41,7 +41,7 @@ class QueueUITests: BaseUITests {
         addItem("Foo")
         sleep(1)
         
-        XCTAssert(app.keyboards.count == 0)
+        XCTAssertEqual(app.keyboards.count, 0)
     }
     
     // #171034497 - I want leading/trailing whitespace to be trimmed from titles

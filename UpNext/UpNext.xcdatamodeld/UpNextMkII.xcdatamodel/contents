@@ -10,6 +10,7 @@
         <attribute name="isRepeat" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="moveOnRelease" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="sortIndex" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="started" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -18,6 +19,6 @@
     </entity>
     <elements>
         <element name="Domain" positionX="-36" positionY="27" width="128" height="88"/>
-        <element name="DomainItem" positionX="-54" positionY="-9" width="128" height="178"/>
+        <element name="DomainItem" positionX="-54" positionY="-9" width="128" height="193"/>
     </elements>
 </model>

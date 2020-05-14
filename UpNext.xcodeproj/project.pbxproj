@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D90D821B246B781400FF09C5 /* QueueUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D821A246B781400FF09C5 /* QueueUITests.swift */; };
+		D90D8222246CE3B300FF09C5 /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D8221246CE3B300FF09C5 /* MultilineTextField.swift */; };
 		D9BA898E2468F8670005CE9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898D2468F8670005CE9A /* AppDelegate.swift */; };
 		D9BA89902468F8670005CE9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898F2468F8670005CE9A /* SceneDelegate.swift */; };
 		D9BA89952468F8670005CE9A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89942468F8670005CE9A /* ContentView.swift */; };
@@ -73,6 +74,7 @@
 
 /* Begin PBXFileReference section */
 		D90D821A246B781400FF09C5 /* QueueUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueUITests.swift; sourceTree = "<group>"; };
+		D90D8221246CE3B300FF09C5 /* MultilineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextField.swift; sourceTree = "<group>"; };
 		D9BA898A2468F8670005CE9A /* UpNext.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpNext.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BA898D2468F8670005CE9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9BA898F2468F8670005CE9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				D9BA89D72468F87A0005CE9A /* AddByNameField.swift */,
 				D9BA89D82468F87A0005CE9A /* CustomBackButton.swift */,
 				D9BA89D92468F87A0005CE9A /* DomainView.swift */,
+				D90D8221246CE3B300FF09C5 /* MultilineTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -319,6 +322,8 @@
 			dependencies = (
 			);
 			name = UpNext;
+			packageProductDependencies = (
+			);
 			productName = UpNext;
 			productReference = D9BA898A2468F8670005CE9A /* UpNext.app */;
 			productType = "com.apple.product-type.application";
@@ -391,6 +396,8 @@
 				Base,
 			);
 			mainGroup = D9BA89812468F8670005CE9A;
+			packageReferences = (
+			);
 			productRefGroup = D9BA898B2468F8670005CE9A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -437,6 +444,7 @@
 				D9BA89E42468F87A0005CE9A /* ListItem.swift in Sources */,
 				D9BA89E92468F87A0005CE9A /* ImportExportView.swift in Sources */,
 				D9BA8A1C246906390005CE9A /* ConditionalBackground.swift in Sources */,
+				D90D8222246CE3B300FF09C5 /* MultilineTextField.swift in Sources */,
 				D9BA89F42468F93F0005CE9A /* UpNext.xcdatamodeld in Sources */,
 				D9BA89E22468F87A0005CE9A /* WithCustomBackButton.swift in Sources */,
 				D9BA89DA2468F87A0005CE9A /* DomainSpecificLanguage.swift in Sources */,

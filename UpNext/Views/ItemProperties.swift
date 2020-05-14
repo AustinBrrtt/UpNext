@@ -13,16 +13,19 @@ struct ItemProperties: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var item: DomainItem
     @State var title: String
+    @State var notes: String
     @State var isRepeat: Bool
     @State var useDate: Bool
     @State var date: Date
     @State var moveOnRelease: Bool
+    
     @Binding var dirtyHack: Bool
     let language = DomainSpecificLanguage.defaultLanguage
     
     init(_ item: DomainItem, dirtyHack: Binding<Bool>) {
         self.item = item
         self._title = State(initialValue: item.name ?? "")
+        self._notes = State(initialValue: item.notes ?? "")
         self._isRepeat = State(initialValue: item.isRepeat)
         self._useDate = State(initialValue: item.releaseDate != nil)
         self._date = State(initialValue: item.releaseDate ?? Date())
@@ -65,6 +68,8 @@ struct ItemProperties: View {
                         }.accessibility(identifier: "Add to Queue on Release")
                     }
                 }
+                
+                MultilineTextField("Notes", text: $notes, accessibilityIdentifier: "Item Notes")
             }
             .padding()
         }
@@ -75,6 +80,7 @@ struct ItemProperties: View {
     
     private func saveFields() {
         item.name = title.trimmingCharacters(in: .whitespaces)
+        item.notes = notes.count > 0 ? notes : nil
         item.isRepeat = isRepeat
         item.releaseDate = useDate ? date : nil
         item.moveOnRelease = moveOnRelease
