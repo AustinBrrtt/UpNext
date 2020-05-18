@@ -62,6 +62,24 @@ class DomainItem: NSManagedObject, Identifiable {
         started && !completed
     }
     
+    // Temporary while converting to status enum
+    public var status: ItemStatus {
+        get { completed ? .completed : started ? .started : .unstarted }
+        set {
+            switch(newValue) {
+            case .unstarted:
+                completed = false
+                started = false
+            case .started:
+                completed = false
+                started = true
+            case .completed:
+                completed = true
+                started = true
+            }
+        }
+    }
+    
     static func create(context: NSManagedObjectContext, name: String) -> DomainItem {
         let domainItem = DomainItem(context: context)
         domainItem.name = name
