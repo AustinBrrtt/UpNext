@@ -68,7 +68,7 @@ struct DomainView: View {
                 ItemList(self.domain.queueItems, dirtyHack: $dirtyHack)
             } else {
                 ItemList(self.domain.queueItems.filter { item in
-                    !item.completed
+                    item.status != .completed
                 }, dirtyHack: $dirtyHack)
             }
         }

@@ -1,6 +1,6 @@
 //
 //  ExportData.swift
-//  UpNextMkII
+//  UpNext
 //
 //  Created by Austin Barrett on 5/10/20.
 //  Copyright © 2020 Austin Barrett. All rights reserved.
@@ -85,8 +85,7 @@ class CodableRoot: Codable {
     
     struct CodableDomainItem: Codable {
         public var name: String?
-        public var started: Bool
-        public var completed: Bool
+        public var status: String
         public var isRepeat: Bool
         public var moveOnRelease: Bool
         public var sortIndex: Int16
@@ -94,8 +93,7 @@ class CodableRoot: Codable {
         
         init(_ item: DomainItem) {
             name = item.name
-            started = item.started
-            completed = item.completed
+            status = item.status.rawValue
             isRepeat = item.isRepeat
             moveOnRelease = item.moveOnRelease
             sortIndex = item.sortIndex
@@ -105,8 +103,7 @@ class CodableRoot: Codable {
         func asDomainItem(context: NSManagedObjectContext) -> DomainItem {
             let item = DomainItem(context: context)
             item.name = name
-            item.started = started
-            item.completed = completed
+            item.status = ItemStatus(rawValue: status) ?? .unstarted
             item.isRepeat = isRepeat
             item.moveOnRelease = moveOnRelease
             item.sortIndex = sortIndex

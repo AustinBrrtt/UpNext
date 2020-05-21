@@ -13,8 +13,7 @@ import CoreData
 class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var name: String?
     @NSManaged public var notes: String?
-    @NSManaged public var started: Bool
-    @NSManaged public var completed: Bool
+    @NSManaged public var rawStatus: String
     @NSManaged public var isRepeat: Bool
     @NSManaged public var moveOnRelease: Bool
     @NSManaged public var sortIndex: Int16
@@ -58,15 +57,15 @@ class DomainItem: NSManagedObject, Identifiable {
         return Date().noon < releaseDate.noon
     }
     
-    public var statusIsStarted: Bool {
-        started && !completed
+    // Temporary while converting to status enum
+    public var status: ItemStatus {
+        get { ItemStatus(rawValue: rawStatus)! }
+        set { rawStatus = newValue.rawValue }
     }
     
     static func create(context: NSManagedObjectContext, name: String) -> DomainItem {
         let domainItem = DomainItem(context: context)
         domainItem.name = name
-        domainItem.started = false
-        domainItem.completed = false
         
         return domainItem
     }
@@ -108,19 +107,19 @@ class DomainItem: NSManagedObject, Identifiable {
 // then all unstarted items are shown in sort order
 extension DomainItem: Comparable {
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
-        if lhs.completed && !rhs.completed {
+        if lhs.status == .completed && rhs.status != .completed {
             return true
         }
         
-        if !lhs.completed && rhs.completed {
+        if lhs.status != .completed && rhs.status == .completed {
             return false
         }
         
-        if lhs.started && !rhs.started {
+        if lhs.status == .started && rhs.status != .started {
             return true
         }
         
-        if !lhs.started && rhs.started {
+        if lhs.status != .started && rhs.status == .started {
             return false
         }
         

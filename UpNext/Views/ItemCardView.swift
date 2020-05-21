@@ -17,11 +17,18 @@ struct ItemCardView: View {
     @Binding var dirtyHack: Bool
     
     var startDoneButtonIcon: String {
-        item.completed ? "checkmark.circle.fill" : item.started ? "play.fill" : "play"
+        switch item.status {
+        case .completed:
+            return "checkmark.circle.fill"
+        case .started:
+            return "play.fill"
+        case .unstarted:
+            return "play"
+        }
     }
     
     var startDoneButtonColor: Color {
-        item.completed ? .green : .primary
+        item.status == .completed ? .green : .primary
     }
     
     var body: some View {
@@ -32,13 +39,13 @@ struct ItemCardView: View {
                         .foregroundColor(startDoneButtonColor)
                         .accessibility(identifier: "Complete Item " + item.displayName)
                         .onTapGesture {
-                            self.advanceItemStatus()
+                            self.item.status = self.item.status.next()
                             self.saveCoreData()
                             self.dirtyHack.toggle()
                         }
                 }
                 Text(item.displayName)
-                    .listItem(bold: item.statusIsStarted)
+                    .listItem(bold: item.status == .started)
                     .contextMenu {
                         Button(action: {
                             self.isPropertiesLinkActivated = true
@@ -83,17 +90,6 @@ struct ItemCardView: View {
         } catch let error as NSError {
             // TODO: Handle CoreData save error
             print("Saving failed. \(error), \(error.userInfo)")
-        }
-    }
-    
-    private func advanceItemStatus() {
-        if item.completed {
-            item.completed = false
-            item.started = false
-        } else if item.started {
-            item.completed = true
-        } else {
-            item.started = true
         }
     }
 }

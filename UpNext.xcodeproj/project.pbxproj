@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D90D821B246B781400FF09C5 /* QueueUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D821A246B781400FF09C5 /* QueueUITests.swift */; };
 		D90D8222246CE3B300FF09C5 /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D8221246CE3B300FF09C5 /* MultilineTextField.swift */; };
+		D91930442472F70F003ED47A /* ItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91930432472F70F003ED47A /* ItemStatus.swift */; };
+		D989D84624762AD000C94269 /* ItemStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D989D84524762AD000C94269 /* ItemStatusTests.swift */; };
 		D9BA898E2468F8670005CE9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898D2468F8670005CE9A /* AppDelegate.swift */; };
 		D9BA89902468F8670005CE9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898F2468F8670005CE9A /* SceneDelegate.swift */; };
 		D9BA89952468F8670005CE9A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89942468F8670005CE9A /* ContentView.swift */; };
@@ -75,6 +77,8 @@
 /* Begin PBXFileReference section */
 		D90D821A246B781400FF09C5 /* QueueUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueUITests.swift; sourceTree = "<group>"; };
 		D90D8221246CE3B300FF09C5 /* MultilineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextField.swift; sourceTree = "<group>"; };
+		D91930432472F70F003ED47A /* ItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatus.swift; sourceTree = "<group>"; };
+		D989D84524762AD000C94269 /* ItemStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatusTests.swift; sourceTree = "<group>"; };
 		D9BA898A2468F8670005CE9A /* UpNext.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpNext.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BA898D2468F8670005CE9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9BA898F2468F8670005CE9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -236,6 +240,7 @@
 				D9BA89C32468F87A0005CE9A /* CodableRoot.swift */,
 				D9BA89C42468F87A0005CE9A /* DomainItem.swift */,
 				D9BA89C52468F87A0005CE9A /* Domain.swift */,
+				D91930432472F70F003ED47A /* ItemStatus.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -294,6 +299,7 @@
 				D9BA89FC2468F95D0005CE9A /* NounTests.swift */,
 				D9BA89FD2468F95D0005CE9A /* DomainSpecificLanguageTests.swift */,
 				D9BA89FE2468F95D0005CE9A /* DomainItemTests.swift */,
+				D989D84524762AD000C94269 /* ItemStatusTests.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -445,6 +451,7 @@
 				D9BA89E92468F87A0005CE9A /* ImportExportView.swift in Sources */,
 				D9BA8A1C246906390005CE9A /* ConditionalBackground.swift in Sources */,
 				D90D8222246CE3B300FF09C5 /* MultilineTextField.swift in Sources */,
+				D91930442472F70F003ED47A /* ItemStatus.swift in Sources */,
 				D9BA89F42468F93F0005CE9A /* UpNext.xcdatamodeld in Sources */,
 				D9BA89E22468F87A0005CE9A /* WithCustomBackButton.swift in Sources */,
 				D9BA89DA2468F87A0005CE9A /* DomainSpecificLanguage.swift in Sources */,
@@ -481,6 +488,7 @@
 				D9BA8A092468F95D0005CE9A /* DomainTests.swift in Sources */,
 				D9BA8A102468F95D0005CE9A /* DateTests.swift in Sources */,
 				D9BA8A0C2468F95D0005CE9A /* DomainItemTests.swift in Sources */,
+				D989D84624762AD000C94269 /* ItemStatusTests.swift in Sources */,
 				D9BA8A052468F95D0005CE9A /* UpNextTestCase.swift in Sources */,
 				D9BA8A0A2468F95D0005CE9A /* NounTests.swift in Sources */,
 				D9BA8A0B2468F95D0005CE9A /* DomainSpecificLanguageTests.swift in Sources */,

@@ -111,7 +111,7 @@ class DomainItemTests: CoreDataTestCase {
         XCTAssertFalse(subject < lower)
         
         
-        subject.started = true
+        subject.status = .started
         
         // Sorts started items before unstarted
         XCTAssert(subject < higher)
@@ -123,9 +123,9 @@ class DomainItemTests: CoreDataTestCase {
         XCTAssert(subject < lower)
         XCTAssertFalse(lower < subject)
         
-        higher.started = true
-        same.started = true
-        lower.started = true
+        higher.status = .started
+        same.status = .started
+        lower.status = .started
         
         // Uses sortIndex < when both are started
         XCTAssert(subject < higher)
@@ -137,7 +137,7 @@ class DomainItemTests: CoreDataTestCase {
         XCTAssert(lower < subject)
         XCTAssertFalse(subject < lower)
         
-        subject.completed = true
+        subject.status = .completed
         
         // Sorts completed items before started
         XCTAssert(subject < higher)
@@ -149,9 +149,9 @@ class DomainItemTests: CoreDataTestCase {
         XCTAssert(subject < lower)
         XCTAssertFalse(lower < subject)
         
-        higher.completed = true
-        same.completed = true
-        lower.completed = true
+        higher.status = .completed
+        same.status = .completed
+        lower.status = .completed
         
         // Uses sortIndex < when both are completed
         XCTAssert(subject < higher)
@@ -163,12 +163,9 @@ class DomainItemTests: CoreDataTestCase {
         XCTAssert(lower < subject)
         XCTAssertFalse(subject < lower)
         
-        higher.completed = false
-        same.completed = false
-        lower.completed = false
-        higher.started = false
-        same.started = false
-        lower.started = false
+        higher.status = .unstarted
+        same.status = .unstarted
+        lower.status = .unstarted
         
         // Sorts completed items before unstarted
         XCTAssert(subject < higher)
