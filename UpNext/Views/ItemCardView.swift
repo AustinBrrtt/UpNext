@@ -8,10 +8,15 @@
 
 import SwiftUI
 
+// TODO: Refactor into smaller views
+// TODO: iPad Navigation
+// TODO: Mac Navigation
 struct ItemCardView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.editMode) var editMode
     let language = DomainSpecificLanguage.defaultLanguage
-    @State var isPropertiesLinkActivated: Bool = false
+    @State var isPropertiesShown: Bool = false
+    @State var expanded: Bool = false
     
     var item: DomainItem
     @Binding var dirtyHack: Bool
@@ -27,59 +32,133 @@ struct ItemCardView: View {
         }
     }
     
-    var startDoneButtonColor: Color {
-        item.status == .completed ? .green : .primary
+    var startDoneButtonText: String {
+        switch item.status {
+        case .completed:
+            return "Restart"
+        case .started:
+            return "Finish"
+        case .unstarted:
+            return "Start"
+        }
+    }
+    
+    var startDoneButtonBackgroundColor: Color {
+        switch item.status {
+        case .completed:
+            return .red
+        case .started:
+            return .blue
+        case .unstarted:
+            return .secondaryBackground
+        }
+    }
+    
+    var startDoneButtonForegroundColor: Color {
+        switch item.status {
+        case .completed, .started:
+            return .white
+        case .unstarted:
+            return .primary
+        }
+    }
+    
+    var editing: Bool {
+        editMode?.wrappedValue == .active
     }
     
     var body: some View {
-        NavigationLink(destination: ItemProperties(item, dirtyHack: self.$dirtyHack), isActive: $isPropertiesLinkActivated) {
-            HStack {
-                if item.isInQueue {
-                    Image(systemName: startDoneButtonIcon)
-                        .foregroundColor(startDoneButtonColor)
+       ZStack {
+            Rectangle()
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .cornerRadius(10)
+                .foregroundColor(.secondaryBackground)
+            VStack {
+                HStack {
+                    Button(action: {
+                        withAnimation {
+                            expanded.toggle()
+                        }
+                    }) {
+                        Text(item.displayName)
+                            .listItem(bold: item.status == .started)
+                            .contextMenu {
+                                Button(action: {
+                                    isPropertiesShown = true
+                                }) {
+                                    HStack {
+                                        Text("Edit")
+                                        Image(systemName: "pencil")
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    item.move(context: managedObjectContext)
+                                    dirtyHack.toggle()
+                                }) {
+                                    HStack {
+                                        Text(item.isInQueue ? "Move to \(language.backlog.title)" : "Move to \(language.queue.title)")
+                                        Image(systemName: item.isInQueue ? "arrow.right.to.line" : "arrow.left.to.line")
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    managedObjectContext.delete(item)
+                                    saveCoreData()
+                                    dirtyHack.toggle()
+                                }) {
+                                    HStack {
+                                        Text("Delete")
+                                        Image(systemName: "trash")
+                                    }
+                                }.foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
+                            }
+                    }
+                    Spacer()
+                    if item.isInQueue && !editing {
+                        SolidButton(startDoneButtonText, foreground: startDoneButtonForegroundColor, background: startDoneButtonBackgroundColor) {
+                            item.status = item.status.next()
+                            saveCoreData()
+                            dirtyHack.toggle()
+                        }
                         .accessibility(identifier: "Complete Item " + item.displayName)
-                        .onTapGesture {
-                            self.item.status = self.item.status.next()
-                            self.saveCoreData()
-                            self.dirtyHack.toggle()
-                        }
+                    }
                 }
-                Text(item.displayName)
-                    .listItem(bold: item.status == .started)
-                    .contextMenu {
-                        Button(action: {
-                            self.isPropertiesLinkActivated = true
-                        }) {
-                            HStack {
-                                Text("Edit")
-                                Image(systemName: "pencil")
+                
+                ItemCardIndicatorsView(item: item)
+                
+                if expanded && !editing {
+                    VStack {
+                        HStack {
+                            Text(item.notes ?? "...")
+                                .lineLimit(nil)
+                            Spacer(minLength: 0)
+                        }.padding(.bottom)
+                        
+                        HStack {
+                            Spacer(minLength: 0)
+                            SolidButton("Edit", background: .clear) { // TODO: shared parent for SolidButton without bg
+                                isPropertiesShown = true
                             }
                         }
-                        
-                        Button(action: {
-                            self.item.move(context: self.managedObjectContext)
-                            self.dirtyHack.toggle()
-                        }) {
-                            HStack {
-                                Text(item.isInQueue ? "Move to \(self.language.backlog.title)" : "Move to \(self.language.queue.title)")
-                                Image(systemName: item.isInQueue ? "arrow.right.to.line" : "arrow.left.to.line")
-                            }
-                        }
-                        
-                        Button(action: {
-                            self.managedObjectContext.delete(self.item)
-                            self.saveCoreData()
-                            self.dirtyHack.toggle()
-                        }) {
-                            HStack {
-                                Text("Delete")
-                                Image(systemName: "trash")
-                            }
-                        }.foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
+                    }
+                    .transition(.identity)
                 }
             }
             .foregroundColor(item.hasFutureReleaseDate ? .secondary : .primary)
-            // .background(Color.secondaryBackground, if: item.statusIsStarted) // TODO: After changing to card style
+            .padding()
+            .sheet(isPresented: $isPropertiesShown) {
+                HStack {
+                    Text("Edit Item Properties")
+                        .font(.largeTitle)
+                        .bold()
+                        .padding(.horizontal)
+                        .padding(.top, 50)
+                    Spacer()
+                    
+                }
+                ItemProperties(item, dirtyHack: self.$dirtyHack)
+            }
         }
     }
     

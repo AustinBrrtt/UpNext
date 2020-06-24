@@ -23,23 +23,20 @@ class DomainItem: NSManagedObject, Identifiable {
     @NSManaged public var inBacklogOf: Domain?
     
     public var displayName: String {
-        var displayName = name ?? "Untitled"
-        
-        if isRepeat {
-            displayName += " (again)"
-        }
-        
-        if let releaseDate = releaseDate {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "d MMMM yyyy"
-            displayName += " - \(formatter.string(from: releaseDate))"
-        }
-        
-        return displayName
+        name ?? "Untitled"
     }
     
     public var displayNotes: String {
         notes ?? ""
+    }
+    
+    public var displayDate: String {
+        guard let releaseDate = releaseDate else {
+            return "Now"
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMMM yyyy"
+        return formatter.string(from: releaseDate)
     }
     
     public var domain: Domain {
@@ -48,6 +45,10 @@ class DomainItem: NSManagedObject, Identifiable {
     
     public var isInQueue: Bool {
         inQueueOf != nil
+    }
+    
+    public var hasReleaseDate: Bool {
+        return releaseDate != nil
     }
     
     public var hasFutureReleaseDate: Bool {
@@ -102,27 +103,9 @@ class DomainItem: NSManagedObject, Identifiable {
     }
 }
 
-// Sorts such that first all completed items are shown in sort order,
-// then all started items are shown in sort order,
-// then all unstarted items are shown in sort order
+// Sorts by status and then by sortIndex within each status
 extension DomainItem: Comparable {
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
-        if lhs.status == .completed && rhs.status != .completed {
-            return true
-        }
-        
-        if lhs.status != .completed && rhs.status == .completed {
-            return false
-        }
-        
-        if lhs.status == .started && rhs.status != .started {
-            return true
-        }
-        
-        if lhs.status != .started && rhs.status == .started {
-            return false
-        }
-        
-        return lhs.sortIndex < rhs.sortIndex
+        return lhs.status == rhs.status ? lhs.sortIndex < rhs.sortIndex : lhs.status > rhs.status
     }
 }
