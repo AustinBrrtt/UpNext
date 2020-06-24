@@ -33,15 +33,6 @@ struct ItemProperties: View {
         self._dirtyHack = dirtyHack
     }
     
-    var saveButton: some View {
-        Button(action: {
-            self.saveFields()
-            self.goBack()
-        }) {
-            Text("Save")
-        }
-    }
-    
     var body: some View {
         ScrollView {
             VStack {
@@ -70,12 +61,19 @@ struct ItemProperties: View {
                 }
                 
                 MultilineTextField("Notes", text: $notes, accessibilityIdentifier: "Item Notes")
+                HStack {
+                    Button("Cancel") {
+                        goBack()
+                    }
+                    Spacer()
+                    Button("Save") {
+                        saveFields()
+                        goBack()
+                    }
+                }.padding(.vertical)
             }
             .padding()
         }
-            .withCustomBackButton(Text("Cancel"), andTrailingItem: saveButton) {
-                self.goBack()
-            }
     }
     
     private func saveFields() {

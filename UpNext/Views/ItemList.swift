@@ -20,7 +20,7 @@ struct ItemList: View {
     }
     
     var body: some View {
-        return List {
+        List {
             ForEach(items) { item in
                 ItemCardView(item: item, dirtyHack: self.$dirtyHack)
             }.onDelete { (offsets: IndexSet) in
@@ -51,6 +51,7 @@ struct ItemList: View {
                 self.saveCoreData()
             }
         }
+        .listStyle(SidebarListStyle())
     }
     
     private func saveCoreData() {
