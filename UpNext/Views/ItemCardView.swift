@@ -166,7 +166,15 @@ struct ItemCardView: View {
                     Spacer()
                     
                 }
-                ItemProperties(item, dirtyHack: $dirtyHack)
+                ItemProperties(item) {
+                    isPropertiesShown = false
+                    do {
+                        try context.save()
+                    } catch {
+                        print("Saving Failed") // TODO: Remove CoreData
+                    }
+                    dirtyHack.toggle()
+                }
             }
         }
     }

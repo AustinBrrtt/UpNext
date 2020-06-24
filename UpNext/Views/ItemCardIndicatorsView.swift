@@ -18,8 +18,8 @@ struct ItemCardIndicatorsView: View {
                     Image(systemName: "calendar")
                     Text(item.displayDate)
                         .padding(.trailing)
-                    Spacer()
                 }
+                Spacer()
                 if item.isRepeat {
                     Image(systemName: "repeat")
                         .transition(.identity)

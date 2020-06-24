@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct ItemProperties: View {
-    @Environment(\.managedObjectContext) var context
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var item: DomainItem
     @State var title: String
     @State var notes: String
@@ -19,10 +17,10 @@ struct ItemProperties: View {
     @State var date: Date
     @State var moveOnRelease: Bool
     
-    @Binding var dirtyHack: Bool
+    private var dismiss: () -> Void
     let language = DomainSpecificLanguage.defaultLanguage
     
-    init(_ item: DomainItem, dirtyHack: Binding<Bool>) {
+    init(_ item: DomainItem, dismiss: @escaping () -> Void) {
         self.item = item
         self._title = State(initialValue: item.name ?? "")
         self._notes = State(initialValue: item.notes ?? "")
@@ -30,7 +28,7 @@ struct ItemProperties: View {
         self._useDate = State(initialValue: item.releaseDate != nil)
         self._date = State(initialValue: item.releaseDate ?? Date())
         self._moveOnRelease = State(initialValue: item.moveOnRelease)
-        self._dirtyHack = dirtyHack
+        self.dismiss = dismiss
     }
     
     var body: some View {
@@ -63,12 +61,12 @@ struct ItemProperties: View {
                 MultilineTextField("Notes", text: $notes, accessibilityIdentifier: "Item Notes")
                 HStack {
                     Button("Cancel") {
-                        goBack()
+                        dismiss()
                     }
                     Spacer()
                     Button("Save") {
                         saveFields()
-                        goBack()
+                        dismiss()
                     }
                 }.padding(.vertical)
             }
@@ -82,16 +80,6 @@ struct ItemProperties: View {
         item.isRepeat = isRepeat
         item.releaseDate = useDate ? date : nil
         item.moveOnRelease = moveOnRelease
-        do {
-            try context.save()
-            dirtyHack.toggle()
-        } catch {
-            print("Failed to save changes.")
-        }
-    }
-    
-    private func goBack() {
-        presentationMode.wrappedValue.dismiss()
     }
 }
 
