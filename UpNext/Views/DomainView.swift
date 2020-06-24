@@ -13,6 +13,7 @@ struct DomainView: View {
     var domain: Domain
     @State var showBacklog: Bool = false
     @State var showCompleted: Bool = false
+    @State var editMode: EditMode = .inactive
     @Binding var dirtyHack: Bool
     let language = DomainSpecificLanguage.defaultLanguage
     
@@ -86,6 +87,7 @@ struct DomainView: View {
                     }
                 }
             }
+        .environment(\.editMode, $editMode)
     }
     
     func addToList(_ item: DomainItem) {

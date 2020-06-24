@@ -17,13 +17,15 @@ struct ItemList: View {
     init(_ items: [DomainItem], dirtyHack: Binding<Bool>) {
         self.items = items
         self._dirtyHack = dirtyHack
+        
     }
     
     var body: some View {
         List {
             ForEach(items) { item in
                 ItemCardView(item: item, dirtyHack: self.$dirtyHack)
-            }.onDelete { (offsets: IndexSet) in
+            }
+            .onDelete { (offsets: IndexSet) in
                 for index in offsets {
                     self.managedObjectContext.delete(self.items[index])
                     self.saveCoreData()
@@ -51,7 +53,6 @@ struct ItemList: View {
                 self.saveCoreData()
             }
         }
-        .listStyle(SidebarListStyle())
     }
     
     private func saveCoreData() {

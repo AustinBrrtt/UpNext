@@ -106,6 +106,6 @@ class DomainItem: NSManagedObject, Identifiable {
 // Sorts by status and then by sortIndex within each status
 extension DomainItem: Comparable {
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
-        return lhs.status == rhs.status ? lhs.sortIndex < rhs.sortIndex : lhs.status < rhs.status
+        return lhs.status == rhs.status ? lhs.sortIndex < rhs.sortIndex : lhs.status > rhs.status
     }
 }
