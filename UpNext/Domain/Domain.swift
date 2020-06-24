@@ -78,7 +78,6 @@ class Domain: NSManagedObject, Identifiable {
                 item.inBacklogOf = nil
                 prependToQueue(item)
                 item.moveOnRelease = false
-                // item.releaseDate = nil TODO: Consider whether this is desired. Do release dates in queue get in the way?
             }
         }
         return found

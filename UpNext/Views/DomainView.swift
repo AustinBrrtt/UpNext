@@ -54,6 +54,7 @@ struct DomainView: View {
                 HStack {
                     Spacer()
                     Image(systemName: showCompleted ? "eye.fill" : "eye.slash")
+                        .padding(.top)
                         .onTapGesture {
                             self.showCompleted.toggle()
                         }
