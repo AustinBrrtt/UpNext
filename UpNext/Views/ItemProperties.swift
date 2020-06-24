@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ItemProperties: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.managedObjectContext) var context
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var item: DomainItem
     @State var title: String
@@ -83,7 +83,7 @@ struct ItemProperties: View {
         item.releaseDate = useDate ? date : nil
         item.moveOnRelease = moveOnRelease
         do {
-            try managedObjectContext.save()
+            try context.save()
             dirtyHack.toggle()
         } catch {
             print("Failed to save changes.")
@@ -91,7 +91,7 @@ struct ItemProperties: View {
     }
     
     private func goBack() {
-        self.presentationMode.wrappedValue.dismiss()
+        presentationMode.wrappedValue.dismiss()
     }
 }
 

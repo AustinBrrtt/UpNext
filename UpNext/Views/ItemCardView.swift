@@ -12,7 +12,7 @@ import SwiftUI
 // TODO: iPad Navigation
 // TODO: Mac Navigation
 struct ItemCardView: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.managedObjectContext) var context
     @Environment(\.editMode) var editMode
     let language = DomainSpecificLanguage.defaultLanguage
     @State var isPropertiesShown: Bool = false
@@ -93,7 +93,7 @@ struct ItemCardView: View {
                                 }
                                 
                                 Button(action: {
-                                    item.move(context: managedObjectContext)
+                                    item.move(context: context)
                                     dirtyHack.toggle()
                                 }) {
                                     HStack {
@@ -103,7 +103,7 @@ struct ItemCardView: View {
                                 }
                                 
                                 Button(action: {
-                                    managedObjectContext.delete(item)
+                                    context.delete(item)
                                     saveCoreData()
                                     dirtyHack.toggle()
                                 }) {
@@ -130,8 +130,14 @@ struct ItemCardView: View {
                 if expanded && !editing {
                     VStack {
                         HStack {
-                            Text(item.notes ?? "...")
-                                .lineLimit(nil)
+                            if let notes = item.notes {
+                                Text(notes)
+                                    .lineLimit(nil)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            } else {
+                                Text("No notes")
+                                    .foregroundColor(.secondary)
+                            }
                             Spacer(minLength: 0)
                         }.padding(.bottom)
                         
@@ -154,18 +160,21 @@ struct ItemCardView: View {
                         .bold()
                         .padding(.horizontal)
                         .padding(.top, 50)
+                        .onDisappear {
+                            dirtyHack.toggle()
+                        }
                     Spacer()
                     
                 }
-                ItemProperties(item, dirtyHack: self.$dirtyHack)
+                ItemProperties(item, dirtyHack: $dirtyHack)
             }
         }
     }
     
     private func saveCoreData() {
         do {
-            try managedObjectContext.save()
-            self.dirtyHack.toggle()
+            try context.save()
+            dirtyHack.toggle()
         } catch let error as NSError {
             // TODO: Handle CoreData save error
             print("Saving failed. \(error), \(error.userInfo)")

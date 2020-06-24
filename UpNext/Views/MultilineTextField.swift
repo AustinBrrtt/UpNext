@@ -39,7 +39,7 @@ struct MultilineTextField: View {
                     .padding(.top, 8)
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            self.delayIsOver = true
+                            delayIsOver = true
                         }
                     }
                 Spacer()
@@ -73,8 +73,8 @@ private struct UITextViewWrapper: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
-        if uiView.text != self.text {
-            uiView.text = self.text
+        if uiView.text != text {
+            uiView.text = text
         }
         UITextViewWrapper.recalculateHeight(view: uiView, currentHeight: $calculatedHeight)
     }

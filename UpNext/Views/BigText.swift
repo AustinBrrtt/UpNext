@@ -18,7 +18,7 @@ struct BigText: ViewModifier {
 
 extension View {
     func bigText(bold: Bool = false) -> some View {
-        self.modifier(BigText(bold: bold))
+        modifier(BigText(bold: bold))
     }
 }
 

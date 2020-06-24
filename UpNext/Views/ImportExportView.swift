@@ -36,7 +36,7 @@ struct ImportExportView: View {
             if (showImport) {
                 TextField("Import", text: $importText)
                 Button(action: {
-                    self.importData()
+                    importData()
                 }) {
                     Text("Import Data")
                 }
@@ -45,7 +45,7 @@ struct ImportExportView: View {
                 // Toggle(isOn: $prettyPrint) { Text("Pretty Print?") }
                 TextField("Export", text: $exportText)
                     .onAppear {
-                        self.exportText = self.exportedData(prettyPrint: self.prettyPrint)
+                        exportText = exportedData(prettyPrint: prettyPrint)
                     }
             }
             Spacer()

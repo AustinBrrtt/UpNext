@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DomainView: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.managedObjectContext) var context
     var domain: Domain
     @State var showBacklog: Bool = false
     @State var showCompleted: Bool = false
@@ -20,10 +20,10 @@ struct DomainView: View {
     var body: some View {
         VStack {
             EditableTitle(title: domain.name ?? language.defaultItemTitle.title) { title in
-                self.domain.name = title
+                domain.name = title
                 do {
-                    try self.managedObjectContext.save()
-                    self.dirtyHack.toggle()
+                    try context.save()
+                    dirtyHack.toggle()
                     return true
                 } catch {
                     return false
@@ -43,9 +43,9 @@ struct DomainView: View {
                 .accessibility(identifier: "Queue/Backlog Segment")
             
             AddByNameField("Add \(language.item.title)", dirtyHack: $dirtyHack) { (name: String) in
-                let item = DomainItem.create(context: self.managedObjectContext, name: name)
-                self.addToList(item)
-                self.dirtyHack.toggle()
+                let item = DomainItem.create(context: context, name: name)
+                addToList(item)
+                dirtyHack.toggle()
             }
                 .padding(.top).padding(.horizontal)
                 .accessibility(identifier: "Add Item")
@@ -56,7 +56,7 @@ struct DomainView: View {
                     Image(systemName: showCompleted ? "eye.fill" : "eye.slash")
                         .padding(.top)
                         .onTapGesture {
-                            self.showCompleted.toggle()
+                            showCompleted.toggle()
                         }
                         .accessibility(identifier: "Toggle Completed")
                 }
@@ -65,11 +65,11 @@ struct DomainView: View {
             }
             
             if showBacklog {
-                ItemList(self.domain.backlogItems, dirtyHack: $dirtyHack)
+                ItemList(domain.backlogItems, dirtyHack: $dirtyHack)
             } else if showCompleted {
-                ItemList(self.domain.queueItems, dirtyHack: $dirtyHack)
+                ItemList(domain.queueItems, dirtyHack: $dirtyHack)
             } else {
-                ItemList(self.domain.queueItems.filter { item in
+                ItemList(domain.queueItems.filter { item in
                     item.status != .completed
                 }, dirtyHack: $dirtyHack)
             }
@@ -79,10 +79,10 @@ struct DomainView: View {
             )
             .navigationBarTitle("", displayMode: .inline)
             .onAppear() {
-                if self.domain.processScheduledMoves() {
+                if domain.processScheduledMoves() {
                     do {
-                        try self.managedObjectContext.save()
-                        self.dirtyHack.toggle()
+                        try context.save()
+                        dirtyHack.toggle()
                     } catch {
                         print("Failed to save changes.")
                     }
@@ -92,10 +92,10 @@ struct DomainView: View {
     }
     
     func addToList(_ item: DomainItem) {
-        if self.showBacklog {
-            self.domain.addToBacklog(item)
+        if showBacklog {
+            domain.addToBacklog(item)
         } else {
-            self.domain.addToQueue(item)
+            domain.addToQueue(item)
         }
     }
 }

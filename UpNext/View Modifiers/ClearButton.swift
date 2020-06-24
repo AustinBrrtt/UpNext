@@ -19,7 +19,7 @@ struct ClearButton: ViewModifier {
                     .foregroundColor(.secondary)
                     .accessibility(identifier: "Clear Text")
                     .onTapGesture {
-                        self.text = ""
+                        text = ""
                     }
             }
         }

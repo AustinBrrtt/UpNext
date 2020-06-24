@@ -20,7 +20,7 @@ struct ListItem: ViewModifier {
 
 extension View {
     func listItem(bold: Bool = false) -> some View {
-        self.modifier(ListItem(bold: bold))
+        modifier(ListItem(bold: bold))
     }
 }
 

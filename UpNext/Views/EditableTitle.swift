@@ -27,8 +27,8 @@ struct EditableTitle: View {
                     .clearButton(text: $title)
                     .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                     .onDisappear {
-                        self.title = self.title.trimmingCharacters(in: .whitespaces)
-                        _ = self.saveTitle(self.title)
+                        title = title.trimmingCharacters(in: .whitespaces)
+                        _ = saveTitle(title)
                     }
                     .accessibility(identifier: "Domain Title")
             }

@@ -29,7 +29,7 @@ class CodableRoot: Codable {
     }
     
     private func writeToCoreData(context: NSManagedObjectContext) throws {
-        let _ = self.domains.map { $0.asDomain(context: context) }
+        let _ = domains.map { $0.asDomain(context: context) }
         try context.save()
     }
     

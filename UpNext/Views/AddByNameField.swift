@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct AddByNameField: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.managedObjectContext) var context
     @State var name: String = ""
     var addAction: (String) -> Void
     var placeholder: String
@@ -29,12 +29,12 @@ struct AddByNameField: View {
             Image(systemName: "plus.circle.fill")
                 .foregroundColor(name == "" ? .secondary : .green)
                 .onTapGesture {
-                    if (self.name != "") {
-                        self.addAction(self.name.trimmingCharacters(in: .whitespaces))
+                    if (name != "") {
+                        addAction(name.trimmingCharacters(in: .whitespaces))
                         do {
-                           try self.managedObjectContext.save()
-                           self.dirtyHack.toggle()
-                           self.name = ""
+                           try context.save()
+                           dirtyHack.toggle()
+                           name = ""
                        } catch let error as NSError {
                            // TODO: Handle CoreData save error
                            print("Saving failed. \(error), \(error.userInfo)")

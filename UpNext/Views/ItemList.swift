@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ItemList: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.managedObjectContext) var context
     var items: [DomainItem]
     @Binding var dirtyHack: Bool
     let language = DomainSpecificLanguage.defaultLanguage
@@ -23,42 +23,42 @@ struct ItemList: View {
     var body: some View {
         List {
             ForEach(items) { item in
-                ItemCardView(item: item, dirtyHack: self.$dirtyHack)
+                ItemCardView(item: item, dirtyHack: $dirtyHack)
             }
             .onDelete { (offsets: IndexSet) in
                 for index in offsets {
-                    self.managedObjectContext.delete(self.items[index])
-                    self.saveCoreData()
-                    self.dirtyHack.toggle()
+                    context.delete(items[index])
+                    saveCoreData()
+                    dirtyHack.toggle()
                 }
             }
             .onMove { (src: IndexSet, dst: Int) in
                 
                 // TODO: This is most likely preferable, especially with insertions and such
                 // Change queue from one-to-many to one-to-one, add a next and previous relationship to DomainItem and do linked list insertions
-                // let domain = self.items[0].domain
-                // let set = self.items[0].isInQueue ? domain.queue : domain.backlog
+                // let domain = items[0].domain
+                // let set = items[0].isInQueue ? domain.queue : domain.backlog
                 
                 // print("original")
-                // for (index, item) in self.items.enumerated() {
+                // for (index, item) in items.enumerated() {
                 //     print(item.name ?? "Untitled", index)
                 // }
-                var mutableList = Array(self.items)
+                var mutableList = Array(items)
                 mutableList.move(fromOffsets: src, toOffset: dst)
                 // print("reordered")
                 for (index, item) in mutableList.enumerated() {
-                    print(item.name ?? self.language.defaultItemTitle.title, index)
+                    print(item.name ?? language.defaultItemTitle.title, index)
                     item.sortIndex = Int16(index)
                 }
-                self.saveCoreData()
+                saveCoreData()
             }
         }
     }
     
     private func saveCoreData() {
         do {
-            try managedObjectContext.save()
-            self.dirtyHack.toggle()
+            try context.save()
+            dirtyHack.toggle()
         } catch let error as NSError {
             // TODO: Handle CoreData save error
             print("Saving failed. \(error), \(error.userInfo)")

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct DomainList: View {
     @Environment(\.editMode) var editMode
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.managedObjectContext) var context
     @FetchRequest(fetchRequest: Domain.getAll()) var domains: FetchedResults<Domain>
     @State var dirtyHack: Bool = false
     let language = DomainSpecificLanguage.defaultLanguage
@@ -19,29 +19,29 @@ struct DomainList: View {
         NavigationView {
             VStack {
                 AddByNameField("Add \(language.domain.title)", dirtyHack: $dirtyHack) { (name: String) in
-                    let _ = Domain.create(context: self.managedObjectContext, name: name)
-                    self.save()
-                    self.dirtyHack.toggle()
+                    let _ = Domain.create(context: context, name: name)
+                    save()
+                    dirtyHack.toggle()
                 }
                     .padding()
                     .accessibility(identifier: "Add Domain")
                 List {
                     ForEach(dirtyHack ? domains : domains) { domain in
-                        if (self.editMode?.wrappedValue == .active) {
+                        if (editMode?.wrappedValue == .active) {
                             Text(domain.displayName)
                                 .listItem()
                         } else {
-                            NavigationLink(destination: DomainView(domain: domain, dirtyHack: self.$dirtyHack)) {
+                            NavigationLink(destination: DomainView(domain: domain, dirtyHack: $dirtyHack)) {
                                 Text(domain.displayName)
                                     .listItem()
                             }
                         }
                     }.onDelete { (offsets: IndexSet) in
                         for index in offsets {
-                            self.managedObjectContext.delete(self.domains[index])
-                            self.dirtyHack.toggle()
+                            context.delete(domains[index])
+                            dirtyHack.toggle()
                         }
-                        self.save()
+                        save()
                     }
                 }
             }
@@ -57,7 +57,7 @@ struct DomainList: View {
     
     private func save() {
         do {
-            try managedObjectContext.save()
+            try context.save()
         } catch {
             print("TODO: Saving Failed")
         }
