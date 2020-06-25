@@ -7,14 +7,12 @@
 //
 
 import Foundation
-import CoreData
 
-@objc(Domain)
-class Domain: NSManagedObject, Identifiable {
-    @NSManaged var name: String?
-    
-    @NSManaged var queue: Set<DomainItem>
-    @NSManaged var backlog: Set<DomainItem>
+class Domain: Identifiable {
+    var id: UUID = UUID()
+    var name: String?
+    var queue: [DomainItem]
+    var backlog: [DomainItem]
     
     public var displayName: String {
         name ?? "Untitled"
@@ -28,45 +26,35 @@ class Domain: NSManagedObject, Identifiable {
         Array(backlog).sorted()
     }
     
-    static func getAll() -> NSFetchRequest<Domain> {
-        let request: NSFetchRequest<Domain> = NSFetchRequest<Domain>(entityName: "Domain")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        return request
+    @available(*, deprecated)
+    static func create(name: String) -> Domain {
+        return Domain(name: name)
     }
     
-    static func create(context: NSManagedObjectContext, name: String) -> Domain {
-        let domain = Domain(context: context)
-        domain.queue = Set<DomainItem>()
-        domain.backlog = Set<DomainItem>()
-        domain.name = name
-        
-        return domain
+    init(name: String?) {
+        self.name = name
+        queue = []
+        backlog = []
     }
     
+    // TODO: Decide whether items should be class vs struct
     public func prependToQueue(_ item: DomainItem) {
         updateSortIndices(for: queueItems, add: 1)
-        item.sortIndex = 0
-        queue.insert(item)
-        item.inQueueOf = self
+//        item.sortIndex = 0
+        queue.insert(item, at: 0)
+//        item.inQueueOf = self
     }
     
-    // public func prependToBacklog(_ item: DomainItem) {
-    //     updateSortIndices(for: backlogItems, add: 1)
-    //     item.sortIndex = 0
-    //     backlog.insert(item)
-    //     item.inBacklogOf = self
-    // }
-    
     public func addToQueue(_ item: DomainItem) {
-        item.sortIndex = Int16(queue.count)
-        queue.insert(item)
-        item.inQueueOf = self
+//        item.sortIndex = Int16(queue.count)
+        queue.append(item)
+//        item.inQueueOf = self
     }
     
     public func addToBacklog(_ item: DomainItem) {
-        item.sortIndex = Int16(backlog.count)
-        backlog.insert(item)
-        item.inBacklogOf = self
+//        item.sortIndex = Int16(backlog.count)
+        backlog.append(item)
+//        item.inBacklogOf = self
     }
     
     // returns true if any changes are made
@@ -75,17 +63,17 @@ class Domain: NSManagedObject, Identifiable {
         for item in backlog {
             if item.moveOnRelease, let date = item.releaseDate, date < Date() {
                 found = true
-                item.inBacklogOf = nil
+//                item.inBacklogOf = nil
                 prependToQueue(item)
-                item.moveOnRelease = false
+//                item.moveOnRelease = false
             }
         }
         return found
     }
     
     private func updateSortIndices(for items: [DomainItem], add offset: Int16 = 0) {
-        for (index, item) in items.enumerated() {
-            item.sortIndex = Int16(index) + offset
-        }
+//        for (index, item) in items.enumerated() {
+//            item.sortIndex = Int16(index) + offset
+//        }
     }
 }

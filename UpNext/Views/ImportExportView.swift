@@ -9,13 +9,9 @@
 import SwiftUI
 
 struct ImportExportView: View {
-    @Environment(\.managedObjectContext) var context
     @Environment(\.presentationMode) var presentationMode
     
-    @FetchRequest(
-        entity: Domain.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Domain.name, ascending: true)]
-    ) var domains: FetchedResults<Domain>
+    @Binding var domains: [Domain]
     
     let prettyPrint = false
     
@@ -69,7 +65,7 @@ struct ImportExportView: View {
             print("Failed to import data")
             return
         }
-        if let _ = try? codable.overwriteCoreData(domains: domains, context: context) {
+        if let _ = try? codable.overwrite(domains: domains) {
             goBack()
         }
     }
@@ -82,6 +78,6 @@ struct ImportExportView: View {
 
 struct ImportExportView_Previews: PreviewProvider {
     static var previews: some View {
-        ImportExportView()
+        ImportExportView(domains: .constant([]))
     }
 }

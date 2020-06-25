@@ -9,25 +9,16 @@
 import SwiftUI
 
 struct DomainView: View {
-    @Environment(\.managedObjectContext) var context
     var domain: Domain
     @State var showBacklog: Bool = false
     @State var showCompleted: Bool = false
     @State var editMode: EditMode = .inactive
-    @Binding var dirtyHack: Bool
     let language = DomainSpecificLanguage.defaultLanguage
     
     var body: some View {
         VStack {
             EditableTitle(title: domain.name ?? language.defaultItemTitle.title) { title in
                 domain.name = title
-                do {
-                    try context.save()
-                    dirtyHack.toggle()
-                    return true
-                } catch {
-                    return false
-                }
             }.padding(.top).padding(.horizontal)
             Picker("Show \(language.queue.title) or \(language.backlog.title)", selection: $showBacklog) {
                 Text(language.queue.title)
@@ -42,10 +33,9 @@ struct DomainView: View {
                 .padding(.horizontal)
                 .accessibility(identifier: "Queue/Backlog Segment")
             
-            AddByNameField("Add \(language.item.title)", dirtyHack: $dirtyHack) { (name: String) in
-                let item = DomainItem.create(context: context, name: name)
+            AddByNameField("Add \(language.item.title)") { (name: String) in
+                let item = DomainItem.create(name: name)
                 addToList(item)
-                dirtyHack.toggle()
             }
                 .padding(.top).padding(.horizontal)
                 .accessibility(identifier: "Add Item")
@@ -65,13 +55,13 @@ struct DomainView: View {
             }
             
             if showBacklog {
-                ItemList(domain.backlogItems, dirtyHack: $dirtyHack)
+                ItemList(domain.backlogItems)
             } else if showCompleted {
-                ItemList(domain.queueItems, dirtyHack: $dirtyHack)
+                ItemList(domain.queueItems)
             } else {
                 ItemList(domain.queueItems.filter { item in
                     item.status != .completed
-                }, dirtyHack: $dirtyHack)
+                })
             }
         }
             .navigationBarItems(
@@ -79,14 +69,7 @@ struct DomainView: View {
             )
             .navigationBarTitle("", displayMode: .inline)
             .onAppear() {
-                if domain.processScheduledMoves() {
-                    do {
-                        try context.save()
-                        dirtyHack.toggle()
-                    } catch {
-                        print("Failed to save changes.")
-                    }
-                }
+                _ = domain.processScheduledMoves()
             }
         .environment(\.editMode, $editMode)
     }

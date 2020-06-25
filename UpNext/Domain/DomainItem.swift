@@ -7,20 +7,19 @@
 //
 
 import Foundation
-import CoreData
 
-@objc(DomainItem)
-class DomainItem: NSManagedObject, Identifiable {
-    @NSManaged public var name: String?
-    @NSManaged public var notes: String?
-    @NSManaged public var rawStatus: String
-    @NSManaged public var isRepeat: Bool
-    @NSManaged public var moveOnRelease: Bool
-    @NSManaged public var sortIndex: Int16
-    @NSManaged public var releaseDate: Date?
+class DomainItem: Identifiable {
+    public var id: UUID = UUID()
+    public var name: String?
+    public var notes: String?
+    public var status: ItemStatus
+    public var isRepeat: Bool
+    public var moveOnRelease: Bool
+    public var sortIndex: Int16
+    public var releaseDate: Date?
     
-    @NSManaged public var inQueueOf: Domain?
-    @NSManaged public var inBacklogOf: Domain?
+    public var inQueueOf: Domain?
+    public var inBacklogOf: Domain?
     
     public var displayName: String {
         name ?? "Untitled"
@@ -58,20 +57,22 @@ class DomainItem: NSManagedObject, Identifiable {
         return Date().noon < releaseDate.noon
     }
     
-    // Temporary while converting to status enum
-    public var status: ItemStatus {
-        get { ItemStatus(rawValue: rawStatus)! }
-        set { rawStatus = newValue.rawValue }
+    @available(*, deprecated)
+    static func create(name: String) -> DomainItem {
+        return DomainItem(name: name)
     }
     
-    static func create(context: NSManagedObjectContext, name: String) -> DomainItem {
-        let domainItem = DomainItem(context: context)
-        domainItem.name = name
-        
-        return domainItem
+    init(name: String?) {
+        self.name = name
+        self.notes = nil
+        self.status = .unstarted
+        self.isRepeat = false
+        self.moveOnRelease = false
+        self.sortIndex = 0
+        self.releaseDate = nil
     }
     
-    func move(context: NSManagedObjectContext) {
+    func move() {
         if isInQueue {
             let sorted = inQueueOf!.backlog.sorted()
             sortIndex = sorted.isEmpty ? 0 : sorted[sorted.count - 1].sortIndex + 1
@@ -83,28 +84,16 @@ class DomainItem: NSManagedObject, Identifiable {
             inQueueOf = inBacklogOf
             inBacklogOf = nil
         }
-        do {
-            try context.save()
-        } catch {
-            print("failed to save")
-        }
-    }
-    
-    func readyForRelease() -> Bool {
-        if let date = releaseDate {
-            if date < Date() {
-                releaseDate = nil
-                // Logic to move to queue will go here
-                return true
-            }
-            return false
-        }
-        return true
     }
 }
 
-// Sorts by status and then by sortIndex within each status
-extension DomainItem: Comparable {
+
+extension DomainItem: Equatable, Comparable {
+    static func == (lhs: DomainItem, rhs: DomainItem) -> Bool {
+        return lhs.status == rhs.status && lhs.sortIndex == rhs.sortIndex
+    }
+    
+    // Sorts by status and then by sortIndex within each status
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
         return lhs.status == rhs.status ? lhs.sortIndex < rhs.sortIndex : lhs.status > rhs.status
     }

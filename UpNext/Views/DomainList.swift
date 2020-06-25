@@ -10,62 +10,48 @@ import SwiftUI
 
 struct DomainList: View {
     @Environment(\.editMode) var editMode
-    @Environment(\.managedObjectContext) var context
-    @FetchRequest(fetchRequest: Domain.getAll()) var domains: FetchedResults<Domain>
-    @State var dirtyHack: Bool = false
+    @Binding var domains: [Domain]
     let language = DomainSpecificLanguage.defaultLanguage
     
     var body: some View {
         NavigationView {
             VStack {
-                AddByNameField("Add \(language.domain.title)", dirtyHack: $dirtyHack) { (name: String) in
-                    let _ = Domain.create(context: context, name: name)
-                    save()
-                    dirtyHack.toggle()
+                AddByNameField("Add \(language.domain.title)") { (name: String) in
+                    let _ = Domain.create(name: name)
                 }
                     .padding()
                     .accessibility(identifier: "Add Domain")
                 List {
-                    ForEach(dirtyHack ? domains : domains) { domain in
+                    ForEach(domains) { domain in
                         if (editMode?.wrappedValue == .active) {
                             Text(domain.displayName)
                                 .listItem()
                         } else {
-                            NavigationLink(destination: DomainView(domain: domain, dirtyHack: $dirtyHack)) {
+                            NavigationLink(destination: DomainView(domain: domain)) {
                                 Text(domain.displayName)
                                     .listItem()
                             }
                         }
                     }.onDelete { (offsets: IndexSet) in
-                        for index in offsets {
-                            context.delete(domains[index])
-                            dirtyHack.toggle()
-                        }
-                        save()
+//                        for index in offsets {
+                            // TODO: Delete domains[index]
+//                        }
                     }
                 }
             }
             .navigationBarTitle(language.domain.pluralTitle)
             .navigationBarItems(
-                leading: NavigationLink(destination: ImportExportView()) {
+                leading: NavigationLink(destination: ImportExportView(domains: $domains)) {
                     Text("Import/Export")
                 },
                 trailing: EditButton()
             )
         }
     }
-    
-    private func save() {
-        do {
-            try context.save()
-        } catch {
-            print("TODO: Saving Failed")
-        }
-    }
 }
 
 struct DomainList_Previews: PreviewProvider {
     static var previews: some View {
-        DomainList()
+        DomainList(domains: .constant([]))
     }
 }

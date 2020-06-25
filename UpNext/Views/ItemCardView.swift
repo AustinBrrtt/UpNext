@@ -12,14 +12,12 @@ import SwiftUI
 // TODO: iPad Navigation
 // TODO: Mac Navigation
 struct ItemCardView: View {
-    @Environment(\.managedObjectContext) var context
     @Environment(\.editMode) var editMode
     let language = DomainSpecificLanguage.defaultLanguage
     @State var isPropertiesShown: Bool = false
     @State var expanded: Bool = false
     
     var item: DomainItem
-    @Binding var dirtyHack: Bool
     
     var startDoneButtonIcon: String {
         switch item.status {
@@ -93,8 +91,7 @@ struct ItemCardView: View {
                                 }
                                 
                                 Button(action: {
-                                    item.move(context: context)
-                                    dirtyHack.toggle()
+                                    item.move()
                                 }) {
                                     HStack {
                                         Text(item.isInQueue ? "Move to \(language.backlog.title)" : "Move to \(language.queue.title)")
@@ -103,9 +100,7 @@ struct ItemCardView: View {
                                 }
                                 
                                 Button(action: {
-                                    context.delete(item)
-                                    saveCoreData()
-                                    dirtyHack.toggle()
+                                    // TODO delete item
                                 }) {
                                     HStack {
                                         Text("Delete")
@@ -118,8 +113,6 @@ struct ItemCardView: View {
                     if item.isInQueue && !editing {
                         SolidButton(startDoneButtonText, foreground: startDoneButtonForegroundColor, background: startDoneButtonBackgroundColor) {
                             item.status = item.status.next()
-                            saveCoreData()
-                            dirtyHack.toggle()
                         }
                         .accessibility(identifier: "Complete Item " + item.displayName)
                     }
@@ -160,32 +153,13 @@ struct ItemCardView: View {
                         .bold()
                         .padding(.horizontal)
                         .padding(.top, 50)
-                        .onDisappear {
-                            dirtyHack.toggle()
-                        }
                     Spacer()
                     
                 }
                 ItemProperties(item) {
                     isPropertiesShown = false
-                    do {
-                        try context.save()
-                    } catch {
-                        print("Saving Failed") // TODO: Remove CoreData
-                    }
-                    dirtyHack.toggle()
                 }
             }
-        }
-    }
-    
-    private func saveCoreData() {
-        do {
-            try context.save()
-            dirtyHack.toggle()
-        } catch let error as NSError {
-            // TODO: Handle CoreData save error
-            print("Saving failed. \(error), \(error.userInfo)")
         }
     }
 }

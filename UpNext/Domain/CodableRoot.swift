@@ -7,8 +7,8 @@
 //
 
 import SwiftUI
-import CoreData
 
+// TODO: Reading/Writing from CoreData replacementf
 class CodableRoot: Codable {
     var domains: [CodableDomain]
     
@@ -19,31 +19,31 @@ class CodableRoot: Codable {
         return try? JSONDecoder().decode(Self.self, from: jsonData)
     }
     
-    init(domains: FetchedResults<Domain>) {
+    init(domains: [Domain]) {
         self.domains = domains.map { CodableDomain($0) }
     }
     
-    func overwriteCoreData(domains: FetchedResults<Domain>, context: NSManagedObjectContext) throws {
-        try burnItToTheGround(domains: domains, context: context)
-            try writeToCoreData(context: context)
+    func overwrite(domains: [Domain]) throws {
+        try burnItToTheGround(domains: domains)
+            try writeToCoreData()
     }
     
-    private func writeToCoreData(context: NSManagedObjectContext) throws {
-        let _ = domains.map { $0.asDomain(context: context) }
-        try context.save()
+    private func writeToCoreData() throws {
+//        let _ = domains.map { $0.asDomain(context: context) }
+//        try context.save()
     }
     
-    private func burnItToTheGround(domains: FetchedResults<Domain>, context: NSManagedObjectContext) throws {
-        domains.forEach { domain in
-            domain.queue.forEach { item in
-                context.delete(item)
-            }
-            domain.backlog.forEach { item in
-                context.delete(item)
-            }
-            context.delete(domain)
-        }
-        try context.save()
+    private func burnItToTheGround(domains: [Domain]) throws {
+//        domains.forEach { domain in
+//            domain.queue.forEach { item in
+//                context.delete(item)
+//            }
+//            domain.backlog.forEach { item in
+//                context.delete(item)
+//            }
+//            context.delete(domain)
+//        }
+//        try context.save()
     }
     
     struct CodableDomain: Codable {
@@ -65,18 +65,15 @@ class CodableRoot: Codable {
             }
         }
         
-        func asDomain (context: NSManagedObjectContext) -> Domain {
-            let domain = Domain(context: context)
-            domain.name = name
-            domain.queue = Set<DomainItem>()
-            domain.backlog = Set<DomainItem>()
+        func asDomain () -> Domain {
+            let domain = Domain(name: name)
             
             for item in queue {
-                domain.queue.insert(item.asDomainItem(context: context))
+                domain.queue.append(item.asDomainItem())
             }
             
             for item in backlog {
-                domain.backlog.insert(item.asDomainItem(context: context))
+                domain.backlog.append(item.asDomainItem())
             }
             
             return domain
@@ -100,9 +97,8 @@ class CodableRoot: Codable {
             releaseDate = item.releaseDate
         }
         
-        func asDomainItem(context: NSManagedObjectContext) -> DomainItem {
-            let item = DomainItem(context: context)
-            item.name = name
+        func asDomainItem() -> DomainItem {
+            let item = DomainItem(name: name)
             item.status = ItemStatus(rawValue: status) ?? .unstarted
             item.isRepeat = isRepeat
             item.moveOnRelease = moveOnRelease

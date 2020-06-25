@@ -11,10 +11,10 @@ import SwiftUI
 struct EditableTitle: View {
     @Environment(\.editMode) var editMode
     @State var title: String
-    var saveTitle: (String) -> Bool
+    var saveTitle: (String) -> Void
     let language = DomainSpecificLanguage.defaultLanguage
     
-    init(title: String, saveTitle: @escaping (String) -> Bool) {
+    init(title: String, saveTitle: @escaping (String) -> Void) {
         self._title = State(initialValue: title)
         self.saveTitle = saveTitle
     }
@@ -28,7 +28,7 @@ struct EditableTitle: View {
                     .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                     .onDisappear {
                         title = title.trimmingCharacters(in: .whitespaces)
-                        _ = saveTitle(title)
+                        saveTitle(title)
                     }
                     .accessibility(identifier: "Domain Title")
             }
@@ -45,8 +45,6 @@ struct EditableTitle: View {
 
 struct EditableTitle_Previews: PreviewProvider {
     static var previews: some View {
-        EditableTitle(title: "Games") {_ in
-            return true
-        }
+        EditableTitle(title: "Games") { _ in }
     }
 }

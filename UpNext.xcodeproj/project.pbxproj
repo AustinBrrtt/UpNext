@@ -12,10 +12,9 @@
 		D910050324A30D03002DF1DA /* SolidButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D910050224A30D03002DF1DA /* SolidButton.swift */; };
 		D910050624A31493002DF1DA /* ItemCardIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */; };
 		D91930442472F70F003ED47A /* ItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91930432472F70F003ED47A /* ItemStatus.swift */; };
+		D97504B324A450B8007756D9 /* DomainsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97504B224A450B8007756D9 /* DomainsModel.swift */; };
 		D989D84624762AD000C94269 /* ItemStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D989D84524762AD000C94269 /* ItemStatusTests.swift */; };
-		D9BA898E2468F8670005CE9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898D2468F8670005CE9A /* AppDelegate.swift */; };
-		D9BA89902468F8670005CE9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898F2468F8670005CE9A /* SceneDelegate.swift */; };
-		D9BA89952468F8670005CE9A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89942468F8670005CE9A /* ContentView.swift */; };
+		D9BA898E2468F8670005CE9A /* UpNextApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898D2468F8670005CE9A /* UpNextApp.swift */; };
 		D9BA89972468F8670005CE9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9BA89962468F8670005CE9A /* Assets.xcassets */; };
 		D9BA899A2468F8670005CE9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9BA89992468F8670005CE9A /* Preview Assets.xcassets */; };
 		D9BA899D2468F8670005CE9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9BA899B2468F8670005CE9A /* LaunchScreen.storyboard */; };
@@ -41,7 +40,6 @@
 		D9BA89EC2468F87A0005CE9A /* AddByNameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D72468F87A0005CE9A /* AddByNameField.swift */; };
 		D9BA89ED2468F87A0005CE9A /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D82468F87A0005CE9A /* CustomBackButton.swift */; };
 		D9BA89EE2468F87A0005CE9A /* DomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D92468F87A0005CE9A /* DomainView.swift */; };
-		D9BA89F42468F93F0005CE9A /* UpNext.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89F22468F93F0005CE9A /* UpNext.xcdatamodeld */; };
 		D9BA8A042468F95D0005CE9A /* CoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89F52468F95C0005CE9A /* CoreDataTestCase.swift */; };
 		D9BA8A052468F95D0005CE9A /* UpNextTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89F62468F95D0005CE9A /* UpNextTestCase.swift */; };
 		D9BA8A092468F95D0005CE9A /* DomainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89FB2468F95D0005CE9A /* DomainTests.swift */; };
@@ -81,11 +79,10 @@
 		D910050224A30D03002DF1DA /* SolidButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolidButton.swift; sourceTree = "<group>"; };
 		D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCardIndicatorsView.swift; sourceTree = "<group>"; };
 		D91930432472F70F003ED47A /* ItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatus.swift; sourceTree = "<group>"; };
+		D97504B224A450B8007756D9 /* DomainsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainsModel.swift; sourceTree = "<group>"; };
 		D989D84524762AD000C94269 /* ItemStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatusTests.swift; sourceTree = "<group>"; };
 		D9BA898A2468F8670005CE9A /* UpNext.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpNext.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9BA898D2468F8670005CE9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D9BA898F2468F8670005CE9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D9BA89942468F8670005CE9A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D9BA898D2468F8670005CE9A /* UpNextApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextApp.swift; sourceTree = "<group>"; };
 		D9BA89962468F8670005CE9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9BA89992468F8670005CE9A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D9BA899C2468F8670005CE9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -116,7 +113,6 @@
 		D9BA89D72468F87A0005CE9A /* AddByNameField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddByNameField.swift; sourceTree = "<group>"; };
 		D9BA89D82468F87A0005CE9A /* CustomBackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		D9BA89D92468F87A0005CE9A /* DomainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainView.swift; sourceTree = "<group>"; };
-		D9BA89F32468F93F0005CE9A /* UpNextMkII.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UpNextMkII.xcdatamodel; sourceTree = "<group>"; };
 		D9BA89F52468F95C0005CE9A /* CoreDataTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTestCase.swift; sourceTree = "<group>"; };
 		D9BA89F62468F95D0005CE9A /* UpNextTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpNextTestCase.swift; sourceTree = "<group>"; };
 		D9BA89FB2468F95D0005CE9A /* DomainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainTests.swift; sourceTree = "<group>"; };
@@ -186,13 +182,10 @@
 				D9BA89CC2468F87A0005CE9A /* System Extensions */,
 				D9BA89C82468F87A0005CE9A /* View Modifiers */,
 				D9BA89CE2468F87A0005CE9A /* Views */,
-				D9BA898D2468F8670005CE9A /* AppDelegate.swift */,
-				D9BA898F2468F8670005CE9A /* SceneDelegate.swift */,
-				D9BA89942468F8670005CE9A /* ContentView.swift */,
+				D9BA898D2468F8670005CE9A /* UpNextApp.swift */,
 				D9BA89962468F8670005CE9A /* Assets.xcassets */,
 				D9BA899B2468F8670005CE9A /* LaunchScreen.storyboard */,
 				D9BA899E2468F8670005CE9A /* Info.plist */,
-				D9BA89F22468F93F0005CE9A /* UpNext.xcdatamodeld */,
 				D9BA89982468F8670005CE9A /* Preview Content */,
 			);
 			path = UpNext;
@@ -242,6 +235,7 @@
 				D9BA89C42468F87A0005CE9A /* DomainItem.swift */,
 				D9BA89C52468F87A0005CE9A /* Domain.swift */,
 				D91930432472F70F003ED47A /* ItemStatus.swift */,
+				D97504B224A450B8007756D9 /* DomainsModel.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -450,22 +444,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D97504B324A450B8007756D9 /* DomainsModel.swift in Sources */,
 				D9BA89E42468F87A0005CE9A /* ListItem.swift in Sources */,
 				D9BA89E92468F87A0005CE9A /* ImportExportView.swift in Sources */,
 				D9BA8A1C246906390005CE9A /* ConditionalBackground.swift in Sources */,
 				D90D8222246CE3B300FF09C5 /* MultilineTextField.swift in Sources */,
 				D91930442472F70F003ED47A /* ItemStatus.swift in Sources */,
 				D910050624A31493002DF1DA /* ItemCardIndicatorsView.swift in Sources */,
-				D9BA89F42468F93F0005CE9A /* UpNext.xcdatamodeld in Sources */,
 				D9BA89E22468F87A0005CE9A /* WithCustomBackButton.swift in Sources */,
 				D9BA89DA2468F87A0005CE9A /* DomainSpecificLanguage.swift in Sources */,
 				D9BA89EE2468F87A0005CE9A /* DomainView.swift in Sources */,
 				D9BA89DD2468F87A0005CE9A /* DomainItem.swift in Sources */,
-				D9BA898E2468F8670005CE9A /* AppDelegate.swift in Sources */,
-				D9BA89952468F8670005CE9A /* ContentView.swift in Sources */,
+				D9BA898E2468F8670005CE9A /* UpNextApp.swift in Sources */,
 				D9BA89DC2468F87A0005CE9A /* CodableRoot.swift in Sources */,
 				D9BA89ED2468F87A0005CE9A /* CustomBackButton.swift in Sources */,
-				D9BA89902468F8670005CE9A /* SceneDelegate.swift in Sources */,
 				D9BA89EA2468F87A0005CE9A /* ItemList.swift in Sources */,
 				D9BA89E12468F87A0005CE9A /* ClearButton.swift in Sources */,
 				D9BA89E32468F87A0005CE9A /* Date.swift in Sources */,
@@ -824,19 +816,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		D9BA89F22468F93F0005CE9A /* UpNext.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				D9BA89F32468F93F0005CE9A /* UpNextMkII.xcdatamodel */,
-			);
-			currentVersion = D9BA89F32468F93F0005CE9A /* UpNextMkII.xcdatamodel */;
-			path = UpNext.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = D9BA89822468F8670005CE9A /* Project object */;
 }

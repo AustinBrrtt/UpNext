@@ -9,27 +9,21 @@
 import SwiftUI
 
 struct ItemList: View {
-    @Environment(\.managedObjectContext) var context
     var items: [DomainItem]
-    @Binding var dirtyHack: Bool
     let language = DomainSpecificLanguage.defaultLanguage
     
-    init(_ items: [DomainItem], dirtyHack: Binding<Bool>) {
+    init(_ items: [DomainItem]) {
         self.items = items
-        self._dirtyHack = dirtyHack
-        
     }
     
     var body: some View {
         List {
             ForEach(items) { item in
-                ItemCardView(item: item, dirtyHack: $dirtyHack)
+                ItemCardView(item: item)
             }
             .onDelete { (offsets: IndexSet) in
                 for index in offsets {
-                    context.delete(items[index])
-                    saveCoreData()
-                    dirtyHack.toggle()
+                    // TODO: Delete items[index]
                 }
             }
             .onMove { (src: IndexSet, dst: Int) in
@@ -50,24 +44,13 @@ struct ItemList: View {
                     print(item.name ?? language.defaultItemTitle.title, index)
                     item.sortIndex = Int16(index)
                 }
-                saveCoreData()
             }
-        }
-    }
-    
-    private func saveCoreData() {
-        do {
-            try context.save()
-            dirtyHack.toggle()
-        } catch let error as NSError {
-            // TODO: Handle CoreData save error
-            print("Saving failed. \(error), \(error.userInfo)")
         }
     }
 }
 
 struct ItemList_Previews: PreviewProvider {
     static var previews: some View {
-        ItemList([], dirtyHack: .constant(true)) // TODO: CoreData preview
+        ItemList([]) // TODO: CoreData preview
     }
 }
