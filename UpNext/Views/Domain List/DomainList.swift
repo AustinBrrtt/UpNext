@@ -51,7 +51,36 @@ struct DomainList: View {
 }
 
 struct DomainList_Previews: PreviewProvider {
+    static var queueItems = [
+        DomainItem(name: "The Legend of Zelda"),
+        DomainItem(name: "Hitman 2"),
+        DomainItem(name: "Shrek SuperSlam")
+    ]
+    static var backlogItems = [
+        DomainItem(name: "Hitman 3"),
+        DomainItem(name: "Thief"),
+        DomainItem(name: "Mario & Luigi: Bowser's Inside Story")
+    ]
+    static var domains: [Domain] {
+        let domain = Domain(name: "Games")
+        domain.queue = queueItems
+        domain.backlog = backlogItems
+        domain.queue[0].releaseDate = Date(timeIntervalSince1970: 509400000)
+        domain.queue[0].notes = "Really good game"
+        domain.queue[0].isRepeat = true
+        domain.queue[0].status = .started
+        domain.queue[1].status = .started
+        domain.backlog[0].releaseDate = Date(timeIntervalSinceReferenceDate: 631200000)
+        domain.backlog[0].moveOnRelease = true
+        domain.queue.forEach { item in
+            item.inQueueOf = domain
+        }
+        domain.backlog.forEach { item in
+            item.inBacklogOf = domain
+        }
+        return [domain, Domain(name: "Books"), Domain(name: "Anime")]
+    }
     static var previews: some View {
-        DomainList(domains: .constant([]))
+        DomainList(domains: .constant(domains))
     }
 }

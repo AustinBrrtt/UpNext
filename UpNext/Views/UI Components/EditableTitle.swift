@@ -45,6 +45,26 @@ struct EditableTitle: View {
 
 struct EditableTitle_Previews: PreviewProvider {
     static var previews: some View {
-        EditableTitle(title: "Games") { _ in }
+        VStack {
+            VStack  {
+                Text("Edit Mode off:")
+                    .font(.headline)
+                EditableTitle(title: "Games") { _ in }
+                    .environment(\.editMode, .constant(EditMode.inactive))
+            }
+            .padding()
+            .border(Color.black)
+            .padding(.bottom)
+            VStack  {
+                Text("Edit Mode on:")
+                    .font(.headline)
+                EditableTitle(title: "Games") { _ in }
+                    .environment(\.editMode, .constant(EditMode.active))
+            }
+            .padding()
+            .border(Color.black)
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
 }

@@ -85,6 +85,7 @@ struct ItemProperties: View {
 
 struct ItemProperties_Previews: PreviewProvider {
     static var previews: some View {
-        return Text("TODO") // TODO: CoreData previews ItemProperties()
+        return ItemProperties(DomainItem(name: "Sample Item")) { }
+            .previewLayout(.fixed(width: 450, height: 350))
     }
 }

@@ -24,7 +24,14 @@ extension View {
 
 struct BigText_Previews: PreviewProvider {
     static var previews: some View {
-        Text("This text is big")
-            .bigText()
+        VStack {
+            Text("This text is normal")
+            Text("This text is big")
+                .bigText()
+            Text("This text is big and bold")
+                .bigText(bold: true)
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
 }

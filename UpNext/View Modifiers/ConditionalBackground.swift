@@ -13,3 +13,17 @@ extension View {
         condition ? AnyView(self.background(background)) : AnyView(self)
     }
 }
+
+struct ConditionalBackgrond_Previews: PreviewProvider {
+    static var previews: some View {
+        return VStack {
+            Text("Condition is true")
+                .padding()
+                .background(Color.secondaryBackground, if: true)
+            Text("Condition is false")
+                .padding()
+                .background(Color.secondaryBackground, if: false)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+}

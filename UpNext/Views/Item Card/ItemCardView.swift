@@ -164,8 +164,87 @@ struct ItemCardView: View {
     }
 }
 
-// struct ItemCardView_Previews: PreviewProvider {
-//     static var previews: some View {
-//         ItemCardView(item: )
-//     }
-// }
+struct ItemCardView_Previews: PreviewProvider {
+    static var basicBacklogItem = DomainItem(name: "Backlog Item")
+    static var complexBacklogItem: DomainItem {
+        let item = DomainItem(name: "Backlog Item with properties")
+        item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
+        item.isRepeat = true
+        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
+        item.moveOnRelease = true
+        return item
+    }
+    static var futureBacklogItem: DomainItem {
+        let item = DomainItem(name: "Future Backlog Item with properties")
+        item.releaseDate = Date(timeIntervalSinceReferenceDate: 6000000000)
+        item.isRepeat = true
+        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
+        item.moveOnRelease = true
+        return item
+    }
+    static var completedQueueItem: DomainItem {
+        let item = DomainItem(name: "Completed Queue Item")
+        item.status = .completed
+        item.inQueueOf = Domain(name: "Queue Holder")
+        return item
+    }
+    static var startedQueueItem: DomainItem {
+        let item = DomainItem(name: "Started Queue Item")
+        item.status = .started
+        item.inQueueOf = Domain(name: "Queue Holder")
+        return item
+    }
+    static var unstartedQueueItem: DomainItem {
+        let item = DomainItem(name: "Unstarted Queue Item")
+        item.inQueueOf = Domain(name: "Queue Holder")
+        return item
+    }
+    static var complexQueueItem: DomainItem {
+        let item = DomainItem(name: "Unstarted Queue Item with properties")
+        item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
+        item.isRepeat = true
+        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
+        item.inQueueOf = Domain(name: "Queue Holder")
+        return item
+    }
+    static var futureQueueItem: DomainItem {
+        let item = DomainItem(name: "Future Unstarted Queue Item with properties")
+        item.releaseDate = Date(timeIntervalSinceReferenceDate: 6000000000)
+        item.isRepeat = true
+        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
+        item.inQueueOf = Domain(name: "Queue Holder")
+        return item
+    }
+
+    static var previews: some View {
+        VStack {
+            ItemCardView(item: basicBacklogItem)
+                .frame(width: 400)
+                .padding(.bottom)
+            ItemCardView(item: complexBacklogItem)
+                .frame(width: 400)
+                .padding(.bottom)
+            ItemCardView(item: futureBacklogItem)
+                .frame(width: 400)
+            Divider()
+                .padding()
+            ItemCardView(item: completedQueueItem)
+                .frame(width: 400)
+                .padding(.bottom)
+            ItemCardView(item: startedQueueItem)
+                .frame(width: 400)
+                .padding(.bottom)
+            ItemCardView(item: unstartedQueueItem)
+                .frame(width: 400)
+                .padding(.bottom)
+            ItemCardView(item: complexQueueItem)
+                .frame(width: 400)
+                .padding(.bottom)
+            ItemCardView(item: futureQueueItem)
+                .frame(width: 400)
+                .padding(.bottom)
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}

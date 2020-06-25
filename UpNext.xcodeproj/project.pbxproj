@@ -27,7 +27,6 @@
 		D9BA89DF2468F87A0005CE9A /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89C72468F87A0005CE9A /* LazyView.swift */; };
 		D9BA89E02468F87A0005CE9A /* OnTapDismissesKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89C92468F87A0005CE9A /* OnTapDismissesKeyboard.swift */; };
 		D9BA89E12468F87A0005CE9A /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89CA2468F87A0005CE9A /* ClearButton.swift */; };
-		D9BA89E22468F87A0005CE9A /* WithCustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89CB2468F87A0005CE9A /* WithCustomBackButton.swift */; };
 		D9BA89E32468F87A0005CE9A /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89CD2468F87A0005CE9A /* Date.swift */; };
 		D9BA89E42468F87A0005CE9A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89CF2468F87A0005CE9A /* ListItem.swift */; };
 		D9BA89E52468F87A0005CE9A /* DomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D02468F87A0005CE9A /* DomainList.swift */; };
@@ -38,7 +37,6 @@
 		D9BA89EA2468F87A0005CE9A /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D52468F87A0005CE9A /* ItemList.swift */; };
 		D9BA89EB2468F87A0005CE9A /* ItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D62468F87A0005CE9A /* ItemCardView.swift */; };
 		D9BA89EC2468F87A0005CE9A /* AddByNameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D72468F87A0005CE9A /* AddByNameField.swift */; };
-		D9BA89ED2468F87A0005CE9A /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D82468F87A0005CE9A /* CustomBackButton.swift */; };
 		D9BA89EE2468F87A0005CE9A /* DomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D92468F87A0005CE9A /* DomainView.swift */; };
 		D9BA8A042468F95D0005CE9A /* CoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89F52468F95C0005CE9A /* CoreDataTestCase.swift */; };
 		D9BA8A052468F95D0005CE9A /* UpNextTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89F62468F95D0005CE9A /* UpNextTestCase.swift */; };
@@ -100,7 +98,6 @@
 		D9BA89C72468F87A0005CE9A /* LazyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		D9BA89C92468F87A0005CE9A /* OnTapDismissesKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnTapDismissesKeyboard.swift; sourceTree = "<group>"; };
 		D9BA89CA2468F87A0005CE9A /* ClearButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
-		D9BA89CB2468F87A0005CE9A /* WithCustomBackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithCustomBackButton.swift; sourceTree = "<group>"; };
 		D9BA89CD2468F87A0005CE9A /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		D9BA89CF2468F87A0005CE9A /* ListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		D9BA89D02468F87A0005CE9A /* DomainList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainList.swift; sourceTree = "<group>"; };
@@ -111,7 +108,6 @@
 		D9BA89D52468F87A0005CE9A /* ItemList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		D9BA89D62468F87A0005CE9A /* ItemCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCardView.swift; sourceTree = "<group>"; };
 		D9BA89D72468F87A0005CE9A /* AddByNameField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddByNameField.swift; sourceTree = "<group>"; };
-		D9BA89D82468F87A0005CE9A /* CustomBackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		D9BA89D92468F87A0005CE9A /* DomainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainView.swift; sourceTree = "<group>"; };
 		D9BA89F52468F95C0005CE9A /* CoreDataTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTestCase.swift; sourceTree = "<group>"; };
 		D9BA89F62468F95D0005CE9A /* UpNextTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpNextTestCase.swift; sourceTree = "<group>"; };
@@ -154,6 +150,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D9B60B2A24A4D864003B484E /* UI Components */ = {
+			isa = PBXGroup;
+			children = (
+				D910050224A30D03002DF1DA /* SolidButton.swift */,
+				D90D8221246CE3B300FF09C5 /* MultilineTextField.swift */,
+				D9BA89D72468F87A0005CE9A /* AddByNameField.swift */,
+				D9BA89D32468F87A0005CE9A /* EditableTitle.swift */,
+			);
+			path = "UI Components";
+			sourceTree = "<group>";
+		};
+		D9B60B2B24A4D8A5003B484E /* Domain List */ = {
+			isa = PBXGroup;
+			children = (
+				D9BA89D02468F87A0005CE9A /* DomainList.swift */,
+			);
+			path = "Domain List";
+			sourceTree = "<group>";
+		};
+		D9B60B2C24A4D8BA003B484E /* Item List */ = {
+			isa = PBXGroup;
+			children = (
+				D9BA89D92468F87A0005CE9A /* DomainView.swift */,
+				D9BA89D52468F87A0005CE9A /* ItemList.swift */,
+			);
+			path = "Item List";
+			sourceTree = "<group>";
+		};
+		D9B60B2D24A4D8C5003B484E /* Item Card */ = {
+			isa = PBXGroup;
+			children = (
+				D9BA89D62468F87A0005CE9A /* ItemCardView.swift */,
+				D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */,
+				D9BA89D22468F87A0005CE9A /* ItemProperties.swift */,
+			);
+			path = "Item Card";
+			sourceTree = "<group>";
+		};
+		D9B60B2E24A4D903003B484E /* Import and Export */ = {
+			isa = PBXGroup;
+			children = (
+				D9BA89D42468F87A0005CE9A /* ImportExportView.swift */,
+			);
+			path = "Import and Export";
+			sourceTree = "<group>";
+		};
 		D9BA89812468F8670005CE9A = {
 			isa = PBXGroup;
 			children = (
@@ -251,9 +293,10 @@
 		D9BA89C82468F87A0005CE9A /* View Modifiers */ = {
 			isa = PBXGroup;
 			children = (
+				D9BA89CF2468F87A0005CE9A /* ListItem.swift */,
+				D9BA89D12468F87A0005CE9A /* BigText.swift */,
 				D9BA89C92468F87A0005CE9A /* OnTapDismissesKeyboard.swift */,
 				D9BA89CA2468F87A0005CE9A /* ClearButton.swift */,
-				D9BA89CB2468F87A0005CE9A /* WithCustomBackButton.swift */,
 				D9BA8A1B246906390005CE9A /* ConditionalBackground.swift */,
 			);
 			path = "View Modifiers";
@@ -271,20 +314,11 @@
 		D9BA89CE2468F87A0005CE9A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */,
-				D9BA89CF2468F87A0005CE9A /* ListItem.swift */,
-				D9BA89D02468F87A0005CE9A /* DomainList.swift */,
-				D9BA89D12468F87A0005CE9A /* BigText.swift */,
-				D9BA89D22468F87A0005CE9A /* ItemProperties.swift */,
-				D9BA89D32468F87A0005CE9A /* EditableTitle.swift */,
-				D9BA89D42468F87A0005CE9A /* ImportExportView.swift */,
-				D9BA89D52468F87A0005CE9A /* ItemList.swift */,
-				D9BA89D62468F87A0005CE9A /* ItemCardView.swift */,
-				D9BA89D72468F87A0005CE9A /* AddByNameField.swift */,
-				D9BA89D82468F87A0005CE9A /* CustomBackButton.swift */,
-				D9BA89D92468F87A0005CE9A /* DomainView.swift */,
-				D90D8221246CE3B300FF09C5 /* MultilineTextField.swift */,
-				D910050224A30D03002DF1DA /* SolidButton.swift */,
+				D9B60B2E24A4D903003B484E /* Import and Export */,
+				D9B60B2D24A4D8C5003B484E /* Item Card */,
+				D9B60B2C24A4D8BA003B484E /* Item List */,
+				D9B60B2B24A4D8A5003B484E /* Domain List */,
+				D9B60B2A24A4D864003B484E /* UI Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -451,13 +485,11 @@
 				D90D8222246CE3B300FF09C5 /* MultilineTextField.swift in Sources */,
 				D91930442472F70F003ED47A /* ItemStatus.swift in Sources */,
 				D910050624A31493002DF1DA /* ItemCardIndicatorsView.swift in Sources */,
-				D9BA89E22468F87A0005CE9A /* WithCustomBackButton.swift in Sources */,
 				D9BA89DA2468F87A0005CE9A /* DomainSpecificLanguage.swift in Sources */,
 				D9BA89EE2468F87A0005CE9A /* DomainView.swift in Sources */,
 				D9BA89DD2468F87A0005CE9A /* DomainItem.swift in Sources */,
 				D9BA898E2468F8670005CE9A /* UpNextApp.swift in Sources */,
 				D9BA89DC2468F87A0005CE9A /* CodableRoot.swift in Sources */,
-				D9BA89ED2468F87A0005CE9A /* CustomBackButton.swift in Sources */,
 				D9BA89EA2468F87A0005CE9A /* ItemList.swift in Sources */,
 				D9BA89E12468F87A0005CE9A /* ClearButton.swift in Sources */,
 				D9BA89E32468F87A0005CE9A /* Date.swift in Sources */,

@@ -51,6 +51,11 @@ struct ItemList: View {
 
 struct ItemList_Previews: PreviewProvider {
     static var previews: some View {
-        ItemList([]) // TODO: CoreData preview
+        ItemList([
+            DomainItem(name: "The Legend of Zelda"),
+            DomainItem(name: "Hitman 2"),
+            DomainItem(name: "Shrek SuperSlam")
+        ])
+        .previewLayout(.fixed(width: 450, height: 350))
     }
 }
