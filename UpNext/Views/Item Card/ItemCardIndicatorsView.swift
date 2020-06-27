@@ -37,17 +37,17 @@ struct ItemCardIndicatorsView: View {
  struct ItemCardIndicatorsView_Previews: PreviewProvider {
     static var basicItem = DomainItem(name: "Item Without Properties")
     static var dateItem: DomainItem {
-        let item = DomainItem(name: "Item With Date")
+        var item = DomainItem(name: "Item With Date")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
         return item
     }
     static var notesItem: DomainItem {
-        let item = DomainItem(name: "Item With Notes")
+        var item = DomainItem(name: "Item With Notes")
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
         return item
     }
     static var complexItem: DomainItem {
-        let item = DomainItem(name: "Item With Properties")
+        var item = DomainItem(name: "Item With Properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
         item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"

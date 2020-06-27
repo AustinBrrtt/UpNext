@@ -13,11 +13,12 @@ import SwiftUI
 // TODO: Mac Navigation
 struct ItemCardView: View {
     @Environment(\.editMode) var editMode
+    @EnvironmentObject var model: DomainsModel
     let language = DomainSpecificLanguage.defaultLanguage
     @State var isPropertiesShown: Bool = false
     @State var expanded: Bool = false
     
-    var item: DomainItem
+    @Binding var item: DomainItem
     
     var startDoneButtonIcon: String {
         switch item.status {
@@ -91,11 +92,11 @@ struct ItemCardView: View {
                                 }
                                 
                                 Button(action: {
-                                    item.move()
+                                    model.move(item: item)
                                 }) {
                                     HStack {
-                                        Text(item.isInQueue ? "Move to \(language.backlog.title)" : "Move to \(language.queue.title)")
-                                        Image(systemName: item.isInQueue ? "arrow.right.to.line" : "arrow.left.to.line")
+                                        Text(model.isItemInQueue(item) ? "Move to \(language.backlog.title)" : "Move to \(language.queue.title)")
+                                        Image(systemName: model.isItemInQueue(item) ? "arrow.right.to.line" : "arrow.left.to.line")
                                     }
                                 }
                                 
@@ -110,7 +111,7 @@ struct ItemCardView: View {
                             }
                     }
                     Spacer()
-                    if item.isInQueue && !editing {
+                    if model.isItemInQueue(item) && !editing {
                         SolidButton(startDoneButtonText, foreground: startDoneButtonForegroundColor, background: startDoneButtonBackgroundColor) {
                             item.status = item.status.next()
                         }
@@ -156,9 +157,10 @@ struct ItemCardView: View {
                     Spacer()
                     
                 }
-                ItemProperties(item) {
+                ItemPropertiesView($item) {
                     isPropertiesShown = false
                 }
+                .environmentObject(model)
             }
         }
     }
@@ -167,7 +169,7 @@ struct ItemCardView: View {
 struct ItemCardView_Previews: PreviewProvider {
     static var basicBacklogItem = DomainItem(name: "Backlog Item")
     static var complexBacklogItem: DomainItem {
-        let item = DomainItem(name: "Backlog Item with properties")
+        var item = DomainItem(name: "Backlog Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
         item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
@@ -175,7 +177,7 @@ struct ItemCardView_Previews: PreviewProvider {
         return item
     }
     static var futureBacklogItem: DomainItem {
-        let item = DomainItem(name: "Future Backlog Item with properties")
+        var item = DomainItem(name: "Future Backlog Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 6000000000)
         item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
@@ -183,68 +185,76 @@ struct ItemCardView_Previews: PreviewProvider {
         return item
     }
     static var completedQueueItem: DomainItem {
-        let item = DomainItem(name: "Completed Queue Item")
+        var item = DomainItem(name: "Completed Queue Item")
         item.status = .completed
-        item.inQueueOf = Domain(name: "Queue Holder")
         return item
     }
     static var startedQueueItem: DomainItem {
-        let item = DomainItem(name: "Started Queue Item")
+        var item = DomainItem(name: "Started Queue Item")
         item.status = .started
-        item.inQueueOf = Domain(name: "Queue Holder")
         return item
     }
     static var unstartedQueueItem: DomainItem {
-        let item = DomainItem(name: "Unstarted Queue Item")
-        item.inQueueOf = Domain(name: "Queue Holder")
+        var item = DomainItem(name: "Unstarted Queue Item")
         return item
     }
     static var complexQueueItem: DomainItem {
-        let item = DomainItem(name: "Unstarted Queue Item with properties")
+        var item = DomainItem(name: "Unstarted Queue Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
         item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
-        item.inQueueOf = Domain(name: "Queue Holder")
         return item
     }
     static var futureQueueItem: DomainItem {
-        let item = DomainItem(name: "Future Unstarted Queue Item with properties")
+        var item = DomainItem(name: "Future Unstarted Queue Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 6000000000)
         item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
-        item.inQueueOf = Domain(name: "Queue Holder")
         return item
+    }
+    
+    static var model: DomainsModel {
+        let model = DomainsModel()
+        model.domains.append(Domain(name: "Queue Holder"))
+        model.domains[0].queue = [
+            completedQueueItem,
+            startedQueueItem,
+            unstartedQueueItem,
+            complexQueueItem,
+            futureQueueItem
+        ]
+        model.domains[0].backlog = [
+            basicBacklogItem,
+            complexBacklogItem,
+            futureBacklogItem
+        ]
+        return model
+    }
+    
+    struct PreviewContainer: View {
+        @EnvironmentObject var model: DomainsModel
+        
+        var body: some View {
+            VStack {
+                ForEach(model.domains[0].backlog) { item in
+                    ItemCardView(item: .constant(item))
+                        .frame(width: 400)
+                        .padding(.bottom)
+                }
+                Divider()
+                ForEach(model.domains[0].queue) { item in
+                    ItemCardView(item: .constant(item))
+                        .frame(width: 400)
+                        .padding(.bottom)
+                }
+            }
+        }
     }
 
     static var previews: some View {
-        VStack {
-            ItemCardView(item: basicBacklogItem)
-                .frame(width: 400)
-                .padding(.bottom)
-            ItemCardView(item: complexBacklogItem)
-                .frame(width: 400)
-                .padding(.bottom)
-            ItemCardView(item: futureBacklogItem)
-                .frame(width: 400)
-            Divider()
-                .padding()
-            ItemCardView(item: completedQueueItem)
-                .frame(width: 400)
-                .padding(.bottom)
-            ItemCardView(item: startedQueueItem)
-                .frame(width: 400)
-                .padding(.bottom)
-            ItemCardView(item: unstartedQueueItem)
-                .frame(width: 400)
-                .padding(.bottom)
-            ItemCardView(item: complexQueueItem)
-                .frame(width: 400)
-                .padding(.bottom)
-            ItemCardView(item: futureQueueItem)
-                .frame(width: 400)
-                .padding(.bottom)
-        }
-        .padding()
-        .previewLayout(.sizeThatFits)
+        PreviewContainer()
+            .environmentObject(model)
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
 }

@@ -8,7 +8,12 @@
 
 import Foundation
 
-class DomainItem: Identifiable {
+struct DomainItem: Identifiable {
+    @available(*, deprecated, message: "Deprecated in favor of init(name: String)")
+    static func create(name: String) -> DomainItem {
+        return DomainItem(name: name)
+    }
+    
     public var id: UUID = UUID()
     public var name: String?
     public var notes: String?
@@ -17,9 +22,6 @@ class DomainItem: Identifiable {
     public var moveOnRelease: Bool
     public var sortIndex: Int16
     public var releaseDate: Date?
-    
-    public var inQueueOf: Domain?
-    public var inBacklogOf: Domain?
     
     public var displayName: String {
         name ?? "Untitled"
@@ -38,14 +40,6 @@ class DomainItem: Identifiable {
         return formatter.string(from: releaseDate)
     }
     
-    public var domain: Domain {
-        inQueueOf ?? inBacklogOf! // We should never have an item in neither the queue nor the backlog
-    }
-    
-    public var isInQueue: Bool {
-        inQueueOf != nil
-    }
-    
     public var hasReleaseDate: Bool {
         return releaseDate != nil
     }
@@ -57,11 +51,6 @@ class DomainItem: Identifiable {
         return Date().noon < releaseDate.noon
     }
     
-    @available(*, deprecated)
-    static func create(name: String) -> DomainItem {
-        return DomainItem(name: name)
-    }
-    
     init(name: String?) {
         self.name = name
         self.notes = nil
@@ -71,26 +60,13 @@ class DomainItem: Identifiable {
         self.sortIndex = 0
         self.releaseDate = nil
     }
-    
-    func move() {
-        if isInQueue {
-            let sorted = inQueueOf!.backlog.sorted()
-            sortIndex = sorted.isEmpty ? 0 : sorted[sorted.count - 1].sortIndex + 1
-            inBacklogOf = inQueueOf
-            inQueueOf = nil
-        } else {
-            let sorted = inBacklogOf!.queue.sorted()
-            sortIndex = sorted.isEmpty ? 0 : sorted[sorted.count - 1].sortIndex + 1
-            inQueueOf = inBacklogOf
-            inBacklogOf = nil
-        }
-    }
 }
 
 
 extension DomainItem: Equatable, Comparable {
     static func == (lhs: DomainItem, rhs: DomainItem) -> Bool {
-        return lhs.status == rhs.status && lhs.sortIndex == rhs.sortIndex
+        // return lhs.status == rhs.status && lhs.sortIndex == rhs.sortIndex // TODO: Should == be identity, equality, or sort equality?
+        return lhs.id == rhs.id
     }
     
     // Sorts by status and then by sortIndex within each status

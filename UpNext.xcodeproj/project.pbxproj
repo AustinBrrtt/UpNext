@@ -12,6 +12,7 @@
 		D910050324A30D03002DF1DA /* SolidButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D910050224A30D03002DF1DA /* SolidButton.swift */; };
 		D910050624A31493002DF1DA /* ItemCardIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */; };
 		D91930442472F70F003ED47A /* ItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91930432472F70F003ED47A /* ItemStatus.swift */; };
+		D96F697A24A6FC260005923E /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F697924A6FC260005923E /* ItemProperties.swift */; };
 		D97504B324A450B8007756D9 /* DomainsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97504B224A450B8007756D9 /* DomainsModel.swift */; };
 		D989D84624762AD000C94269 /* ItemStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D989D84524762AD000C94269 /* ItemStatusTests.swift */; };
 		D9BA898E2468F8670005CE9A /* UpNextApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898D2468F8670005CE9A /* UpNextApp.swift */; };
@@ -31,7 +32,7 @@
 		D9BA89E42468F87A0005CE9A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89CF2468F87A0005CE9A /* ListItem.swift */; };
 		D9BA89E52468F87A0005CE9A /* DomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D02468F87A0005CE9A /* DomainList.swift */; };
 		D9BA89E62468F87A0005CE9A /* BigText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D12468F87A0005CE9A /* BigText.swift */; };
-		D9BA89E72468F87A0005CE9A /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D22468F87A0005CE9A /* ItemProperties.swift */; };
+		D9BA89E72468F87A0005CE9A /* ItemPropertiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D22468F87A0005CE9A /* ItemPropertiesView.swift */; };
 		D9BA89E82468F87A0005CE9A /* EditableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D32468F87A0005CE9A /* EditableTitle.swift */; };
 		D9BA89E92468F87A0005CE9A /* ImportExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D42468F87A0005CE9A /* ImportExportView.swift */; };
 		D9BA89EA2468F87A0005CE9A /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89D52468F87A0005CE9A /* ItemList.swift */; };
@@ -77,6 +78,7 @@
 		D910050224A30D03002DF1DA /* SolidButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolidButton.swift; sourceTree = "<group>"; };
 		D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCardIndicatorsView.swift; sourceTree = "<group>"; };
 		D91930432472F70F003ED47A /* ItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatus.swift; sourceTree = "<group>"; };
+		D96F697924A6FC260005923E /* ItemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
 		D97504B224A450B8007756D9 /* DomainsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainsModel.swift; sourceTree = "<group>"; };
 		D989D84524762AD000C94269 /* ItemStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatusTests.swift; sourceTree = "<group>"; };
 		D9BA898A2468F8670005CE9A /* UpNext.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpNext.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,7 +104,7 @@
 		D9BA89CF2468F87A0005CE9A /* ListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		D9BA89D02468F87A0005CE9A /* DomainList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainList.swift; sourceTree = "<group>"; };
 		D9BA89D12468F87A0005CE9A /* BigText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigText.swift; sourceTree = "<group>"; };
-		D9BA89D22468F87A0005CE9A /* ItemProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
+		D9BA89D22468F87A0005CE9A /* ItemPropertiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemPropertiesView.swift; sourceTree = "<group>"; };
 		D9BA89D32468F87A0005CE9A /* EditableTitle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableTitle.swift; sourceTree = "<group>"; };
 		D9BA89D42468F87A0005CE9A /* ImportExportView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportView.swift; sourceTree = "<group>"; };
 		D9BA89D52468F87A0005CE9A /* ItemList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
@@ -183,7 +185,7 @@
 			children = (
 				D9BA89D62468F87A0005CE9A /* ItemCardView.swift */,
 				D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */,
-				D9BA89D22468F87A0005CE9A /* ItemProperties.swift */,
+				D9BA89D22468F87A0005CE9A /* ItemPropertiesView.swift */,
 			);
 			path = "Item Card";
 			sourceTree = "<group>";
@@ -278,6 +280,7 @@
 				D9BA89C52468F87A0005CE9A /* Domain.swift */,
 				D91930432472F70F003ED47A /* ItemStatus.swift */,
 				D97504B224A450B8007756D9 /* DomainsModel.swift */,
+				D96F697924A6FC260005923E /* ItemProperties.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -496,7 +499,8 @@
 				D9BA89DB2468F87A0005CE9A /* Noun.swift in Sources */,
 				D9BA8A1E246907560005CE9A /* Color.swift in Sources */,
 				D9BA89E62468F87A0005CE9A /* BigText.swift in Sources */,
-				D9BA89E72468F87A0005CE9A /* ItemProperties.swift in Sources */,
+				D9BA89E72468F87A0005CE9A /* ItemPropertiesView.swift in Sources */,
+				D96F697A24A6FC260005923E /* ItemProperties.swift in Sources */,
 				D9BA89DF2468F87A0005CE9A /* LazyView.swift in Sources */,
 				D910050324A30D03002DF1DA /* SolidButton.swift in Sources */,
 				D9BA89E02468F87A0005CE9A /* OnTapDismissesKeyboard.swift in Sources */,

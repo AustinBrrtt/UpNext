@@ -69,11 +69,11 @@ class CodableRoot: Codable {
             let domain = Domain(name: name)
             
             for item in queue {
-                domain.queue.append(item.asDomainItem())
+//                domain.queue.append(item.asDomainItem())
             }
             
             for item in backlog {
-                domain.backlog.append(item.asDomainItem())
+//                domain.backlog.append(item.asDomainItem())
             }
             
             return domain
@@ -99,11 +99,11 @@ class CodableRoot: Codable {
         
         func asDomainItem() -> DomainItem {
             let item = DomainItem(name: name)
-            item.status = ItemStatus(rawValue: status) ?? .unstarted
-            item.isRepeat = isRepeat
-            item.moveOnRelease = moveOnRelease
-            item.sortIndex = sortIndex
-            item.releaseDate = releaseDate
+//            item.status = ItemStatus(rawValue: status) ?? .unstarted
+//            item.isRepeat = isRepeat
+//            item.moveOnRelease = moveOnRelease
+//            item.sortIndex = sortIndex
+//            item.releaseDate = releaseDate
             return item
         }
     }

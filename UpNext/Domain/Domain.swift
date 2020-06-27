@@ -8,25 +8,27 @@
 
 import Foundation
 
-class Domain: Identifiable {
-    var id: UUID = UUID()
-    var name: String?
-    var queue: [DomainItem]
-    var backlog: [DomainItem]
+struct Domain: Identifiable {
+    public var id: UUID = UUID()
+    public var name: String?
+    public var queue: [DomainItem]
+    public var backlog: [DomainItem]
     
     public var displayName: String {
         name ?? "Untitled"
     }
     
+    @available(*, deprecated, message: "Deprecated in favor of .queue")
     public var queueItems: [DomainItem] {
         Array(queue).sorted()
     }
     
+    @available(*, deprecated, message: "Deprecated in favor of .backlog")
     public var backlogItems: [DomainItem] {
         Array(backlog).sorted()
     }
     
-    @available(*, deprecated)
+    @available(*, deprecated, message: "Deprecated in favor of init(name: String)")
     static func create(name: String) -> Domain {
         return Domain(name: name)
     }
@@ -38,27 +40,27 @@ class Domain: Identifiable {
     }
     
     // TODO: Decide whether items should be class vs struct
-    public func prependToQueue(_ item: DomainItem) {
-        updateSortIndices(for: queueItems, add: 1)
+    public mutating func prependToQueue(_ item: DomainItem) {
+        updateSortIndices(for: queue, add: 1)
 //        item.sortIndex = 0
         queue.insert(item, at: 0)
 //        item.inQueueOf = self
     }
     
-    public func addToQueue(_ item: DomainItem) {
+    public mutating func addToQueue(_ item: DomainItem) {
 //        item.sortIndex = Int16(queue.count)
         queue.append(item)
 //        item.inQueueOf = self
     }
     
-    public func addToBacklog(_ item: DomainItem) {
+    public mutating func addToBacklog(_ item: DomainItem) {
 //        item.sortIndex = Int16(backlog.count)
         backlog.append(item)
 //        item.inBacklogOf = self
     }
     
     // returns true if any changes are made
-    public func processScheduledMoves() -> Bool {
+    public mutating func processScheduledMoves() -> Bool {
         var found = false
         for item in backlog {
             if item.moveOnRelease, let date = item.releaseDate, date < Date() {
@@ -71,9 +73,15 @@ class Domain: Identifiable {
         return found
     }
     
-    private func updateSortIndices(for items: [DomainItem], add offset: Int16 = 0) {
+    private mutating func updateSortIndices(for items: [DomainItem], add offset: Int16 = 0) {
 //        for (index, item) in items.enumerated() {
 //            item.sortIndex = Int16(index) + offset
 //        }
+    }
+}
+
+extension Domain: Equatable {
+    static func ==(lhs: Domain, rhs: Domain) -> Bool {
+        return lhs.id == rhs.id
     }
 }

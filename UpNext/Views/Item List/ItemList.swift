@@ -9,21 +9,28 @@
 import SwiftUI
 
 struct ItemList: View {
-    var items: [DomainItem]
+    @EnvironmentObject var model: DomainsModel
+    @Binding var items: [DomainItem]
+    @Binding var showCompleted: Bool
     let language = DomainSpecificLanguage.defaultLanguage
     
-    init(_ items: [DomainItem]) {
-        self.items = items
+    init(_ items: Binding<[DomainItem]>, showCompleted: Binding<Bool> = Binding<Bool>(get: { return true }, set: { _ in })) {
+        self._items = items
+        self._showCompleted = showCompleted
+    }
+    
+    var filteredIndices: [Int] {
+        showCompleted ? items.indices.map{$0} : items.indices.filter { items[$0].status != .completed }
     }
     
     var body: some View {
         List {
-            ForEach(items) { item in
-                ItemCardView(item: item)
+            ForEach(filteredIndices, id: \.self) { index in
+                ItemCardView(item: $items[index])
             }
             .onDelete { (offsets: IndexSet) in
                 for index in offsets {
-                    // TODO: Delete items[index]
+                    model.delete(items[index])
                 }
             }
             .onMove { (src: IndexSet, dst: Int) in
@@ -41,8 +48,8 @@ struct ItemList: View {
                 mutableList.move(fromOffsets: src, toOffset: dst)
                 // print("reordered")
                 for (index, item) in mutableList.enumerated() {
-                    print(item.name ?? language.defaultItemTitle.title, index)
-                    item.sortIndex = Int16(index)
+//                    print(item.name ?? language.defaultItemTitle.title, index)
+                    model.updateIndex(for: item, to: Int16(index))
                 }
             }
         }
@@ -51,11 +58,12 @@ struct ItemList: View {
 
 struct ItemList_Previews: PreviewProvider {
     static var previews: some View {
-        ItemList([
+        ItemList(.constant([
             DomainItem(name: "The Legend of Zelda"),
             DomainItem(name: "Hitman 2"),
             DomainItem(name: "Shrek SuperSlam")
-        ])
+        ]))
+        .environmentObject(DomainsModel())
         .previewLayout(.fixed(width: 450, height: 350))
     }
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DomainView: View {
-    var domain: Domain
+    @Binding var domain: Domain
     @State var showBacklog: Bool = false
     @State var showCompleted: Bool = false
     @State var editMode: EditMode = .inactive
@@ -55,13 +55,9 @@ struct DomainView: View {
             }
             
             if showBacklog {
-                ItemList(domain.backlogItems)
-            } else if showCompleted {
-                ItemList(domain.queueItems)
+                ItemList($domain.backlog)
             } else {
-                ItemList(domain.queueItems.filter { item in
-                    item.status != .completed
-                })
+                ItemList($domain.queue, showCompleted: $showCompleted)
             }
         }
             .navigationBarItems(
@@ -95,7 +91,7 @@ struct DomainView_Previews: PreviewProvider {
         DomainItem(name: "Mario & Luigi: Bowser's Inside Story")
     ]
     static var domain: Domain {
-        let domain = Domain(name: "Games")
+        var domain = Domain(name: "Games")
         domain.queue = queueItems
         domain.backlog = backlogItems
         domain.queue[0].releaseDate = Date(timeIntervalSince1970: 509400000)
@@ -105,18 +101,12 @@ struct DomainView_Previews: PreviewProvider {
         domain.queue[1].status = .started
         domain.backlog[0].releaseDate = Date(timeIntervalSinceReferenceDate: 631200000)
         domain.backlog[0].moveOnRelease = true
-        domain.queue.forEach { item in
-            item.inQueueOf = domain
-        }
-        domain.backlog.forEach { item in
-            item.inBacklogOf = domain
-        }
         return domain
     }
     
     static var previews: some View {
         NavigationView {
-            NavigationLink(destination: DomainView(domain: domain), isActive: .constant(true)) {
+            NavigationLink(destination: DomainView(domain: .constant(domain)), isActive: .constant(true)) {
                 EmptyView()
                     .navigationTitle("Lists")
             }

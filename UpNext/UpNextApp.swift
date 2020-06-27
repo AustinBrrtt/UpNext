@@ -15,6 +15,7 @@ struct UpNextApp: App {
     var body: some Scene {
         WindowGroup {
             DomainList(domains: $model.domains)
+                .environmentObject(model)
         }
     }
 }
