@@ -8,10 +8,35 @@
 
 import Foundation
 
-enum ItemStatus: String {
-    case unstarted = "UNSTARTED"
-    case started = "STARTED"
-    case completed = "COMPLETED"
+enum ItemStatus: Int64 {
+    case unstarted = 0
+    case started = 1
+    case completed = 2
+    
+    var oldRawValue: String {
+        switch self {
+        case .unstarted:
+            return "UNSTARTED"
+        case .started:
+            return "STARTED"
+        case .completed:
+            return "COMPLETED"
+        }
+    }
+    
+    @available(*, deprecated, message: "Use Int64 representation")
+    public static func from(rawValue: String) -> ItemStatus? {
+        switch rawValue {
+        case "UNSTARTED":
+            return .unstarted
+        case "STARTED":
+            return .started
+        case "COMPLETED":
+            return.completed
+        default:
+            return nil
+        }
+    }
     
     // returns the next status, looping around from the end
     func next() -> ItemStatus {

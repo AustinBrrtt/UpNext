@@ -23,35 +23,19 @@ class CodableRoot: Codable {
         self.domains = domains.map { CodableDomain($0) }
     }
     
-    func overwrite(domains: [Domain]) throws {
-        try burnItToTheGround(domains: domains)
-            try writeToCoreData()
-    }
-    
-    private func writeToCoreData() throws {
-//        let _ = domains.map { $0.asDomain(context: context) }
-//        try context.save()
-    }
-    
-    private func burnItToTheGround(domains: [Domain]) throws {
-//        domains.forEach { domain in
-//            domain.queue.forEach { item in
-//                context.delete(item)
-//            }
-//            domain.backlog.forEach { item in
-//                context.delete(item)
-//            }
-//            context.delete(domain)
-//        }
-//        try context.save()
+    func overwrite(model: DomainsModel) throws {
+        model.deleteAll()
+        model.replace(domains: domains.map{ $0.asDomain() })
     }
     
     struct CodableDomain: Codable {
-        var name: String?
+        var id: Int64
+        var name: String
         var queue: [CodableDomainItem]
         var backlog: [CodableDomainItem]
         
         init(_ domain: Domain) {
+            id = domain.id
             name = domain.name
             queue = []
             backlog = []
@@ -66,14 +50,14 @@ class CodableRoot: Codable {
         }
         
         func asDomain () -> Domain {
-            let domain = Domain(name: name)
+            var domain = Domain(id: id, name: name)
             
             for item in queue {
-//                domain.queue.append(item.asDomainItem())
+                domain.queue.append(item.asDomainItem(queued: true))
             }
             
             for item in backlog {
-//                domain.backlog.append(item.asDomainItem())
+                domain.backlog.append(item.asDomainItem(queued: false))
             }
             
             return domain
@@ -81,30 +65,27 @@ class CodableRoot: Codable {
     }
     
     struct CodableDomainItem: Codable {
-        public var name: String?
+        public var id: Int64
+        public var name: String
+        public var notes: String?
         public var status: String
-        public var isRepeat: Bool
+        public var isRepeat: Bool?
         public var moveOnRelease: Bool
-        public var sortIndex: Int16
+        public var sortIndex: Int64
         public var releaseDate: Date?
         
         init(_ item: DomainItem) {
+            id = item.id
             name = item.name
-            status = item.status.rawValue
-            isRepeat = item.isRepeat
+            notes = item.notes
+            status = item.status.oldRawValue
             moveOnRelease = item.moveOnRelease
             sortIndex = item.sortIndex
             releaseDate = item.releaseDate
         }
         
-        func asDomainItem() -> DomainItem {
-            let item = DomainItem(name: name)
-//            item.status = ItemStatus(rawValue: status) ?? .unstarted
-//            item.isRepeat = isRepeat
-//            item.moveOnRelease = moveOnRelease
-//            item.sortIndex = sortIndex
-//            item.releaseDate = releaseDate
-            return item
+        func asDomainItem(queued: Bool) -> DomainItem {
+            return DomainItem(id: id, name: name, notes: notes, status: ItemStatus.from(rawValue: status) ?? .unstarted, queued: queued, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
         }
     }
 }

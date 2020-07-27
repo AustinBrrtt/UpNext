@@ -9,22 +9,19 @@
 import Foundation
 
 struct DomainItem: Identifiable {
-    @available(*, deprecated, message: "Deprecated in favor of init(name: String)")
-    static func create(name: String) -> DomainItem {
-        return DomainItem(name: name)
-    }
-    
-    public var id: UUID = UUID()
-    public var name: String?
+    public var id: Int64
+    public var name: String
     public var notes: String?
     public var status: ItemStatus
-    public var isRepeat: Bool
+    public var queued: Bool
+    @available(*, deprecated, message: "Feature to be removed soon") public var isRepeat: Bool
     public var moveOnRelease: Bool
-    public var sortIndex: Int16
+    public var sortIndex: Int64
     public var releaseDate: Date?
     
+    @available(*, deprecated, message: "Use name")
     public var displayName: String {
-        name ?? "Untitled"
+        name
     }
     
     public var displayNotes: String {
@@ -51,14 +48,29 @@ struct DomainItem: Identifiable {
         return Date().noon < releaseDate.noon
     }
     
-    init(name: String?) {
+    @available(*, deprecated, message: "Use init with all parameters")
+    init(name: String) {
+        self.id = Int64.random(in: Int64.min...Int64.max)
         self.name = name
         self.notes = nil
         self.status = .unstarted
+        self.queued = false
         self.isRepeat = false
         self.moveOnRelease = false
         self.sortIndex = 0
         self.releaseDate = nil
+    }
+    
+    init(id: Int64 = Int64.random(in: Int64.min...Int64.max), name: String, notes: String?, status: ItemStatus, queued: Bool, moveOnRelease: Bool, sortIndex: Int64, releaseDate: Date?) {
+        self.id = id
+        self.name = name
+        self.notes = notes
+        self.status = status
+        self.queued = queued
+        self.isRepeat = false
+        self.moveOnRelease = moveOnRelease
+        self.sortIndex = sortIndex
+        self.releaseDate = releaseDate
     }
 }
 

@@ -19,6 +19,8 @@ struct ItemCardView: View {
     @State var expanded: Bool = false
     
     @Binding var item: DomainItem
+    @Binding var domain: Domain
+    let type: ItemListType
     
     var startDoneButtonIcon: String {
         switch item.status {
@@ -79,7 +81,7 @@ struct ItemCardView: View {
                             expanded.toggle()
                         }
                     }) {
-                        Text(item.displayName)
+                        Text(item.name)
                             .listItem(bold: item.status == .started)
                             .contextMenu {
                                 Button(action: {
@@ -92,11 +94,11 @@ struct ItemCardView: View {
                                 }
                                 
                                 Button(action: {
-                                    model.move(item: item)
+                                    model.move(item: item, to: type.other, of: domain)
                                 }) {
                                     HStack {
-                                        Text(model.isItemInQueue(item) ? "Move to \(language.backlog.title)" : "Move to \(language.queue.title)")
-                                        Image(systemName: model.isItemInQueue(item) ? "arrow.right.to.line" : "arrow.left.to.line")
+                                        Text(type == .queue ? "Move to \(language.backlog.title)" : "Move to \(language.queue.title)")
+                                        Image(systemName: type == .queue ? "arrow.right.to.line" : "arrow.left.to.line")
                                     }
                                 }
                                 
@@ -111,7 +113,7 @@ struct ItemCardView: View {
                             }
                     }
                     Spacer()
-                    if model.isItemInQueue(item) && !editing {
+                    if type == .queue && !editing {
                         SolidButton(startDoneButtonText, foreground: startDoneButtonForegroundColor, background: startDoneButtonBackgroundColor) {
                             item.status = item.status.next()
                         }
@@ -148,16 +150,7 @@ struct ItemCardView: View {
             .foregroundColor(item.hasFutureReleaseDate ? .secondary : .primary)
             .padding()
             .sheet(isPresented: $isPropertiesShown) {
-                HStack {
-                    Text("Edit Item Properties")
-                        .font(.largeTitle)
-                        .bold()
-                        .padding(.horizontal)
-                        .padding(.top, 50)
-                    Spacer()
-                    
-                }
-                ItemPropertiesView($item) {
+                ItemPropertiesView($item, type: type) {
                     isPropertiesShown = false
                 }
                 .environmentObject(model)
@@ -194,10 +187,7 @@ struct ItemCardView_Previews: PreviewProvider {
         item.status = .started
         return item
     }
-    static var unstartedQueueItem: DomainItem {
-        var item = DomainItem(name: "Unstarted Queue Item")
-        return item
-    }
+    static var unstartedQueueItem = DomainItem(name: "Unstarted Queue Item")
     static var complexQueueItem: DomainItem {
         var item = DomainItem(name: "Unstarted Queue Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
@@ -237,13 +227,13 @@ struct ItemCardView_Previews: PreviewProvider {
         var body: some View {
             VStack {
                 ForEach(model.domains[0].backlog) { item in
-                    ItemCardView(item: .constant(item))
+                    ItemCardView(item: .constant(item), domain: .constant(model.domains[0]), type: .backlog)
                         .frame(width: 400)
                         .padding(.bottom)
                 }
                 Divider()
                 ForEach(model.domains[0].queue) { item in
-                    ItemCardView(item: .constant(item))
+                    ItemCardView(item: .constant(item), domain: .constant(model.domains[0]), type: .queue)
                         .frame(width: 400)
                         .padding(.bottom)
                 }

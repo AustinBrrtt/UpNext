@@ -9,36 +9,39 @@
 import SwiftUI
 
 struct DomainView: View {
+    @EnvironmentObject var model: DomainsModel
     @Binding var domain: Domain
     @State var showBacklog: Bool = false
-    @State var showCompleted: Bool = false
+    @AppStorage("showCompleted") var showCompleted: Bool = false
     @State var editMode: EditMode = .inactive
-    let language = DomainSpecificLanguage.defaultLanguage
     
     var body: some View {
         VStack {
-            EditableTitle(title: domain.name ?? language.defaultItemTitle.title) { title in
-                domain.name = title
-            }.padding(.top).padding(.horizontal)
-            Picker("Show \(language.queue.title) or \(language.backlog.title)", selection: $showBacklog) {
-                Text(language.queue.title)
+            EditableTitle(title: domain.name) { title in
+                model.renameDomain(domain, to: title)
+            }
+            .padding(.top)
+            .padding(.horizontal)
+            
+            Picker("Show Up Next or Backlog", selection: $showBacklog) {
+                Text("Up Next")
                     .accessibility(identifier: "Queue Segment")
                     .tag(false)
-                Text(language.backlog.title)
+                Text("Backlog")
                     .accessibility(identifier: "Backlog Segment")
                     .tag(true)
             }
-                .pickerStyle(SegmentedPickerStyle())
-                .labelsHidden()
-                .padding(.horizontal)
-                .accessibility(identifier: "Queue/Backlog Segment")
+            .pickerStyle(SegmentedPickerStyle())
+            .labelsHidden()
+            .padding(.horizontal)
+            .accessibility(identifier: "Queue/Backlog Segment")
             
-            AddByNameField("Add \(language.item.title)") { (name: String) in
-                let item = DomainItem.create(name: name)
-                addToList(item)
+            AddByNameField("Add Item") { (name: String) in
+                model.addItem(name: name, in: showBacklog ? .backlog : .queue, of: domain)
             }
-                .padding(.top).padding(.horizontal)
-                .accessibility(identifier: "Add Item")
+            .padding(.top)
+            .padding(.horizontal)
+            .accessibility(identifier: "Add Item")
             
             if !showBacklog {
                 HStack {
@@ -55,27 +58,19 @@ struct DomainView: View {
             }
             
             if showBacklog {
-                ItemList($domain.backlog)
+                ItemList($domain, type: .backlog)
             } else {
-                ItemList($domain.queue, showCompleted: $showCompleted)
+                ItemList($domain, type: .queue, showCompleted: $showCompleted)
             }
         }
-            .navigationBarItems(
-                trailing: EditButton()
-            )
-            .navigationBarTitle("", displayMode: .inline)
-            .onAppear() {
-                _ = domain.processScheduledMoves()
-            }
+        .navigationBarItems(
+            trailing: EditButton()
+        )
+        .navigationBarTitle("", displayMode: .inline)
+        .onAppear() {
+            _ = domain.processScheduledMoves()
+        }
         .environment(\.editMode, $editMode)
-    }
-    
-    func addToList(_ item: DomainItem) {
-        if showBacklog {
-            domain.addToBacklog(item)
-        } else {
-            domain.addToQueue(item)
-        }
     }
 }
 

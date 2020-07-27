@@ -10,8 +10,7 @@ import SwiftUI
 
 struct ImportExportView: View {
     @Environment(\.presentationMode) var presentationMode
-    
-    @Binding var domains: [Domain]
+    @EnvironmentObject var model: DomainsModel
     
     let prettyPrint = false
     
@@ -54,7 +53,7 @@ struct ImportExportView: View {
         if prettyPrint {
             encoder.outputFormatting = .prettyPrinted
         }
-        if let data = try? encoder.encode(CodableRoot(domains: domains)) {
+        if let data = try? encoder.encode(CodableRoot(domains: model.domains)) {
             return String(data: data, encoding: .utf8) ?? failureMessage
         }
         return failureMessage
@@ -65,7 +64,7 @@ struct ImportExportView: View {
             print("Failed to import data")
             return
         }
-        if let _ = try? codable.overwrite(domains: domains) {
+        if let _ = try? codable.overwrite(model: model) {
             goBack()
         }
     }
@@ -78,6 +77,6 @@ struct ImportExportView: View {
 
 struct ImportExportView_Previews: PreviewProvider {
     static var previews: some View {
-        ImportExportView(domains: .constant([]))
+        ImportExportView()
     }
 }

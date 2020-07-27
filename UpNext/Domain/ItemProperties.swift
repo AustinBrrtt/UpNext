@@ -11,6 +11,7 @@ import Foundation
 // Configurable properties for a DomainItem
 struct ItemProperties {
     var title: String
+    var status: ItemStatus
     var notes: String
     var isRepeat: Bool
     var useDate: Bool
@@ -18,7 +19,8 @@ struct ItemProperties {
     var moveOnRelease: Bool
     
     init(from item: DomainItem) {
-        title = item.name ?? ""
+        title = item.name
+        status = item.status
         notes = item.notes ?? ""
         isRepeat = item.isRepeat
         useDate = item.releaseDate != nil

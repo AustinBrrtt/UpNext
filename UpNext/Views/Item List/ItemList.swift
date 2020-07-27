@@ -10,59 +10,60 @@ import SwiftUI
 
 struct ItemList: View {
     @EnvironmentObject var model: DomainsModel
-    @Binding var items: [DomainItem]
+    @Binding var domain: Domain
     @Binding var showCompleted: Bool
     let language = DomainSpecificLanguage.defaultLanguage
+    let type: ItemListType
     
-    init(_ items: Binding<[DomainItem]>, showCompleted: Binding<Bool> = Binding<Bool>(get: { return true }, set: { _ in })) {
-        self._items = items
+    init(_ domain: Binding<Domain>, type: ItemListType, showCompleted: Binding<Bool> = Binding<Bool>(get: { return true }, set: { _ in })) {
+        self._domain = domain
+        self.type = type
         self._showCompleted = showCompleted
     }
     
+    var itemIndices: [Int] {
+        type == .backlog ? domain.backlog.indices.map{$0} :
+            showCompleted ? domain.queue.indices.map{$0} : filteredIndices
+    }
+    
     var filteredIndices: [Int] {
-        showCompleted ? items.indices.map{$0} : items.indices.filter { items[$0].status != .completed }
+        domain.queue.indices.filter { domain.queue[$0].status != .completed }
+    }
+    
+    var items: Binding<[DomainItem]> {
+        type == .backlog ? $domain.backlog : $domain.queue
     }
     
     var body: some View {
         List {
-            ForEach(filteredIndices, id: \.self) { index in
-                ItemCardView(item: $items[index])
+            ForEach(itemIndices, id: \.self) { index in
+                ItemCardView(item: items[index], domain: $domain, type: type)
             }
             .onDelete { (offsets: IndexSet) in
                 for index in offsets {
-                    model.delete(items[index])
+                    model.delete(items.wrappedValue[index])
                 }
             }
             .onMove { (src: IndexSet, dst: Int) in
-                
-                // TODO: This is most likely preferable, especially with insertions and such
-                // Change queue from one-to-many to one-to-one, add a next and previous relationship to DomainItem and do linked list insertions
-                // let domain = items[0].domain
-                // let set = items[0].isInQueue ? domain.queue : domain.backlog
-                
-                // print("original")
-                // for (index, item) in items.enumerated() {
-                //     print(item.name ?? "Untitled", index)
-                // }
-                var mutableList = Array(items)
-                mutableList.move(fromOffsets: src, toOffset: dst)
-                // print("reordered")
-                for (index, item) in mutableList.enumerated() {
-//                    print(item.name ?? language.defaultItemTitle.title, index)
-                    model.updateIndex(for: item, to: Int16(index))
-                }
+                model.reorderItems(in: type, of: domain, src: src, dst: dst)
             }
         }
     }
 }
 
 struct ItemList_Previews: PreviewProvider {
-    static var previews: some View {
-        ItemList(.constant([
+    static var domain: Binding<Domain> {
+        var domain = Domain(name: "Temp")
+        domain.queue = [
             DomainItem(name: "The Legend of Zelda"),
             DomainItem(name: "Hitman 2"),
             DomainItem(name: "Shrek SuperSlam")
-        ]))
+        ]
+        return .constant(domain)
+    }
+    
+    static var previews: some View {
+        ItemList(domain, type: .queue)
         .environmentObject(DomainsModel())
         .previewLayout(.fixed(width: 450, height: 350))
     }

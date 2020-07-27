@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct DomainList: View {
+    @EnvironmentObject var model: DomainsModel
     @Environment(\.editMode) var editMode
     @Binding var domains: [Domain]
     let language = DomainSpecificLanguage.defaultLanguage
@@ -17,31 +18,31 @@ struct DomainList: View {
         NavigationView {
             VStack {
                 AddByNameField("Add \(language.domain.title)") { (name: String) in
-                    let _ = Domain(name: name)
+                    model.addDomain(name: name)
                 }
                     .padding()
                     .accessibility(identifier: "Add Domain")
                 List {
                     ForEach(domains.enumerated().map({$0}), id: \.0) { (index, domain) in
                         if (editMode?.wrappedValue == .active) {
-                            Text(domain.displayName)
+                            Text(domain.name)
                                 .listItem()
                         } else {
                             NavigationLink(destination: DomainView(domain: $domains[index])) {
-                                Text(domain.displayName)
+                                Text(domain.name)
                                     .listItem()
                             }
                         }
                     }.onDelete { (offsets: IndexSet) in
-//                        for index in offsets {
-                            // TODO: Delete domains[index]
-//                        }
+                        for index in offsets {
+                            model.delete(domains[index])
+                        }
                     }
                 }
             }
             .navigationBarTitle(language.domain.pluralTitle)
             .navigationBarItems(
-                leading: NavigationLink(destination: ImportExportView(domains: $domains)) {
+                leading: NavigationLink(destination: ImportExportView()) {
                     Text("Import/Export")
                 },
                 trailing: EditButton()
