@@ -115,9 +115,9 @@ struct ItemCardView: View {
                     Spacer()
                     if type == .queue && !editing {
                         SolidButton(startDoneButtonText, foreground: startDoneButtonForegroundColor, background: startDoneButtonBackgroundColor) {
-                            item.status = item.status.next()
+                            model.updateItemStatus(item: item, to: item.status.next())
                         }
-                        .accessibility(identifier: "Complete Item " + item.displayName)
+                        .accessibility(identifier: "Complete Item " + item.name)
                     }
                 }
                 
@@ -164,7 +164,6 @@ struct ItemCardView_Previews: PreviewProvider {
     static var complexBacklogItem: DomainItem {
         var item = DomainItem(name: "Backlog Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
-        item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
         item.moveOnRelease = true
         return item
@@ -172,7 +171,6 @@ struct ItemCardView_Previews: PreviewProvider {
     static var futureBacklogItem: DomainItem {
         var item = DomainItem(name: "Future Backlog Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 6000000000)
-        item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
         item.moveOnRelease = true
         return item
@@ -191,14 +189,12 @@ struct ItemCardView_Previews: PreviewProvider {
     static var complexQueueItem: DomainItem {
         var item = DomainItem(name: "Unstarted Queue Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
-        item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
         return item
     }
     static var futureQueueItem: DomainItem {
         var item = DomainItem(name: "Future Unstarted Queue Item with properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 6000000000)
-        item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
         return item
     }

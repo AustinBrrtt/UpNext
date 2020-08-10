@@ -20,10 +20,6 @@ struct ItemCardIndicatorsView: View {
                         .padding(.trailing)
                 }
                 Spacer()
-                if item.isRepeat {
-                    Image(systemName: "repeat")
-                        .transition(.identity)
-                }
                 if item.notes != nil {
                     Image(systemName: "note.text")
                         .transition(.identity)
@@ -49,7 +45,6 @@ struct ItemCardIndicatorsView: View {
     static var complexItem: DomainItem {
         var item = DomainItem(name: "Item With Properties")
         item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
-        item.isRepeat = true
         item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
         item.moveOnRelease = true
         return item

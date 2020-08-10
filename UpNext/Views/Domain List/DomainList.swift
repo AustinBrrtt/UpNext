@@ -68,7 +68,6 @@ struct DomainList_Previews: PreviewProvider {
         domain.backlog = backlogItems
         domain.queue[0].releaseDate = Date(timeIntervalSince1970: 509400000)
         domain.queue[0].notes = "Really good game"
-        domain.queue[0].isRepeat = true
         domain.queue[0].status = .started
         domain.queue[1].status = .started
         domain.backlog[0].releaseDate = Date(timeIntervalSinceReferenceDate: 631200000)

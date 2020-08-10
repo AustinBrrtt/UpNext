@@ -113,10 +113,15 @@ class DomainsModel: ObservableObject {
         }
     }
     
-    public func updateItemStatus(item: DomainItem, to: ItemStatus) {
-        // TODO
-        // By the way, should I be making this one way data flow and only update the database from here, then refetch data? Right now I'm updating the live data, which requires finding nested references.
+    public func updateItemStatus(item: DomainItem, to status: ItemStatus) {
+        // Should I be making this one way data flow and only update the database from here, then refetch data? Right now I'm updating the live data, which requires finding nested references.
         // Maybe if I could reload the data and then replace it by diff? Does ObservableObject handle that for me?
+        guard let (domainIndex, itemIndex, location) = findItem(item) else {
+            return
+        }
+        
+        domains[keyPath: location.keyPath(forDomainIndex: domainIndex)][itemIndex].status = status
+        database.updateItemStatus(item.id, to: status)
     }
     
     @available(*, deprecated, message: "TODO: implement a version that passes the domain")

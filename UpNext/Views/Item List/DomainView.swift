@@ -76,14 +76,14 @@ struct DomainView: View {
 
 struct DomainView_Previews: PreviewProvider {
     static var queueItems = [
-        DomainItem(name: "The Legend of Zelda"),
-        DomainItem(name: "Hitman 2"),
-        DomainItem(name: "Shrek SuperSlam")
+        mockDomainItem(name: "The Legend of Zelda"),
+        mockDomainItem(name: "Hitman 2"),
+        mockDomainItem(name: "Shrek SuperSlam")
     ]
     static var backlogItems = [
-        DomainItem(name: "Hitman 3"),
-        DomainItem(name: "Thief"),
-        DomainItem(name: "Mario & Luigi: Bowser's Inside Story")
+        mockDomainItem(name: "Hitman 3"),
+        mockDomainItem(name: "Thief"),
+        mockDomainItem(name: "Mario & Luigi: Bowser's Inside Story")
     ]
     static var domain: Domain {
         var domain = Domain(name: "Games")
@@ -91,7 +91,6 @@ struct DomainView_Previews: PreviewProvider {
         domain.backlog = backlogItems
         domain.queue[0].releaseDate = Date(timeIntervalSince1970: 509400000)
         domain.queue[0].notes = "Really good game"
-        domain.queue[0].isRepeat = true
         domain.queue[0].status = .started
         domain.queue[1].status = .started
         domain.backlog[0].releaseDate = Date(timeIntervalSinceReferenceDate: 631200000)
@@ -106,5 +105,13 @@ struct DomainView_Previews: PreviewProvider {
                     .navigationTitle("Lists")
             }
         }
+    }
+    
+    static func mockDomainItem(name: String) -> DomainItem {
+        return DomainItem(id: Int64.random(in: 0...Int64.max), name: name, notes: nil, status: .unstarted, queued: false, moveOnRelease: false, sortIndex: 0, releaseDate: nil)
+    }
+    
+    static func mockDomain(name: String) -> Domain {
+        return Domain(id: Int64.random(in: 0...Int64.max), name: name, queue: [], backlog: [])
     }
 }

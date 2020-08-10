@@ -50,10 +50,6 @@ struct ItemPropertiesView: View {
                 }
                 
                 Section {
-                    Toggle(isOn: $properties.isRepeat) {
-                        Text("Completed Previously")
-                    }
-                        .accessibility(identifier: "Completed Previously")
                     Toggle(isOn: $properties.useDate) {
                         Text("Show Release Date")
                     }
@@ -93,7 +89,6 @@ struct ItemPropertiesView: View {
         item.name = properties.title.trimmingCharacters(in: .whitespaces)
         item.status = properties.status
         item.notes = properties.notes.count > 0 ? properties.notes : nil
-        item.isRepeat = properties.isRepeat
         item.releaseDate = properties.useDate ? properties.date : nil
         item.moveOnRelease = properties.moveOnRelease
     }

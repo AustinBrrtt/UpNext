@@ -69,7 +69,7 @@ class CodableRoot: Codable {
         public var name: String
         public var notes: String?
         public var status: String
-        public var isRepeat: Bool?
+        public var isRepeat: Bool? // TODO: Remove after importing old data
         public var moveOnRelease: Bool
         public var sortIndex: Int64
         public var releaseDate: Date?

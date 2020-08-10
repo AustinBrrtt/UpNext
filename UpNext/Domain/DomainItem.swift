@@ -14,7 +14,6 @@ struct DomainItem: Identifiable {
     public var notes: String?
     public var status: ItemStatus
     public var queued: Bool
-    @available(*, deprecated, message: "Feature to be removed soon") public var isRepeat: Bool
     public var moveOnRelease: Bool
     public var sortIndex: Int64
     public var releaseDate: Date?
@@ -55,7 +54,6 @@ struct DomainItem: Identifiable {
         self.notes = nil
         self.status = .unstarted
         self.queued = false
-        self.isRepeat = false
         self.moveOnRelease = false
         self.sortIndex = 0
         self.releaseDate = nil
@@ -67,7 +65,6 @@ struct DomainItem: Identifiable {
         self.notes = notes
         self.status = status
         self.queued = queued
-        self.isRepeat = false
         self.moveOnRelease = moveOnRelease
         self.sortIndex = sortIndex
         self.releaseDate = releaseDate
