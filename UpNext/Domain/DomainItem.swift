@@ -13,7 +13,6 @@ struct DomainItem: Identifiable {
     public var name: String
     public var notes: String?
     public var status: ItemStatus
-    public var queued: Bool
     public var moveOnRelease: Bool
     public var sortIndex: Int64
     public var releaseDate: Date?
@@ -40,6 +39,10 @@ struct DomainItem: Identifiable {
         return releaseDate != nil
     }
     
+    public var queued: Bool {
+        return status != .backlog
+    }
+    
     public var hasFutureReleaseDate: Bool {
         guard let releaseDate = releaseDate else {
             return false
@@ -53,18 +56,16 @@ struct DomainItem: Identifiable {
         self.name = name
         self.notes = nil
         self.status = .unstarted
-        self.queued = false
         self.moveOnRelease = false
         self.sortIndex = 0
         self.releaseDate = nil
     }
     
-    init(id: Int64 = Int64.random(in: Int64.min...Int64.max), name: String, notes: String?, status: ItemStatus, queued: Bool, moveOnRelease: Bool, sortIndex: Int64, releaseDate: Date?) {
+    init(id: Int64 = Int64.random(in: Int64.min...Int64.max), name: String, notes: String?, status: ItemStatus, moveOnRelease: Bool, sortIndex: Int64, releaseDate: Date?) {
         self.id = id
         self.name = name
         self.notes = notes
         self.status = status
-        self.queued = queued
         self.moveOnRelease = moveOnRelease
         self.sortIndex = sortIndex
         self.releaseDate = releaseDate

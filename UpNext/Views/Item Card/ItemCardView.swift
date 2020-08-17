@@ -18,9 +18,8 @@ struct ItemCardView: View {
     @State var isPropertiesShown: Bool = false
     @State var expanded: Bool = false
     
-    @Binding var item: DomainItem
+    var item: DomainItem
     @Binding var domain: Domain
-    let type: ItemListType
     
     var startDoneButtonIcon: String {
         switch item.status {
@@ -30,11 +29,15 @@ struct ItemCardView: View {
             return "play.fill"
         case .unstarted:
             return "play"
+        case .backlog:
+            return "nosign"
         }
     }
     
     var startDoneButtonText: String {
         switch item.status {
+        case .backlog:
+            return "Error"
         case .completed:
             return "Restart"
         case .started:
@@ -46,7 +49,7 @@ struct ItemCardView: View {
     
     var startDoneButtonBackgroundColor: Color {
         switch item.status {
-        case .completed:
+        case .backlog, .completed:
             return .red
         case .started:
             return .blue
@@ -56,11 +59,10 @@ struct ItemCardView: View {
     }
     
     var startDoneButtonForegroundColor: Color {
-        switch item.status {
-        case .completed, .started:
-            return .white
-        case .unstarted:
+        if item.status == .unstarted {
             return .primary
+        } else {
+            return .white
         }
     }
     
@@ -94,16 +96,16 @@ struct ItemCardView: View {
                                 }
                                 
                                 Button(action: {
-                                    model.move(item: item, to: type.other, of: domain)
+                                    model.move(item: item, to: item.status == .backlog ? .unstarted : .backlog, of: domain)
                                 }) {
                                     HStack {
-                                        Text(type == .queue ? "Move to \(language.backlog.title)" : "Move to \(language.queue.title)")
-                                        Image(systemName: type == .queue ? "arrow.right.to.line" : "arrow.left.to.line")
+                                        Text(item.status == .backlog ? "Move to Up Next" : "Move to Backlog")
+                                        Image(systemName: item.status == .backlog ? "arrow.left.to.line" : "arrow.right.to.line")
                                     }
                                 }
                                 
                                 Button(action: {
-                                    // TODO delete item
+                                    model.delete(item)
                                 }) {
                                     HStack {
                                         Text("Delete")
@@ -113,7 +115,7 @@ struct ItemCardView: View {
                             }
                     }
                     Spacer()
-                    if type == .queue && !editing {
+                    if item.status != .backlog && !editing {
                         SolidButton(startDoneButtonText, foreground: startDoneButtonForegroundColor, background: startDoneButtonBackgroundColor) {
                             model.updateItemStatus(item: item, to: item.status.next())
                         }
@@ -150,7 +152,7 @@ struct ItemCardView: View {
             .foregroundColor(item.hasFutureReleaseDate ? .secondary : .primary)
             .padding()
             .sheet(isPresented: $isPropertiesShown) {
-                ItemPropertiesView($item, type: type) {
+                ItemPropertiesView(item) {
                     isPropertiesShown = false
                 }
                 .environmentObject(model)
@@ -202,7 +204,7 @@ struct ItemCardView_Previews: PreviewProvider {
     static var model: DomainsModel {
         let model = DomainsModel()
         model.domains.append(Domain(name: "Queue Holder"))
-        model.domains[0].queue = [
+        model.domains[0].unstarted = [
             completedQueueItem,
             startedQueueItem,
             unstartedQueueItem,
@@ -223,13 +225,13 @@ struct ItemCardView_Previews: PreviewProvider {
         var body: some View {
             VStack {
                 ForEach(model.domains[0].backlog) { item in
-                    ItemCardView(item: .constant(item), domain: .constant(model.domains[0]), type: .backlog)
+                    ItemCardView(item: item, domain: .constant(model.domains[0]))
                         .frame(width: 400)
                         .padding(.bottom)
                 }
                 Divider()
-                ForEach(model.domains[0].queue) { item in
-                    ItemCardView(item: .constant(item), domain: .constant(model.domains[0]), type: .queue)
+                ForEach(model.domains[0].unstarted) { item in
+                    ItemCardView(item: item, domain: .constant(model.domains[0]))
                         .frame(width: 400)
                         .padding(.bottom)
                 }

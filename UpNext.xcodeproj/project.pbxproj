@@ -13,7 +13,6 @@
 		D910050624A31493002DF1DA /* ItemCardIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */; };
 		D91930442472F70F003ED47A /* ItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91930432472F70F003ED47A /* ItemStatus.swift */; };
 		D96F697A24A6FC260005923E /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F697924A6FC260005923E /* ItemProperties.swift */; };
-		D96F697C24A853620005923E /* ItemListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F697B24A853620005923E /* ItemListType.swift */; };
 		D96F697F24AD908E0005923E /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D96F697E24AD908E0005923E /* SQLite */; };
 		D96F698124AD90CA0005923E /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F698024AD90CA0005923E /* Database.swift */; };
 		D97504B324A450B8007756D9 /* DomainsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97504B224A450B8007756D9 /* DomainsModel.swift */; };
@@ -56,6 +55,7 @@
 		D9BA8A1A2468F9690005CE9A /* QueueBacklogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA8A152468F9690005CE9A /* QueueBacklogUITests.swift */; };
 		D9BA8A1C246906390005CE9A /* ConditionalBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA8A1B246906390005CE9A /* ConditionalBackground.swift */; };
 		D9BA8A1E246907560005CE9A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA8A1D246907560005CE9A /* Color.swift */; };
+		D9ECC75224E3A15B0049D0A3 /* ItemListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ECC75124E3A15B0049D0A3 /* ItemListSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +82,6 @@
 		D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCardIndicatorsView.swift; sourceTree = "<group>"; };
 		D91930432472F70F003ED47A /* ItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatus.swift; sourceTree = "<group>"; };
 		D96F697924A6FC260005923E /* ItemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
-		D96F697B24A853620005923E /* ItemListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListType.swift; sourceTree = "<group>"; };
 		D96F698024AD90CA0005923E /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		D97504B224A450B8007756D9 /* DomainsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainsModel.swift; sourceTree = "<group>"; };
 		D989D84524762AD000C94269 /* ItemStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatusTests.swift; sourceTree = "<group>"; };
@@ -130,6 +129,7 @@
 		D9BA8A152468F9690005CE9A /* QueueBacklogUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueBacklogUITests.swift; sourceTree = "<group>"; };
 		D9BA8A1B246906390005CE9A /* ConditionalBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalBackground.swift; sourceTree = "<group>"; };
 		D9BA8A1D246907560005CE9A /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		D9ECC75124E3A15B0049D0A3 /* ItemListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +182,7 @@
 			children = (
 				D9BA89D92468F87A0005CE9A /* DomainView.swift */,
 				D9BA89D52468F87A0005CE9A /* ItemList.swift */,
+				D9ECC75124E3A15B0049D0A3 /* ItemListSection.swift */,
 			);
 			path = "Item List";
 			sourceTree = "<group>";
@@ -287,7 +288,6 @@
 				D91930432472F70F003ED47A /* ItemStatus.swift */,
 				D97504B224A450B8007756D9 /* DomainsModel.swift */,
 				D96F697924A6FC260005923E /* ItemProperties.swift */,
-				D96F697B24A853620005923E /* ItemListType.swift */,
 				D96F698024AD90CA0005923E /* Database.swift */,
 			);
 			path = Domain;
@@ -508,12 +508,12 @@
 				D9BA89E32468F87A0005CE9A /* Date.swift in Sources */,
 				D9BA89DB2468F87A0005CE9A /* Noun.swift in Sources */,
 				D9BA8A1E246907560005CE9A /* Color.swift in Sources */,
-				D96F697C24A853620005923E /* ItemListType.swift in Sources */,
 				D96F698124AD90CA0005923E /* Database.swift in Sources */,
 				D9BA89E62468F87A0005CE9A /* BigText.swift in Sources */,
 				D9BA89E72468F87A0005CE9A /* ItemPropertiesView.swift in Sources */,
 				D96F697A24A6FC260005923E /* ItemProperties.swift in Sources */,
 				D9BA89DF2468F87A0005CE9A /* LazyView.swift in Sources */,
+				D9ECC75224E3A15B0049D0A3 /* ItemListSection.swift in Sources */,
 				D910050324A30D03002DF1DA /* SolidButton.swift in Sources */,
 				D9BA89E02468F87A0005CE9A /* OnTapDismissesKeyboard.swift in Sources */,
 				D9BA89EC2468F87A0005CE9A /* AddByNameField.swift in Sources */,

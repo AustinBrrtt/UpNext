@@ -10,25 +10,23 @@ import SwiftUI
 
 struct ItemPropertiesView: View {
     @EnvironmentObject var model: DomainsModel
-    @Binding var item: DomainItem
+    var item: DomainItem
     @State var properties: ItemProperties
-    let type: ItemListType
     
     private var dismiss: () -> Void
     let language = DomainSpecificLanguage.defaultLanguage
     
-    init(_ item: Binding<DomainItem>, type: ItemListType, dismiss: @escaping () -> Void) {
-        self._item = item
-        self._properties = State(initialValue: ItemProperties(from: item.wrappedValue))
+    init(_ item: DomainItem, dismiss: @escaping () -> Void) {
+        self.item = item
+        self._properties = State(initialValue: ItemProperties(from: item))
         self.dismiss = dismiss
-        self.type = type
     }
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    if type == .queue {
+                    if item.status != .backlog {
                         Picker("Status", selection: $properties.status) {
                             Text("Unstarted")
                                 .accessibility(identifier: "Unstarted Segment")
@@ -56,9 +54,9 @@ struct ItemPropertiesView: View {
                     if properties.useDate {
                         DatePicker("Release Date", selection: $properties.date, displayedComponents: .date)
                             .labelsHidden()
-                        if type == .backlog {
+                        if item.status == .backlog {
                             Toggle(isOn: $properties.moveOnRelease) {
-                                Text("Move to \(language.queue.title) on Release Date")
+                                Text("Move to Up Next on Release Date")
                             }.accessibility(identifier: "Add to Queue on Release")
                         }
                     }
@@ -86,17 +84,13 @@ struct ItemPropertiesView: View {
     }
     
     private func saveFields() {
-        item.name = properties.title.trimmingCharacters(in: .whitespaces)
-        item.status = properties.status
-        item.notes = properties.notes.count > 0 ? properties.notes : nil
-        item.releaseDate = properties.useDate ? properties.date : nil
-        item.moveOnRelease = properties.moveOnRelease
+        model.updateItemProperties(on: item, to: properties)
     }
 }
 
 struct ItemProperties_Previews: PreviewProvider {
     static var previews: some View {
-        return ItemPropertiesView(.constant(DomainItem(name: "Sample Item")), type: .backlog) { }
+        return ItemPropertiesView(DomainItem(name: "Sample Item")) { }
             .environmentObject(DomainsModel())
             .previewLayout(.fixed(width: 450, height: 350))
     }

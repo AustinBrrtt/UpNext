@@ -40,7 +40,16 @@ class CodableRoot: Codable {
             queue = []
             backlog = []
             
-            for item in domain.queue {
+            // TODO: Change to have 1 list of items like DB after importing old data
+            for item in domain.unstarted {
+                queue.append(CodableDomainItem(item))
+            }
+            
+            for item in domain.started {
+                queue.append(CodableDomainItem(item))
+            }
+            
+            for item in domain.completed {
                 queue.append(CodableDomainItem(item))
             }
             
@@ -53,7 +62,17 @@ class CodableRoot: Codable {
             var domain = Domain(id: id, name: name)
             
             for item in queue {
-                domain.queue.append(item.asDomainItem(queued: true))
+                let domainItem = item.asDomainItem(queued: true)
+                switch domainItem.status {
+                case .unstarted:
+                    domain.unstarted.append(domainItem)
+                case .started:
+                    domain.started.append(domainItem)
+                case .completed:
+                    domain.completed.append(domainItem)
+                case .backlog:
+                    break
+                }
             }
             
             for item in backlog {
@@ -85,7 +104,7 @@ class CodableRoot: Codable {
         }
         
         func asDomainItem(queued: Bool) -> DomainItem {
-            return DomainItem(id: id, name: name, notes: notes, status: ItemStatus.from(rawValue: status) ?? .unstarted, queued: queued, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
+            return DomainItem(id: id, name: name, notes: notes, status: ItemStatus.from(rawValue: status) ?? .unstarted, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
         }
     }
 }

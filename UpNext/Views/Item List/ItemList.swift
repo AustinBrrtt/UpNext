@@ -13,39 +13,31 @@ struct ItemList: View {
     @Binding var domain: Domain
     @Binding var showCompleted: Bool
     let language = DomainSpecificLanguage.defaultLanguage
-    let type: ItemListType
+    let queue: Bool
     
-    init(_ domain: Binding<Domain>, type: ItemListType, showCompleted: Binding<Bool> = Binding<Bool>(get: { return true }, set: { _ in })) {
+    
+    init(_ domain: Binding<Domain>, queue: Bool, showCompleted: Binding<Bool> = Binding<Bool>(get: { return true }, set: { _ in })) {
         self._domain = domain
-        self.type = type
+        self.queue = queue
         self._showCompleted = showCompleted
     }
     
-    var itemIndices: [Int] {
-        type == .backlog ? domain.backlog.indices.map{$0} :
-            showCompleted ? domain.queue.indices.map{$0} : filteredIndices
-    }
-    
-    var filteredIndices: [Int] {
-        domain.queue.indices.filter { domain.queue[$0].status != .completed }
-    }
-    
-    var items: Binding<[DomainItem]> {
-        type == .backlog ? $domain.backlog : $domain.queue
-    }
-    
     var body: some View {
-        List {
-            ForEach(itemIndices, id: \.self) { index in
-                ItemCardView(item: items[index], domain: $domain, type: type)
-            }
-            .onDelete { (offsets: IndexSet) in
-                for index in offsets {
-                    model.delete(items.wrappedValue[index])
+        VStack {
+            List {
+                if (queue) {
+                    if (showCompleted) {
+                        ItemListSection($domain, status: .completed, showCompleted: $showCompleted)
+                            .environmentObject(model)
+                    }
+                    ItemListSection($domain, status: .started, showCompleted: $showCompleted)
+                        .environmentObject(model)
+                    ItemListSection($domain, status: .unstarted, showCompleted: $showCompleted)
+                        .environmentObject(model)
+                } else {
+                    ItemListSection($domain, status: .backlog, showCompleted: $showCompleted)
+                        .environmentObject(model)
                 }
-            }
-            .onMove { (src: IndexSet, dst: Int) in
-                model.reorderItems(in: type, of: domain, src: src, dst: dst)
             }
         }
     }
@@ -54,17 +46,27 @@ struct ItemList: View {
 struct ItemList_Previews: PreviewProvider {
     static var domain: Binding<Domain> {
         var domain = Domain(name: "Temp")
-        domain.queue = [
+        domain.completed = [
             DomainItem(name: "The Legend of Zelda"),
             DomainItem(name: "Hitman 2"),
             DomainItem(name: "Shrek SuperSlam")
+        ]
+        domain.started = [
+            DomainItem(name: "The Incredibles"),
+            DomainItem(name: "Japan: The Game"),
+            DomainItem(name: "Tacos with Me")
+        ]
+        domain.unstarted = [
+            DomainItem(name: "Bugsnax"),
+            DomainItem(name: "Spider-man: Homecoming"),
+            DomainItem(name: "Free Pizza")
         ]
         return .constant(domain)
     }
     
     static var previews: some View {
-        ItemList(domain, type: .queue)
-        .environmentObject(DomainsModel())
+        ItemList(domain, queue: true)
+            .environmentObject({ () -> DomainsModel in  let d = DomainsModel(); d.domains = [domain.wrappedValue]; return d }())
         .previewLayout(.fixed(width: 450, height: 350))
     }
 }

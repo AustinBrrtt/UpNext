@@ -37,7 +37,7 @@ struct DomainView: View {
             .accessibility(identifier: "Queue/Backlog Segment")
             
             AddByNameField("Add Item") { (name: String) in
-                model.addItem(name: name, in: showBacklog ? .backlog : .queue, of: domain)
+                model.addItem(name: name, in: showBacklog ? .backlog : .unstarted, of: domain)
             }
             .padding(.top)
             .padding(.horizontal)
@@ -58,9 +58,9 @@ struct DomainView: View {
             }
             
             if showBacklog {
-                ItemList($domain, type: .backlog)
+                ItemList($domain, queue: false)
             } else {
-                ItemList($domain, type: .queue, showCompleted: $showCompleted)
+                ItemList($domain, queue: true, showCompleted: $showCompleted)
             }
         }
         .navigationBarItems(
@@ -87,12 +87,12 @@ struct DomainView_Previews: PreviewProvider {
     ]
     static var domain: Domain {
         var domain = Domain(name: "Games")
-        domain.queue = queueItems
+        domain.unstarted = queueItems
         domain.backlog = backlogItems
-        domain.queue[0].releaseDate = Date(timeIntervalSince1970: 509400000)
-        domain.queue[0].notes = "Really good game"
-        domain.queue[0].status = .started
-        domain.queue[1].status = .started
+        domain.unstarted[0].releaseDate = Date(timeIntervalSince1970: 509400000)
+        domain.unstarted[0].notes = "Really good game"
+        domain.unstarted[0].status = .started
+        domain.unstarted[1].status = .started
         domain.backlog[0].releaseDate = Date(timeIntervalSinceReferenceDate: 631200000)
         domain.backlog[0].moveOnRelease = true
         return domain
@@ -108,10 +108,10 @@ struct DomainView_Previews: PreviewProvider {
     }
     
     static func mockDomainItem(name: String) -> DomainItem {
-        return DomainItem(id: Int64.random(in: 0...Int64.max), name: name, notes: nil, status: .unstarted, queued: false, moveOnRelease: false, sortIndex: 0, releaseDate: nil)
+        return DomainItem(id: Int64.random(in: 0...Int64.max), name: name, notes: nil, status: .unstarted, moveOnRelease: false, sortIndex: 0, releaseDate: nil)
     }
     
     static func mockDomain(name: String) -> Domain {
-        return Domain(id: Int64.random(in: 0...Int64.max), name: name, queue: [], backlog: [])
+        return Domain(id: Int64.random(in: 0...Int64.max), name: name, unstarted: [], backlog: [])
     }
 }

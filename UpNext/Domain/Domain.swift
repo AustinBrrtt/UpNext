@@ -11,7 +11,9 @@ import Foundation
 struct Domain: Identifiable {
     public var id: Int64
     public var name: String
-    public var queue: [DomainItem]
+    public var completed: [DomainItem]
+    public var started: [DomainItem]
+    public var unstarted: [DomainItem]
     public var backlog: [DomainItem]
     
     @available(*, deprecated, message: "Use name")
@@ -23,31 +25,35 @@ struct Domain: Identifiable {
     init(name: String) {
         self.id = Int64.random(in: Int64.min...Int64.max)
         self.name = name
-        queue = []
+        unstarted = []
+        started = []
+        completed = []
         backlog = []
     }
     
-    init(id: Int64, name: String, queue: [DomainItem] = [], backlog: [DomainItem] = []) {
+    init(id: Int64, name: String, unstarted: [DomainItem] = [], started: [DomainItem] = [], completed: [DomainItem] = [], backlog: [DomainItem] = []) {
         self.id = id
         self.name = name
-        self.queue = queue
+        self.unstarted = unstarted
+        self.started = started
+        self.completed = completed
         self.backlog = backlog
     }
     
-    public mutating func prepend(_ item: DomainItem, to type: ItemListType) {
-        if type == .queue {
-            queue.insert(item, at: 0)
+    public mutating func prepend(_ item: DomainItem, toQueue queue: Bool) {
+        if queue {
+            unstarted.insert(item, at: 0)
         } else {
             backlog.insert(item, at: 0)
         }
-        updateSortIndices(for: type)
+        updateSortIndices(for: queue ? .unstarted : .backlog)
     }
     
-    public mutating func add(_ item: DomainItem, to type: ItemListType) {
+    public mutating func add(_ item: DomainItem, toQueue queue: Bool) {
         var mutableItem = item
-        mutableItem.sortIndex = Int64((type == .queue ? queue : backlog).count)
-        if type == .queue {
-            queue.append(mutableItem)
+        mutableItem.sortIndex = Int64((queue ? unstarted : backlog).count)
+        if queue {
+            unstarted.append(mutableItem)
         } else {
             backlog.append(mutableItem)
         }
@@ -61,17 +67,17 @@ struct Domain: Identifiable {
             if item.moveOnRelease, let date = item.releaseDate, date < Date() {
                 found = true
                 item.moveOnRelease = false
-                prepend(item, to: .queue)
+                prepend(item, toQueue: true)
                 backlog.remove(at: index)
             }
         }
         return found
     }
     
-    private mutating func updateSortIndices(for type: ItemListType) {
-        for index in (type == .queue ? queue : backlog).indices {
-            if (type == .queue) {
-                queue[index].sortIndex = Int64(index)
+    private mutating func updateSortIndices(for type: ItemStatus) {
+        for index in (type == .unstarted ? unstarted : backlog).indices {
+            if (type == .unstarted) {
+                unstarted[index].sortIndex = Int64(index)
             } else {
                 backlog[index].sortIndex = Int64(index)
             }

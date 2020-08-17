@@ -18,7 +18,6 @@ class Database {
     let name = Expression<String>("name")
     
     let domain = Expression<Int64>("domain")
-    let queued = Expression<Bool>("queued")
     let notes = Expression<String?>("notes")
     let status = Expression<Int64>("status")
     let moveOnRelease = Expression<Bool>("moveOnRelease")
@@ -30,7 +29,7 @@ class Database {
     }
     
     var itemsWithAllColumns: Table {
-        items.select(id, name, domain, queued, notes, status, moveOnRelease, sortIndex, releaseDate)
+        items.select(id, name, domain, notes, status, moveOnRelease, sortIndex, releaseDate)
     }
     
     #if os(iOS)
@@ -53,7 +52,6 @@ class Database {
             try db.run(items.create(ifNotExists: true) { t in
                 t.column(name)
                 t.column(domain, references: domains, id)
-                t.column(queued)
                 t.column(notes, defaultValue: nil)
                 t.column(status, defaultValue: ItemStatus.unstarted.rawValue)
                 t.column(moveOnRelease, defaultValue: false)
@@ -102,13 +100,13 @@ class Database {
     
     func importDomain(domain: Domain) {
         _ = try? db.run(domains.insert(self.name <- domain.name))
-        for item in domain.queue + domain.backlog {
+        for item in domain.unstarted + domain.backlog {
             importItem(item: item, domainId: domain.id)
         }
     }
     
     func importItem(item: DomainItem, domainId: Int64) {
-        _ = try? db.run(items.insert(self.name <- item.name, self.domain <- domainId, self.queued <- item.queued, self.notes <- item.notes, self.status <- item.status.rawValue, self.moveOnRelease <- item.moveOnRelease, self.sortIndex <- item.sortIndex, self.releaseDate <- item.releaseDate))
+        _ = try? db.run(items.insert(self.name <- item.name, self.domain <- domainId, self.notes <- item.notes, self.status <- item.status.rawValue, self.moveOnRelease <- item.moveOnRelease, self.sortIndex <- item.sortIndex, self.releaseDate <- item.releaseDate))
     }
     
     func createDomain(name: String) -> Domain? {
@@ -125,10 +123,6 @@ class Database {
         updateDomain(id) { $0.update(self.name <- name) }
     }
     
-    func moveItem(_ id: Int64, to destination: ItemListType) {
-        updateItem(id) { $0.update(self.queued <- destination == .queue) }
-    }
-    
     func reorderItem(_ id: Int64, to sortIndex: Int64) {
         updateItem(id) { $0.update(self.sortIndex <- sortIndex) }
     }
@@ -138,16 +132,16 @@ class Database {
     }
     
     func releaseItem(_ id: Int64) {
-        updateItem(id) { $0.update(self.queued <- true, self.moveOnRelease <- false) }
+        updateItemStatus(id, to: .unstarted)
     }
     
     func editItem(_ id: Int64, to newValue: DomainItem) {
         updateItem(id) { $0.update(self.name <- newValue.name, self.notes <- newValue.notes, self.status <- newValue.status.rawValue, self.moveOnRelease <- newValue.moveOnRelease, self.releaseDate <- newValue.releaseDate) }
     }
     
-    func createItem(name: String, in type: ItemListType, of domainId: Int64) -> DomainItem? {
+    func createItem(name: String, with status: ItemStatus, of domainId: Int64) -> DomainItem? {
         do {
-            let id = try db.run(items.insert(self.name <- name, self.domain <- domainId, self.queued <- type == .queue))
+            let id = try db.run(items.insert(self.name <- name, self.domain <- domainId, self.status <- status.rawValue))
             return parseItem(from: try db.pluck(itemsWithAllColumns.filter(self.id == id).limit(1))!)
         } catch {
             print("Error: createItem")
@@ -158,17 +152,22 @@ class Database {
     func parseDomain(from row: Row) -> Domain? {
         do {
             let domainId = try row.get(self.id)
-            var domain = try Domain(id: domainId, name: row.get(self.name), queue: [], backlog: [])
+            var domain = try Domain(id: domainId, name: row.get(self.name), unstarted: [], backlog: [])
             for itemRow in try db.prepare(itemsWithAllColumns.filter(self.domain == domainId)) {
                 if let item = parseItem(from: itemRow) {
-                    if item.queued {
-                        domain.queue.append(item)
-                    } else {
+                    switch item.status {
+                    case .backlog:
                         domain.backlog.append(item)
+                    case .unstarted:
+                        domain.unstarted.append(item)
+                    case .started:
+                        domain.started.append(item)
+                    case .completed:
+                        domain.completed.append(item)
                     }
                 }
             }
-            domain.queue.sort()
+            domain.unstarted.sort()
             domain.backlog.sort()
             return domain
         } catch {
@@ -179,7 +178,7 @@ class Database {
     
     func parseItem(from row: Row) -> DomainItem? {
         do {
-            return try DomainItem(id: row.get(self.id), name: row.get(self.name), notes: row.get(self.notes), status: ItemStatus(rawValue: row.get(self.status))!, queued: row.get(self.queued), moveOnRelease: row.get(self.moveOnRelease), sortIndex: row.get(self.sortIndex), releaseDate: row.get(self.releaseDate))
+            return try DomainItem(id: row.get(self.id), name: row.get(self.name), notes: row.get(self.notes), status: ItemStatus(rawValue: row.get(self.status))!, moveOnRelease: row.get(self.moveOnRelease), sortIndex: row.get(self.sortIndex), releaseDate: row.get(self.releaseDate))
         } catch {
             print("Error: parseItem")
             return nil

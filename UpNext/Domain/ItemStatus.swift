@@ -9,12 +9,15 @@
 import Foundation
 
 enum ItemStatus: Int64 {
-    case unstarted = 0
-    case started = 1
-    case completed = 2
+    case backlog = 0
+    case unstarted = 1
+    case started = 2
+    case completed = 3
     
     var oldRawValue: String {
         switch self {
+        case .backlog:
+            return "BACKLOG"
         case .unstarted:
             return "UNSTARTED"
         case .started:
@@ -27,6 +30,8 @@ enum ItemStatus: Int64 {
     @available(*, deprecated, message: "Use Int64 representation")
     public static func from(rawValue: String) -> ItemStatus? {
         switch rawValue {
+        case "BACKLOG":
+            return .backlog
         case "UNSTARTED":
             return .unstarted
         case "STARTED":
@@ -38,9 +43,12 @@ enum ItemStatus: Int64 {
         }
     }
     
-    // returns the next status, looping around from the end
+    // returns the next status, looping around from the end,
+    // with the exception of backlog which is not included
     func next() -> ItemStatus {
         switch self {
+        case .backlog:
+            return .backlog
         case .unstarted:
             return .started
         case .started:
@@ -49,14 +57,30 @@ enum ItemStatus: Int64 {
             return .unstarted
         }
     }
+    
+    func keyPath(forDomainIndex index: Int) -> WritableKeyPath<[Domain], [DomainItem]> {
+        switch self {
+        case .backlog:
+            return \[Domain][index].backlog
+        case .unstarted:
+            return \[Domain][index].unstarted
+        case .started:
+            return \[Domain][index].started
+        case .completed:
+            return \[Domain][index].completed
+        }
+    }
 }
 
+// TODO: Is this still used?
 extension ItemStatus: Comparable {
     // .unstarted < .started < .completed
     static func < (lhs: ItemStatus, rhs: ItemStatus) -> Bool {
         switch lhs {
+        case .backlog:
+            return rhs != .backlog
         case .unstarted:
-            return rhs != .unstarted
+            return rhs != .unstarted && rhs != .backlog
         case .started:
             return rhs == .completed
         case .completed:

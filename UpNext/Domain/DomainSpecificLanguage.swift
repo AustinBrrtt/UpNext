@@ -14,7 +14,7 @@ struct DomainSpecificLanguage {
     
     let domain: Noun
     let domainTitle: Noun
-    let queue: Noun
+    let unstarted: Noun
     let backlog: Noun
     let item: Noun
     let itemTitle: Noun
@@ -23,7 +23,7 @@ struct DomainSpecificLanguage {
     init(
         domain: Noun = Noun("list"),
         domainTitle: Noun = Noun("title"),
-        queue: Noun = Noun("up next"),
+        unstarted: Noun = Noun("up next"),
         backlog: Noun = Noun("backlog"),
         item: Noun = Noun("item"),
         itemTitle: Noun = Noun("title"),
@@ -31,7 +31,7 @@ struct DomainSpecificLanguage {
     ) {
         self.domain = domain
         self.item = item
-        self.queue = queue
+        self.unstarted = unstarted
         self.backlog = backlog
         self.itemTitle = itemTitle
         self.domainTitle = domainTitle

@@ -64,12 +64,12 @@ struct DomainList_Previews: PreviewProvider {
     ]
     static var domains: [Domain] {
         var domain = Domain(name: "Games")
-        domain.queue = queueItems
+        domain.unstarted = queueItems
         domain.backlog = backlogItems
-        domain.queue[0].releaseDate = Date(timeIntervalSince1970: 509400000)
-        domain.queue[0].notes = "Really good game"
-        domain.queue[0].status = .started
-        domain.queue[1].status = .started
+        domain.unstarted[0].releaseDate = Date(timeIntervalSince1970: 509400000)
+        domain.unstarted[0].notes = "Really good game"
+        domain.unstarted[0].status = .started
+        domain.unstarted[1].status = .started
         domain.backlog[0].releaseDate = Date(timeIntervalSinceReferenceDate: 631200000)
         domain.backlog[0].moveOnRelease = true
         return [domain, Domain(name: "Books"), Domain(name: "Anime")]
