@@ -60,7 +60,7 @@ class DomainsModel: ObservableObject {
     }
     
     public func delete(_ item: DomainItem) {
-        guard let (domainIndex, itemIndex, location) = findItem(item) else {
+        guard let (domainIndex, itemIndex, location) = findItem(byId: item.id) else {
             return
         }
         
@@ -116,7 +116,7 @@ class DomainsModel: ObservableObject {
         }
         // Should I be making this one way data flow and only update the database from here, then refetch data? Right now I'm updating the live data, which requires finding nested references.
         // Maybe if I could reload the data and then replace it by diff? Does ObservableObject handle that for me?
-        guard let (domainIndex, itemIndex, location) = findItem(item) else {
+        guard let (domainIndex, itemIndex, location) = findItem(byId: item.id) else {
             return
         }
         var item = domains[keyPath: location.keyPath(forDomainIndex: domainIndex)][itemIndex]
@@ -129,22 +129,33 @@ class DomainsModel: ObservableObject {
     public func updateItemProperties(on item: DomainItem, to properties: ItemProperties) {
         var updatedItem = item
         updatedItem.name = properties.title.trimmingCharacters(in: .whitespaces)
-        updatedItem.status = properties.status
         updatedItem.notes = properties.notes.count > 0 ? properties.notes : nil
         updatedItem.releaseDate = properties.useDate ? properties.date : nil
         updatedItem.moveOnRelease = properties.moveOnRelease
         
-        guard let (domainIndex, itemIndex, location) = findItem(item) else {
+        guard let (domainIndex, itemIndex, location) = findItem(byId: item.id) else {
             return
         }
         
         domains[keyPath: location.keyPath(forDomainIndex: domainIndex)][itemIndex] = updatedItem
         database.editItem(item.id, to: updatedItem)
+        
+        if (item.status != properties.status) {
+            updateItemStatus(item: updatedItem, to: properties.status)
+        }
+    }
+    
+    public func item(withId id: Int64) -> DomainItem? {
+        guard let (domainIndex, itemIndex, location) = findItem(byId: id) else {
+            return nil
+        }
+        
+        return domains[keyPath: location.keyPath(forDomainIndex: domainIndex)][itemIndex]
     }
     
     @available(*, deprecated, message: "TODO: implement a version that passes the domain")
     public func updateIndex(for item: DomainItem, to index: Int64) {
-        guard let (domainIndex, itemIndex, location) = findItem(item) else {
+        guard let (domainIndex, itemIndex, location) = findItem(byId: item.id) else {
             return
         }
         
@@ -153,7 +164,7 @@ class DomainsModel: ObservableObject {
     
     @available(*, deprecated, message: "Get unstarted/backlog status from context")
     public func isItemInQueue(_ item: DomainItem) -> Bool {
-        guard let (_, _, location) = findItem(item) else {
+        guard let (_, _, location) = findItem(byId: item.id) else {
             return false
         }
         
@@ -165,26 +176,26 @@ class DomainsModel: ObservableObject {
     }
     
     // Returns (domain index, item index, unstarted or backlog) or nil if not found
-    private func findItem(_ item: DomainItem) -> (Int, Int, ItemStatus)? {
+    private func findItem(byId id: Int64) -> (Int, Int, ItemStatus)? {
         var itemIndex: Int? = nil
         var location: ItemStatus = .completed
         guard let domainIndex = domains.firstIndex(where: { domain in
-            itemIndex = domain.unstarted.firstIndex(of: item)
+            itemIndex = domain.unstarted.firstIndex(where: { $0.id == id })
             
             if itemIndex != nil {
                 location = .unstarted
             } else {
-                itemIndex = domain.backlog.firstIndex(of: item)
+                itemIndex = domain.backlog.firstIndex(where: { $0.id == id })
                 
                 if itemIndex != nil {
                     location = .backlog
                 } else {
-                    itemIndex = domain.started.firstIndex(of: item)
+                    itemIndex = domain.started.firstIndex(where: { $0.id == id })
                     
                     if itemIndex != nil {
                         location = .started
                     } else {
-                        itemIndex = domain.completed.firstIndex(of: item)
+                        itemIndex = domain.completed.firstIndex(where: { $0.id == id })
                     }
                 }
             }

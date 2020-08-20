@@ -35,10 +35,6 @@ struct DomainItem: Identifiable {
         return formatter.string(from: releaseDate)
     }
     
-    public var hasReleaseDate: Bool {
-        return releaseDate != nil
-    }
-    
     public var queued: Bool {
         return status != .backlog
     }

@@ -74,6 +74,19 @@ struct Domain: Identifiable {
         return found
     }
     
+    public func item(id: Int64, status: ItemStatus) -> DomainItem? {
+        switch status {
+        case .backlog:
+            return backlog.first { $0.id == id }
+        case .unstarted:
+            return unstarted.first { $0.id == id }
+        case .started:
+            return started.first { $0.id == id }
+        case .completed:
+            return completed.first { $0.id == id }
+        }
+    }
+    
     private mutating func updateSortIndices(for type: ItemStatus) {
         for index in (type == .unstarted ? unstarted : backlog).indices {
             if (type == .unstarted) {

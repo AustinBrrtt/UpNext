@@ -9,20 +9,23 @@
 import SwiftUI
 
 struct ItemCardIndicatorsView: View {
+    @EnvironmentObject var model: DomainsModel
     var item: DomainItem
     
     var body: some View {
         VStack {
             HStack {
-                if item.hasReleaseDate {
-                    Image(systemName: "calendar")
-                    Text(item.displayDate)
-                        .padding(.trailing)
-                }
-                Spacer()
-                if item.notes != nil {
-                    Image(systemName: "note.text")
-                        .transition(.identity)
+                if let foundItem = model.item(withId: item.id) {
+                    if let _ = foundItem.releaseDate {
+                        Image(systemName: "calendar")
+                        Text(foundItem.displayDate)
+                            .padding(.trailing)
+                    }
+                    Spacer()
+                    if let _ = foundItem.notes {
+                        Image(systemName: "note.text")
+                            .transition(.identity)
+                    }
                 }
             }
             
