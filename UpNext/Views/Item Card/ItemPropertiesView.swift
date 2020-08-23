@@ -90,7 +90,7 @@ struct ItemPropertiesView: View {
 
 struct ItemProperties_Previews: PreviewProvider {
     static var previews: some View {
-        return ItemPropertiesView(DomainItem(name: "Sample Item")) { }
+        return ItemPropertiesView(DomainItem.createMock(name: "Sample Item")) { }
             .environmentObject(DomainsModel())
             .previewLayout(.fixed(width: 450, height: 350))
     }

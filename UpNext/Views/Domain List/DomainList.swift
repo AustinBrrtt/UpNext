@@ -52,27 +52,24 @@ struct DomainList: View {
 }
 
 struct DomainList_Previews: PreviewProvider {
-    static var queueItems = [
-        DomainItem(name: "The Legend of Zelda"),
-        DomainItem(name: "Hitman 2"),
-        DomainItem(name: "Shrek SuperSlam")
-    ]
-    static var backlogItems = [
-        DomainItem(name: "Hitman 3"),
-        DomainItem(name: "Thief"),
-        DomainItem(name: "Mario & Luigi: Bowser's Inside Story")
-    ]
     static var domains: [Domain] {
-        var domain = Domain(name: "Games")
-        domain.unstarted = queueItems
-        domain.backlog = backlogItems
-        domain.unstarted[0].releaseDate = Date(timeIntervalSince1970: 509400000)
-        domain.unstarted[0].notes = "Really good game"
-        domain.unstarted[0].status = .started
-        domain.unstarted[1].status = .started
-        domain.backlog[0].releaseDate = Date(timeIntervalSinceReferenceDate: 631200000)
-        domain.backlog[0].moveOnRelease = true
-        return [domain, Domain(name: "Books"), Domain(name: "Anime")]
+        return [
+            Domain.createMock(
+                name: "Games",
+                unstarted: [
+                    DomainItem.createMock(name: "The Legend of Zelda", notes: "Really good game", status: .started, releaseDate: Date(timeIntervalSince1970: 509400000)),
+                    DomainItem.createMock(name: "Hitman 2", status: .started),
+                    DomainItem.createMock(name: "Shrek SuperSlam")
+                ],
+                backlog: [
+                    DomainItem.createMock(name: "Hitman 3", moveOnRelease: true, releaseDate: Date(timeIntervalSinceReferenceDate: 631200000)),
+                    DomainItem.createMock(name: "Thief"),
+                    DomainItem.createMock(name: "Mario & Luigi: Bowser's Inside Story")
+                ]
+            ),
+            Domain.createMock(name: "Books", unstarted: [DomainItem.createMock(name: "No content")]),
+            Domain.createMock(name: "Anime", unstarted: [DomainItem.createMock(name: "No content")])
+        ]
     }
     static var previews: some View {
         DomainList(domains: .constant(domains))

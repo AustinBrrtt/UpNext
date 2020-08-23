@@ -162,62 +162,34 @@ struct ItemCardView: View {
 }
 
 struct ItemCardView_Previews: PreviewProvider {
-    static var basicBacklogItem = DomainItem(name: "Backlog Item")
-    static var complexBacklogItem: DomainItem {
-        var item = DomainItem(name: "Backlog Item with properties")
-        item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
-        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
-        item.moveOnRelease = true
-        return item
-    }
-    static var futureBacklogItem: DomainItem {
-        var item = DomainItem(name: "Future Backlog Item with properties")
-        item.releaseDate = Date(timeIntervalSinceReferenceDate: 6000000000)
-        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
-        item.moveOnRelease = true
-        return item
-    }
-    static var completedQueueItem: DomainItem {
-        var item = DomainItem(name: "Completed Queue Item")
-        item.status = .completed
-        return item
-    }
-    static var startedQueueItem: DomainItem {
-        var item = DomainItem(name: "Started Queue Item")
-        item.status = .started
-        return item
-    }
-    static var unstartedQueueItem = DomainItem(name: "Unstarted Queue Item")
-    static var complexQueueItem: DomainItem {
-        var item = DomainItem(name: "Unstarted Queue Item with properties")
-        item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
-        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
-        return item
-    }
-    static var futureQueueItem: DomainItem {
-        var item = DomainItem(name: "Future Unstarted Queue Item with properties")
-        item.releaseDate = Date(timeIntervalSinceReferenceDate: 6000000000)
-        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
-        return item
-    }
+    static var basicBacklogItem = DomainItem.createMock(name: "Backlog Item")
+    static var complexBacklogItem = DomainItem.createMock(name: "Backlog Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", moveOnRelease: true, releaseDate: Date(timeIntervalSinceReferenceDate: 600000000))
+    static var futureBacklogItem = DomainItem.createMock(name: "Future Backlog Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", moveOnRelease: true, releaseDate: Date(timeIntervalSinceReferenceDate: 6000000000))
+    static var completedQueueItem = DomainItem.createMock(name: "Completed Queue Item", status: .completed)
+    static var startedQueueItem = DomainItem.createMock(name: "Started Queue Item", status: .started)
+    static var unstartedQueueItem = DomainItem.createMock(name: "Unstarted Queue Item", status: .unstarted)
+    static var complexQueueItem = DomainItem.createMock(name: "Unstarted Queue Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", releaseDate: Date(timeIntervalSinceReferenceDate: 600000000))
+    static var futureQueueItem = DomainItem.createMock(name: "Future Unstarted Queue Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", releaseDate: Date(timeIntervalSinceReferenceDate: 6000000000))
     
-    static var model: DomainsModel {
+    static var model: DomainsModel = {
         let model = DomainsModel()
-        model.domains.append(Domain(name: "Queue Holder"))
-        model.domains[0].unstarted = [
-            completedQueueItem,
-            startedQueueItem,
-            unstartedQueueItem,
-            complexQueueItem,
-            futureQueueItem
-        ]
-        model.domains[0].backlog = [
-            basicBacklogItem,
-            complexBacklogItem,
-            futureBacklogItem
-        ]
+        model.domains.append(Domain.createMock(
+            name: "Queue Holder",
+            unstarted: [
+                completedQueueItem,
+                startedQueueItem,
+                unstartedQueueItem,
+                complexQueueItem,
+                futureQueueItem
+            ],
+            backlog: [
+                basicBacklogItem,
+                complexBacklogItem,
+                futureBacklogItem
+            ])
+        )
         return model
-    }
+    }()
     
     struct PreviewContainer: View {
         @EnvironmentObject var model: DomainsModel

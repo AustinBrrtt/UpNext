@@ -98,15 +98,24 @@ class Database {
         _ = try? db.run(items.filter(self.id == id).delete())
     }
     
-    func importDomain(domain: Domain) {
-        _ = try? db.run(domains.insert(self.name <- domain.name))
-        for item in domain.unstarted + domain.backlog {
-            importItem(item: item, domainId: domain.id)
+    // Returns the id of the domain if successful, nil if unsucessful
+    func importDomain(domain: Domain) -> Int64? {
+        guard let result = try? db.run(domains.insert(self.name <- domain.name)) else {
+            return nil
         }
+        
+        for item in domain.items {
+            guard let _ = importItem(item: item, domainId: result) else {
+                return nil
+            }
+        }
+        
+        return result
     }
     
-    func importItem(item: DomainItem, domainId: Int64) {
-        _ = try? db.run(items.insert(self.name <- item.name, self.domain <- domainId, self.notes <- item.notes, self.status <- item.status.rawValue, self.moveOnRelease <- item.moveOnRelease, self.sortIndex <- item.sortIndex, self.releaseDate <- item.releaseDate))
+    // Returns the id of the item if successful, nil if unsucessful
+    func importItem(item: DomainItem, domainId: Int64) -> Int64? {
+        return try? db.run(items.insert(self.name <- item.name, self.domain <- domainId, self.notes <- item.notes, self.status <- item.status.rawValue, self.moveOnRelease <- item.moveOnRelease, self.sortIndex <- item.sortIndex, self.releaseDate <- item.releaseDate))
     }
     
     func createDomain(name: String) -> Domain? {

@@ -34,24 +34,10 @@ struct ItemCardIndicatorsView: View {
 }
 
  struct ItemCardIndicatorsView_Previews: PreviewProvider {
-    static var basicItem = DomainItem(name: "Item Without Properties")
-    static var dateItem: DomainItem {
-        var item = DomainItem(name: "Item With Date")
-        item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
-        return item
-    }
-    static var notesItem: DomainItem {
-        var item = DomainItem(name: "Item With Notes")
-        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
-        return item
-    }
-    static var complexItem: DomainItem {
-        var item = DomainItem(name: "Item With Properties")
-        item.releaseDate = Date(timeIntervalSinceReferenceDate: 600000000)
-        item.notes = "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!"
-        item.moveOnRelease = true
-        return item
-    }
+    static var basicItem = DomainItem.createMock(name: "Item Without Properties")
+    static var dateItem = DomainItem.createMock(name: "Item With Date", releaseDate: Date(timeIntervalSinceReferenceDate: 600000000))
+    static var notesItem = DomainItem.createMock(name: "Item With Notes", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!")
+    static var complexItem = DomainItem.createMock(name: "Item With Properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", moveOnRelease: true, releaseDate: Date(timeIntervalSinceReferenceDate: 600000000))
 
     static var previews: some View {
         VStack {

@@ -59,25 +59,24 @@ struct ItemListSection: View {
 }
 
 struct ItemListSection_Previews: PreviewProvider {
-    static var domain: Binding<Domain> {
-        var domain = Domain(name: "Temp")
-        domain.completed = [
-            DomainItem(name: "The Legend of Zelda"),
-            DomainItem(name: "Hitman 2"),
-            DomainItem(name: "Shrek SuperSlam")
+    static var domain: Binding<Domain> = .constant(Domain.createMock(
+        name: "Temp",
+        unstarted: [
+            DomainItem.createMock(name: "Bugsnax"),
+            DomainItem.createMock(name: "Spider-man: Homecoming"),
+            DomainItem.createMock(name: "Free Pizza")
+        ],
+        started: [
+            DomainItem.createMock(name: "The Incredibles"),
+            DomainItem.createMock(name: "Japan: The Game"),
+            DomainItem.createMock(name: "Tacos with Me")
+        ],
+        completed: [
+            DomainItem.createMock(name: "The Legend of Zelda"),
+            DomainItem.createMock(name: "Hitman 2"),
+            DomainItem.createMock(name: "Shrek SuperSlam")
         ]
-        domain.started = [
-            DomainItem(name: "The Incredibles"),
-            DomainItem(name: "Japan: The Game"),
-            DomainItem(name: "Tacos with Me")
-        ]
-        domain.unstarted = [
-            DomainItem(name: "Bugsnax"),
-            DomainItem(name: "Spider-man: Homecoming"),
-            DomainItem(name: "Free Pizza")
-        ]
-        return .constant(domain)
-    }
+    ))
     
     static var previews: some View {
         ItemListSection(domain, status: .unstarted, showCompleted: .constant(true))

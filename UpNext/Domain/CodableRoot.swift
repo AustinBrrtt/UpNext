@@ -24,18 +24,15 @@ class CodableRoot: Codable {
     }
     
     func overwrite(model: DomainsModel) throws {
-        model.deleteAll()
         model.replace(domains: domains.map{ $0.asDomain() })
     }
     
     struct CodableDomain: Codable {
-        var id: Int64
         var name: String
         var queue: [CodableDomainItem]
         var backlog: [CodableDomainItem]
         
         init(_ domain: Domain) {
-            id = domain.id
             name = domain.name
             queue = []
             backlog = []
@@ -59,7 +56,7 @@ class CodableRoot: Codable {
         }
         
         func asDomain () -> Domain {
-            var domain = Domain(id: id, name: name)
+            var domain = Domain(id: 0, name: name)
             
             for item in queue {
                 let domainItem = item.asDomainItem(queued: true)
@@ -84,7 +81,6 @@ class CodableRoot: Codable {
     }
     
     struct CodableDomainItem: Codable {
-        public var id: Int64
         public var name: String
         public var notes: String?
         public var status: String
@@ -94,7 +90,6 @@ class CodableRoot: Codable {
         public var releaseDate: Date?
         
         init(_ item: DomainItem) {
-            id = item.id
             name = item.name
             notes = item.notes
             status = item.status.oldRawValue
@@ -104,7 +99,7 @@ class CodableRoot: Codable {
         }
         
         func asDomainItem(queued: Bool) -> DomainItem {
-            return DomainItem(id: id, name: name, notes: notes, status: ItemStatus.from(rawValue: status) ?? .unstarted, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
+            return DomainItem(id: 0, name: name, notes: notes, status: queued ? ItemStatus.from(rawValue: status) ?? .unstarted : .backlog, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
         }
     }
 }

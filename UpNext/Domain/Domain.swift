@@ -16,19 +16,13 @@ struct Domain: Identifiable {
     public var unstarted: [DomainItem]
     public var backlog: [DomainItem]
     
-    @available(*, deprecated, message: "Use name")
-    public var displayName: String {
-        name
+    public var items: [DomainItem] {
+        unstarted + started + completed + backlog
     }
     
-    @available(*, deprecated, message: "Use init with all parameters")
-    init(name: String) {
-        self.id = Int64.random(in: Int64.min...Int64.max)
-        self.name = name
-        unstarted = []
-        started = []
-        completed = []
-        backlog = []
+    // For use in SwiftUI Previews
+    public static func createMock(name: String = "Sample", unstarted: [DomainItem] = [], started: [DomainItem] = [], completed: [DomainItem] = [], backlog: [DomainItem] = []) -> Domain {
+        return Domain(id: Int64.random(in: Int64.min...Int64.max), name: name, unstarted: unstarted, started: started, completed: completed, backlog: backlog)
     }
     
     init(id: Int64, name: String, unstarted: [DomainItem] = [], started: [DomainItem] = [], completed: [DomainItem] = [], backlog: [DomainItem] = []) {
@@ -57,21 +51,6 @@ struct Domain: Identifiable {
         } else {
             backlog.append(mutableItem)
         }
-    }
-    
-    // returns true if any changes are made
-    public mutating func processScheduledMoves() -> Bool {
-        var found = false
-        for index in backlog.indices {
-            var item = backlog[index]
-            if item.moveOnRelease, let date = item.releaseDate, date < Date() {
-                found = true
-                item.moveOnRelease = false
-                prepend(item, toQueue: true)
-                backlog.remove(at: index)
-            }
-        }
-        return found
     }
     
     public func item(id: Int64, status: ItemStatus) -> DomainItem? {

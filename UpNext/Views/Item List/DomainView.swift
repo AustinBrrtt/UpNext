@@ -68,35 +68,26 @@ struct DomainView: View {
         )
         .navigationBarTitle("", displayMode: .inline)
         .onAppear() {
-            _ = domain.processScheduledMoves()
+            _ = model.processScheduledMoves(for: domain)
         }
         .environment(\.editMode, $editMode)
     }
 }
 
 struct DomainView_Previews: PreviewProvider {
-    static var queueItems = [
-        mockDomainItem(name: "The Legend of Zelda"),
-        mockDomainItem(name: "Hitman 2"),
-        mockDomainItem(name: "Shrek SuperSlam")
-    ]
-    static var backlogItems = [
-        mockDomainItem(name: "Hitman 3"),
-        mockDomainItem(name: "Thief"),
-        mockDomainItem(name: "Mario & Luigi: Bowser's Inside Story")
-    ]
-    static var domain: Domain {
-        var domain = Domain(name: "Games")
-        domain.unstarted = queueItems
-        domain.backlog = backlogItems
-        domain.unstarted[0].releaseDate = Date(timeIntervalSince1970: 509400000)
-        domain.unstarted[0].notes = "Really good game"
-        domain.unstarted[0].status = .started
-        domain.unstarted[1].status = .started
-        domain.backlog[0].releaseDate = Date(timeIntervalSinceReferenceDate: 631200000)
-        domain.backlog[0].moveOnRelease = true
-        return domain
-    }
+    static var domain = Domain.createMock(
+        name: "Games",
+        unstarted: [
+            DomainItem.createMock(name: "The Legend of Zelda", notes: "Really good game", status: .started, releaseDate: Date(timeIntervalSince1970: 509400000)),
+            DomainItem.createMock(name: "Hitman 2", status: .started),
+            DomainItem.createMock(name: "Shrek SuperSlam")
+        ],
+        backlog: [
+            DomainItem.createMock(name: "Hitman 3", moveOnRelease: true, releaseDate: Date(timeIntervalSinceReferenceDate: 631200000)),
+            DomainItem.createMock(name: "Thief"),
+            DomainItem.createMock(name: "Mario & Luigi: Bowser's Inside Story")
+        ]
+    )
     
     static var previews: some View {
         NavigationView {
@@ -105,13 +96,5 @@ struct DomainView_Previews: PreviewProvider {
                     .navigationTitle("Lists")
             }
         }
-    }
-    
-    static func mockDomainItem(name: String) -> DomainItem {
-        return DomainItem(id: Int64.random(in: 0...Int64.max), name: name, notes: nil, status: .unstarted, moveOnRelease: false, sortIndex: 0, releaseDate: nil)
-    }
-    
-    static func mockDomain(name: String) -> Domain {
-        return Domain(id: Int64.random(in: 0...Int64.max), name: name, unstarted: [], backlog: [])
     }
 }

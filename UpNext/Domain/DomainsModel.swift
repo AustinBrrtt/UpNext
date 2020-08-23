@@ -68,17 +68,17 @@ class DomainsModel: ObservableObject {
         database.deleteItem(id: item.id)
     }
     
-    public func deleteAll() {
-        domains = []
-        database.deleteEverything()
-    }
-    
+    // Attempts to replace database with new domains. If unsuccessful, will attempt to restore previous domains.
     public func replace(domains newDomains: [Domain]) {
         database.deleteEverything()
-        domains = newDomains
-        for domain in domains {
-            database.importDomain(domain: domain)
+        for domain in newDomains {
+            guard let _ = database.importDomain(domain: domain) else {
+                print("Failed to overwrite imported domain \(domain.name), attempting to revert")
+                restoreDatabase()
+                return
+            }
         }
+        domains = loadDomains() // Allow Database to generate IDs
     }
     
     public func move(item: DomainItem, to status: ItemStatus, of domain: Domain) {
@@ -153,22 +153,32 @@ class DomainsModel: ObservableObject {
         return domains[keyPath: location.keyPath(forDomainIndex: domainIndex)][itemIndex]
     }
     
-    @available(*, deprecated, message: "TODO: implement a version that passes the domain")
-    public func updateIndex(for item: DomainItem, to index: Int64) {
-        guard let (domainIndex, itemIndex, location) = findItem(byId: item.id) else {
-            return
-        }
-        
-        domains[keyPath: location.keyPath(forDomainIndex: domainIndex)][itemIndex].sortIndex = index
-    }
-    
-    @available(*, deprecated, message: "Get unstarted/backlog status from context")
-    public func isItemInQueue(_ item: DomainItem) -> Bool {
-        guard let (_, _, location) = findItem(byId: item.id) else {
+    // returns true if any changes are made
+    public func processScheduledMoves(for domain: Domain) -> Bool {
+        guard let domainIndex = domains.firstIndex(where: { $0.id == domain.id }) else {
             return false
         }
         
-        return location == .unstarted
+        var found = false
+        for item in domains[domainIndex].backlog {
+            if item.shouldBeMoved {
+                found = true
+                var mutableItem = item
+                mutableItem.moveOnRelease = false
+                domains[domainIndex].prepend(mutableItem, toQueue: true)
+            }
+        }
+        domains[domainIndex].backlog.removeAll(where: \.shouldBeMoved)
+        
+        return found
+    }
+    
+    // Attempt to replace database with current domains in case of failed overwrite
+    private func restoreDatabase() {
+        database.deleteEverything()
+        for domain in domains {
+            let _ = database.importDomain(domain: domain)
+        }
     }
     
     private func nextSortIndex(for keyPath: WritableKeyPath<[Domain], [DomainItem]>) -> Int64 {

@@ -17,11 +17,6 @@ struct DomainItem: Identifiable {
     public var sortIndex: Int64
     public var releaseDate: Date?
     
-    @available(*, deprecated, message: "Use name")
-    public var displayName: String {
-        name
-    }
-    
     public var displayNotes: String {
         notes ?? ""
     }
@@ -46,15 +41,16 @@ struct DomainItem: Identifiable {
         return Date().noon < releaseDate.noon
     }
     
-    @available(*, deprecated, message: "Use init with all parameters")
-    init(name: String) {
-        self.id = Int64.random(in: Int64.min...Int64.max)
-        self.name = name
-        self.notes = nil
-        self.status = .unstarted
-        self.moveOnRelease = false
-        self.sortIndex = 0
-        self.releaseDate = nil
+    public var shouldBeMoved: Bool {
+        guard let releaseDate = releaseDate else {
+            return false
+        }
+        return moveOnRelease && releaseDate.noon <= Date().noon
+    }
+    
+    // For Use in SwiftUI Previews
+    public static func createMock(name: String = "Sample", notes: String? = nil, status: ItemStatus = .unstarted, moveOnRelease: Bool = false, sortIndex: Int64 = 0, releaseDate: Date? = nil) -> DomainItem {
+        return DomainItem(id: Int64.random(in: Int64.min...Int64.max), name: name, notes: notes, status: status, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
     }
     
     init(id: Int64 = Int64.random(in: Int64.min...Int64.max), name: String, notes: String?, status: ItemStatus, moveOnRelease: Bool, sortIndex: Int64, releaseDate: Date?) {
