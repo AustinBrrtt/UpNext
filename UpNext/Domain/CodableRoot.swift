@@ -7,8 +7,8 @@
 //
 
 import SwiftUI
-import CoreData
 
+// TODO: Reading/Writing from CoreData replacementf
 class CodableRoot: Codable {
     var domains: [CodableDomain]
     
@@ -19,35 +19,16 @@ class CodableRoot: Codable {
         return try? JSONDecoder().decode(Self.self, from: jsonData)
     }
     
-    init(domains: FetchedResults<Domain>) {
+    init(domains: [Domain]) {
         self.domains = domains.map { CodableDomain($0) }
     }
     
-    func overwriteCoreData(domains: FetchedResults<Domain>, context: NSManagedObjectContext) throws {
-        try burnItToTheGround(domains: domains, context: context)
-            try writeToCoreData(context: context)
-    }
-    
-    private func writeToCoreData(context: NSManagedObjectContext) throws {
-        let _ = domains.map { $0.asDomain(context: context) }
-        try context.save()
-    }
-    
-    private func burnItToTheGround(domains: FetchedResults<Domain>, context: NSManagedObjectContext) throws {
-        domains.forEach { domain in
-            domain.queue.forEach { item in
-                context.delete(item)
-            }
-            domain.backlog.forEach { item in
-                context.delete(item)
-            }
-            context.delete(domain)
-        }
-        try context.save()
+    func overwrite(model: DomainsModel) throws {
+        model.replace(domains: domains.map{ $0.asDomain() })
     }
     
     struct CodableDomain: Codable {
-        var name: String?
+        var name: String
         var queue: [CodableDomainItem]
         var backlog: [CodableDomainItem]
         
@@ -56,7 +37,16 @@ class CodableRoot: Codable {
             queue = []
             backlog = []
             
-            for item in domain.queue {
+            // TODO: Change to have 1 list of items like DB after importing old data
+            for item in domain.unstarted {
+                queue.append(CodableDomainItem(item))
+            }
+            
+            for item in domain.started {
+                queue.append(CodableDomainItem(item))
+            }
+            
+            for item in domain.completed {
                 queue.append(CodableDomainItem(item))
             }
             
@@ -65,18 +55,25 @@ class CodableRoot: Codable {
             }
         }
         
-        func asDomain (context: NSManagedObjectContext) -> Domain {
-            let domain = Domain(context: context)
-            domain.name = name
-            domain.queue = Set<DomainItem>()
-            domain.backlog = Set<DomainItem>()
+        func asDomain () -> Domain {
+            var domain = Domain(id: 0, name: name)
             
             for item in queue {
-                domain.queue.insert(item.asDomainItem(context: context))
+                let domainItem = item.asDomainItem(queued: true)
+                switch domainItem.status {
+                case .unstarted:
+                    domain.unstarted.append(domainItem)
+                case .started:
+                    domain.started.append(domainItem)
+                case .completed:
+                    domain.completed.append(domainItem)
+                case .backlog:
+                    break
+                }
             }
             
             for item in backlog {
-                domain.backlog.insert(item.asDomainItem(context: context))
+                domain.backlog.append(item.asDomainItem(queued: false))
             }
             
             return domain
@@ -84,31 +81,25 @@ class CodableRoot: Codable {
     }
     
     struct CodableDomainItem: Codable {
-        public var name: String?
+        public var name: String
+        public var notes: String?
         public var status: String
-        public var isRepeat: Bool
+        public var isRepeat: Bool? // TODO: Remove after importing old data
         public var moveOnRelease: Bool
-        public var sortIndex: Int16
+        public var sortIndex: Int64
         public var releaseDate: Date?
         
         init(_ item: DomainItem) {
             name = item.name
-            status = item.status.rawValue
-            isRepeat = item.isRepeat
+            notes = item.notes
+            status = item.status.oldRawValue
             moveOnRelease = item.moveOnRelease
             sortIndex = item.sortIndex
             releaseDate = item.releaseDate
         }
         
-        func asDomainItem(context: NSManagedObjectContext) -> DomainItem {
-            let item = DomainItem(context: context)
-            item.name = name
-            item.status = ItemStatus(rawValue: status) ?? .unstarted
-            item.isRepeat = isRepeat
-            item.moveOnRelease = moveOnRelease
-            item.sortIndex = sortIndex
-            item.releaseDate = releaseDate
-            return item
+        func asDomainItem(queued: Bool) -> DomainItem {
+            return DomainItem(id: 0, name: name, notes: notes, status: queued ? ItemStatus.from(rawValue: status) ?? .unstarted : .backlog, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
         }
     }
 }

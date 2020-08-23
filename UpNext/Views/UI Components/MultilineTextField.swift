@@ -107,3 +107,14 @@ private struct UITextViewWrapper: UIViewRepresentable {
         }
     }
 }
+
+struct MultilineTextField_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            MultilineTextField("Enter all of your darkest secrets...", text: .constant(""))
+            MultilineTextField("Enter all of your darkest secrets...", text: .constant("Did I mention the other day that I think that tacos are the only food that does not contain a secret deposit of expensive minerals normally found only deep within the intestines of a gorilla-whale?"))
+        }
+        .padding()
+        .previewLayout(.fixed(width: 400, height: 100))
+    }
+}

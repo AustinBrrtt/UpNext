@@ -9,16 +9,13 @@
 import SwiftUI
 
 struct AddByNameField: View {
-    @Environment(\.managedObjectContext) var context
     @State var name: String = ""
-    var addAction: (String) -> Void
+    var save: (String) -> Void
     var placeholder: String
-    @Binding var dirtyHack: Bool
     
-    init(_ placeholder: String, dirtyHack: Binding<Bool>, addAction: @escaping (String) -> Void) {
+    init(_ placeholder: String, addAction: @escaping (String) -> Void) {
         self.placeholder = placeholder
-        self.addAction = addAction
-        self._dirtyHack = dirtyHack
+        self.save = addAction
     }
     
     var body: some View {
@@ -30,15 +27,8 @@ struct AddByNameField: View {
                 .foregroundColor(name == "" ? .secondary : .green)
                 .onTapGesture {
                     if (name != "") {
-                        addAction(name.trimmingCharacters(in: .whitespaces))
-                        do {
-                           try context.save()
-                           dirtyHack.toggle()
-                           name = ""
-                       } catch let error as NSError {
-                           // TODO: Handle CoreData save error
-                           print("Saving failed. \(error), \(error.userInfo)")
-                       }
+                        save(name.trimmingCharacters(in: .whitespaces))
+                        name = ""
                     }
                     dismissKeyboard()
             }
@@ -49,7 +39,7 @@ struct AddByNameField: View {
 
 struct AddByNameField_Previews: PreviewProvider {
     static var previews: some View {
-        AddByNameField("Add Item", dirtyHack: .constant(true)) { (name: String) in
+        AddByNameField("Add Item") { (name: String) in
             print(name)
         }
     }

@@ -7,85 +7,78 @@
 //
 
 import Foundation
-import CoreData
 
-@objc(Domain)
-class Domain: NSManagedObject, Identifiable {
-    @NSManaged var name: String?
+struct Domain: Identifiable {
+    public var id: Int64
+    public var name: String
+    public var completed: [DomainItem]
+    public var started: [DomainItem]
+    public var unstarted: [DomainItem]
+    public var backlog: [DomainItem]
     
-    @NSManaged var queue: Set<DomainItem>
-    @NSManaged var backlog: Set<DomainItem>
-    
-    public var displayName: String {
-        name ?? "Untitled"
+    public var items: [DomainItem] {
+        unstarted + started + completed + backlog
     }
     
-    public var queueItems: [DomainItem] {
-        Array(queue).sorted()
+    // For use in SwiftUI Previews
+    public static func createMock(name: String = "Sample", unstarted: [DomainItem] = [], started: [DomainItem] = [], completed: [DomainItem] = [], backlog: [DomainItem] = []) -> Domain {
+        return Domain(id: Int64.random(in: Int64.min...Int64.max), name: name, unstarted: unstarted, started: started, completed: completed, backlog: backlog)
     }
     
-    public var backlogItems: [DomainItem] {
-        Array(backlog).sorted()
+    init(id: Int64, name: String, unstarted: [DomainItem] = [], started: [DomainItem] = [], completed: [DomainItem] = [], backlog: [DomainItem] = []) {
+        self.id = id
+        self.name = name
+        self.unstarted = unstarted
+        self.started = started
+        self.completed = completed
+        self.backlog = backlog
     }
     
-    static func getAll() -> NSFetchRequest<Domain> {
-        let request: NSFetchRequest<Domain> = NSFetchRequest<Domain>(entityName: "Domain")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        return request
+    public mutating func prepend(_ item: DomainItem, toQueue queue: Bool) {
+        if queue {
+            unstarted.insert(item, at: 0)
+        } else {
+            backlog.insert(item, at: 0)
+        }
+        updateSortIndices(for: queue ? .unstarted : .backlog)
     }
     
-    static func create(context: NSManagedObjectContext, name: String) -> Domain {
-        let domain = Domain(context: context)
-        domain.queue = Set<DomainItem>()
-        domain.backlog = Set<DomainItem>()
-        domain.name = name
-        
-        return domain
+    public mutating func add(_ item: DomainItem, toQueue queue: Bool) {
+        var mutableItem = item
+        mutableItem.sortIndex = Int64((queue ? unstarted : backlog).count)
+        if queue {
+            unstarted.append(mutableItem)
+        } else {
+            backlog.append(mutableItem)
+        }
     }
     
-    public func prependToQueue(_ item: DomainItem) {
-        updateSortIndices(for: queueItems, add: 1)
-        item.sortIndex = 0
-        queue.insert(item)
-        item.inQueueOf = self
+    public func item(id: Int64, status: ItemStatus) -> DomainItem? {
+        switch status {
+        case .backlog:
+            return backlog.first { $0.id == id }
+        case .unstarted:
+            return unstarted.first { $0.id == id }
+        case .started:
+            return started.first { $0.id == id }
+        case .completed:
+            return completed.first { $0.id == id }
+        }
     }
     
-    // public func prependToBacklog(_ item: DomainItem) {
-    //     updateSortIndices(for: backlogItems, add: 1)
-    //     item.sortIndex = 0
-    //     backlog.insert(item)
-    //     item.inBacklogOf = self
-    // }
-    
-    public func addToQueue(_ item: DomainItem) {
-        item.sortIndex = Int16(queue.count)
-        queue.insert(item)
-        item.inQueueOf = self
-    }
-    
-    public func addToBacklog(_ item: DomainItem) {
-        item.sortIndex = Int16(backlog.count)
-        backlog.insert(item)
-        item.inBacklogOf = self
-    }
-    
-    // returns true if any changes are made
-    public func processScheduledMoves() -> Bool {
-        var found = false
-        for item in backlog {
-            if item.moveOnRelease, let date = item.releaseDate, date < Date() {
-                found = true
-                item.inBacklogOf = nil
-                prependToQueue(item)
-                item.moveOnRelease = false
+    private mutating func updateSortIndices(for type: ItemStatus) {
+        for index in (type == .unstarted ? unstarted : backlog).indices {
+            if (type == .unstarted) {
+                unstarted[index].sortIndex = Int64(index)
+            } else {
+                backlog[index].sortIndex = Int64(index)
             }
         }
-        return found
     }
-    
-    private func updateSortIndices(for items: [DomainItem], add offset: Int16 = 0) {
-        for (index, item) in items.enumerated() {
-            item.sortIndex = Int16(index) + offset
-        }
+}
+
+extension Domain: Equatable {
+    static func ==(lhs: Domain, rhs: Domain) -> Bool {
+        return lhs.id == rhs.id
     }
 }

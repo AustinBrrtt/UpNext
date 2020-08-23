@@ -31,3 +31,19 @@ extension View {
         return modifier(ClearButton(text: text))
     }
 }
+
+struct ClearButton_Previews: PreviewProvider {
+    static var previews: some View {
+        let text = State<String>(initialValue: "Filled Text Field")
+        let emptyText = State<String>(initialValue: "")
+        return VStack {
+            TextField("Initially Filled Text Field", text: text.projectedValue)
+                .clearButton(text: text.projectedValue)
+                .padding(.bottom)
+            TextField("Empty Text Field", text: emptyText.projectedValue)
+                .clearButton(text: emptyText.projectedValue)
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}

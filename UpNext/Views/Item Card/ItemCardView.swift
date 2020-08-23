@@ -12,14 +12,14 @@ import SwiftUI
 // TODO: iPad Navigation
 // TODO: Mac Navigation
 struct ItemCardView: View {
-    @Environment(\.managedObjectContext) var context
     @Environment(\.editMode) var editMode
+    @EnvironmentObject var model: DomainsModel
     let language = DomainSpecificLanguage.defaultLanguage
     @State var isPropertiesShown: Bool = false
     @State var expanded: Bool = false
     
     var item: DomainItem
-    @Binding var dirtyHack: Bool
+    @Binding var domain: Domain
     
     var startDoneButtonIcon: String {
         switch item.status {
@@ -29,11 +29,15 @@ struct ItemCardView: View {
             return "play.fill"
         case .unstarted:
             return "play"
+        case .backlog:
+            return "nosign"
         }
     }
     
     var startDoneButtonText: String {
         switch item.status {
+        case .backlog:
+            return "Error"
         case .completed:
             return "Restart"
         case .started:
@@ -45,7 +49,7 @@ struct ItemCardView: View {
     
     var startDoneButtonBackgroundColor: Color {
         switch item.status {
-        case .completed:
+        case .backlog, .completed:
             return .red
         case .started:
             return .blue
@@ -55,11 +59,10 @@ struct ItemCardView: View {
     }
     
     var startDoneButtonForegroundColor: Color {
-        switch item.status {
-        case .completed, .started:
-            return .white
-        case .unstarted:
+        if item.status == .unstarted {
             return .primary
+        } else {
+            return .white
         }
     }
     
@@ -80,7 +83,7 @@ struct ItemCardView: View {
                             expanded.toggle()
                         }
                     }) {
-                        Text(item.displayName)
+                        Text(item.name)
                             .listItem(bold: item.status == .started)
                             .contextMenu {
                                 Button(action: {
@@ -93,19 +96,16 @@ struct ItemCardView: View {
                                 }
                                 
                                 Button(action: {
-                                    item.move(context: context)
-                                    dirtyHack.toggle()
+                                    model.move(item: item, to: item.status == .backlog ? .unstarted : .backlog, of: domain)
                                 }) {
                                     HStack {
-                                        Text(item.isInQueue ? "Move to \(language.backlog.title)" : "Move to \(language.queue.title)")
-                                        Image(systemName: item.isInQueue ? "arrow.right.to.line" : "arrow.left.to.line")
+                                        Text(item.status == .backlog ? "Move to Up Next" : "Move to Backlog")
+                                        Image(systemName: item.status == .backlog ? "arrow.left.to.line" : "arrow.right.to.line")
                                     }
                                 }
                                 
                                 Button(action: {
-                                    context.delete(item)
-                                    saveCoreData()
-                                    dirtyHack.toggle()
+                                    model.delete(item)
                                 }) {
                                     HStack {
                                         Text("Delete")
@@ -115,13 +115,11 @@ struct ItemCardView: View {
                             }
                     }
                     Spacer()
-                    if item.isInQueue && !editing {
+                    if item.status != .backlog && !editing {
                         SolidButton(startDoneButtonText, foreground: startDoneButtonForegroundColor, background: startDoneButtonBackgroundColor) {
-                            item.status = item.status.next()
-                            saveCoreData()
-                            dirtyHack.toggle()
+                            model.updateItemStatus(item: item, to: item.status.next())
                         }
-                        .accessibility(identifier: "Complete Item " + item.displayName)
+                        .accessibility(identifier: "Complete Item " + item.name)
                     }
                 }
                 
@@ -154,44 +152,69 @@ struct ItemCardView: View {
             .foregroundColor(item.hasFutureReleaseDate ? .secondary : .primary)
             .padding()
             .sheet(isPresented: $isPropertiesShown) {
-                HStack {
-                    Text("Edit Item Properties")
-                        .font(.largeTitle)
-                        .bold()
-                        .padding(.horizontal)
-                        .padding(.top, 50)
-                        .onDisappear {
-                            dirtyHack.toggle()
-                        }
-                    Spacer()
-                    
-                }
-                ItemProperties(item) {
+                ItemPropertiesView(item) {
                     isPropertiesShown = false
-                    do {
-                        try context.save()
-                    } catch {
-                        print("Saving Failed") // TODO: Remove CoreData
-                    }
-                    dirtyHack.toggle()
                 }
+                .environmentObject(model)
             }
-        }
-    }
-    
-    private func saveCoreData() {
-        do {
-            try context.save()
-            dirtyHack.toggle()
-        } catch let error as NSError {
-            // TODO: Handle CoreData save error
-            print("Saving failed. \(error), \(error.userInfo)")
         }
     }
 }
 
-// struct ItemCardView_Previews: PreviewProvider {
-//     static var previews: some View {
-//         ItemCardView(item: )
-//     }
-// }
+struct ItemCardView_Previews: PreviewProvider {
+    static var basicBacklogItem = DomainItem.createMock(name: "Backlog Item")
+    static var complexBacklogItem = DomainItem.createMock(name: "Backlog Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", moveOnRelease: true, releaseDate: Date(timeIntervalSinceReferenceDate: 600000000))
+    static var futureBacklogItem = DomainItem.createMock(name: "Future Backlog Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", moveOnRelease: true, releaseDate: Date(timeIntervalSinceReferenceDate: 6000000000))
+    static var completedQueueItem = DomainItem.createMock(name: "Completed Queue Item", status: .completed)
+    static var startedQueueItem = DomainItem.createMock(name: "Started Queue Item", status: .started)
+    static var unstartedQueueItem = DomainItem.createMock(name: "Unstarted Queue Item", status: .unstarted)
+    static var complexQueueItem = DomainItem.createMock(name: "Unstarted Queue Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", releaseDate: Date(timeIntervalSinceReferenceDate: 600000000))
+    static var futureQueueItem = DomainItem.createMock(name: "Future Unstarted Queue Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", releaseDate: Date(timeIntervalSinceReferenceDate: 6000000000))
+    
+    static var model: DomainsModel = {
+        let model = DomainsModel()
+        model.domains.append(Domain.createMock(
+            name: "Queue Holder",
+            unstarted: [
+                completedQueueItem,
+                startedQueueItem,
+                unstartedQueueItem,
+                complexQueueItem,
+                futureQueueItem
+            ],
+            backlog: [
+                basicBacklogItem,
+                complexBacklogItem,
+                futureBacklogItem
+            ])
+        )
+        return model
+    }()
+    
+    struct PreviewContainer: View {
+        @EnvironmentObject var model: DomainsModel
+        
+        var body: some View {
+            VStack {
+                ForEach(model.domains[0].backlog) { item in
+                    ItemCardView(item: item, domain: .constant(model.domains[0]))
+                        .frame(width: 400)
+                        .padding(.bottom)
+                }
+                Divider()
+                ForEach(model.domains[0].unstarted) { item in
+                    ItemCardView(item: item, domain: .constant(model.domains[0]))
+                        .frame(width: 400)
+                        .padding(.bottom)
+                }
+            }
+        }
+    }
+
+    static var previews: some View {
+        PreviewContainer()
+            .environmentObject(model)
+            .padding()
+            .previewLayout(.sizeThatFits)
+    }
+}
