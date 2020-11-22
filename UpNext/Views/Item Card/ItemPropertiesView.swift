@@ -63,11 +63,10 @@ struct ItemPropertiesView: View {
                 }
                 
                 Section() {
-                    MultilineTextField("Notes", text: $properties.notes, accessibilityIdentifier: "Item Notes")
-//                    TextEditor(text: $properties.notes)
-//                        .lineLimit(nil)
-//                        .fixedSize(horizontal: false, vertical: false)
-//                        .accessibility(identifier: "Item Notes")
+                    TextEditor(text: $properties.notes)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: false)
+                        .accessibility(identifier: "Item Notes")
                 }
             }
             .navigationBarTitle("Edit Item")

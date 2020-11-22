@@ -100,14 +100,10 @@ class DomainsModel: ObservableObject {
     
     public func reorderItems(in type: ItemStatus, of domain: Domain, src: IndexSet, dst: Int) {
         let domainIndex = domains.firstIndex(of: domain)!
-        let keyPath = type == .unstarted ? \[Domain][domainIndex].unstarted : \[Domain][domainIndex].backlog
+        let keyPath = type.keyPath(forDomainIndex: domainIndex)
         domains[keyPath: keyPath].sort()
         domains[keyPath: keyPath].move(fromOffsets: src, toOffset: dst)
-        for index in domains[keyPath: keyPath].indices {
-            domains[keyPath: keyPath][index].sortIndex = Int64(index)
-            print("Reordering: #\(domains[keyPath: keyPath][index].id) to index \(index)")
-            database.reorderItem(domains[keyPath: keyPath][index].id, to: Int64(index))
-        }
+        finalizeItemOrder(keyPath: keyPath)
     }
     
     public func updateItemStatus(item: DomainItem, to status: ItemStatus) {
@@ -160,15 +156,19 @@ class DomainsModel: ObservableObject {
         }
         
         var found = false
-        for item in domains[domainIndex].backlog {
-            if item.shouldBeMoved {
-                found = true
-                var mutableItem = item
-                mutableItem.moveOnRelease = false
-                domains[domainIndex].prepend(mutableItem, toQueue: true)
-            }
+        domains[domainIndex].backlog.filter { $0.shouldBeMoved }.forEach { item in
+            found = true
+            domains[domainIndex].backlog.removeAll { $0.id == item.id }
+            
+            var newItem = item
+            newItem.status = .unstarted
+            
+            domains[domainIndex].unstarted.sort()
+            domains[domainIndex].unstarted.insert(newItem, at: 0)
+            finalizeItemOrder(keyPath: \[Domain][domainIndex].unstarted)
+            
+            database.updateItemStatus(item.id, to: .unstarted)
         }
-        domains[domainIndex].backlog.removeAll(where: \.shouldBeMoved)
         
         return found
     }
@@ -216,5 +216,12 @@ class DomainsModel: ObservableObject {
         }
         
         return (domainIndex, itemIndex!, location)
+    }
+    
+    public func finalizeItemOrder(keyPath: WritableKeyPath<[Domain], [DomainItem]>) {
+        for index in domains[keyPath: keyPath].indices {
+            domains[keyPath: keyPath][index].sortIndex = Int64(index)
+            database.reorderItem(domains[keyPath: keyPath][index].id, to: Int64(index))
+        }
     }
 }

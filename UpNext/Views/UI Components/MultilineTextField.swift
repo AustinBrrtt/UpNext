@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+// TODO: Remove (maybe put somewhere for reference for future UIViewRepresentables)
+@available(*, deprecated)
 struct MultilineTextField: View {
     @State var delayIsOver: Bool = false // Delay showing UITextView to work around NavigationView bug
     @State var viewHeight: CGFloat
