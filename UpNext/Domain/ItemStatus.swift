@@ -14,35 +14,6 @@ enum ItemStatus: Int64 {
     case started = 2
     case completed = 3
     
-    var oldRawValue: String {
-        switch self {
-        case .backlog:
-            return "BACKLOG"
-        case .unstarted:
-            return "UNSTARTED"
-        case .started:
-            return "STARTED"
-        case .completed:
-            return "COMPLETED"
-        }
-    }
-    
-    @available(*, deprecated, message: "Use Int64 representation")
-    public static func from(rawValue: String) -> ItemStatus? {
-        switch rawValue {
-        case "BACKLOG":
-            return .backlog
-        case "UNSTARTED":
-            return .unstarted
-        case "STARTED":
-            return .started
-        case "COMPLETED":
-            return.completed
-        default:
-            return nil
-        }
-    }
-    
     // returns the next status, looping around from the end,
     // with the exception of backlog which is not included
     func next() -> ItemStatus {
