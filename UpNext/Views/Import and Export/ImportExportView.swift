@@ -17,6 +17,7 @@ struct ImportExportView: View {
     @State var importText: String = ""
     @State var exportText: String = ""
     @State var showImport: Bool = true
+    @State var showImportFailedMsg: Bool = false
     
     let failureMessage: String = "Failed to Export data"
     
@@ -42,10 +43,23 @@ struct ImportExportView: View {
                     .onAppear {
                         exportText = exportedData(prettyPrint: prettyPrint)
                     }
+                Button(action: {
+                    UIPasteboard.general.string = exportedData(prettyPrint: prettyPrint)
+                }) {
+                    HStack {
+                        Text("Copy to Clipboard")
+                        Spacer()
+                        Image(systemName: "square.and.arrow.down")
+                    }
+                }
             }
             Spacer()
-        }.padding()
-            .navigationBarTitle(Text("Import/Export"), displayMode: .inline)
+        }
+        .padding()
+        .alert(isPresented: $showImportFailedMsg) {
+            Alert(title: Text("Import Failed"))
+        }
+        .navigationBarTitle(Text("Import/Export"), displayMode: .inline)
     }
     
     private func exportedData(prettyPrint: Bool) -> String {
@@ -60,12 +74,11 @@ struct ImportExportView: View {
     }
     
     private func importData() {
-        guard let codable = CodableRoot.fromJSONString(importText) else {
-            print("Failed to import data")
-            return
-        }
-        if let _ = try? codable.overwrite(model: model) {
+        if let codable = CodableRoot.fromJSONString(importText),
+           let _ = try? codable.overwrite(model: model) {
             goBack()
+        } else {
+            showImportFailedMsg = true
         }
     }
     

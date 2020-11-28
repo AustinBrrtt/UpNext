@@ -83,8 +83,7 @@ class CodableRoot: Codable {
     struct CodableDomainItem: Codable {
         public var name: String
         public var notes: String?
-        public var status: String
-        public var isRepeat: Bool? // TODO: Remove after importing old data
+        public var status: Int64
         public var moveOnRelease: Bool
         public var sortIndex: Int64
         public var releaseDate: Date?
@@ -92,14 +91,14 @@ class CodableRoot: Codable {
         init(_ item: DomainItem) {
             name = item.name
             notes = item.notes
-            status = item.status.oldRawValue
+            status = item.status.rawValue
             moveOnRelease = item.moveOnRelease
             sortIndex = item.sortIndex
             releaseDate = item.releaseDate
         }
         
         func asDomainItem(queued: Bool) -> DomainItem {
-            return DomainItem(id: 0, name: name, notes: notes, status: queued ? ItemStatus.from(rawValue: status) ?? .unstarted : .backlog, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
+            return DomainItem(id: 0, name: name, notes: notes, status: queued ? ItemStatus(rawValue: status) ?? .unstarted : .backlog, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
         }
     }
 }
