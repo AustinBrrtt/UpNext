@@ -12,6 +12,8 @@
 		D910050324A30D03002DF1DA /* SolidButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D910050224A30D03002DF1DA /* SolidButton.swift */; };
 		D910050624A31493002DF1DA /* ItemCardIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */; };
 		D91930442472F70F003ED47A /* ItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91930432472F70F003ED47A /* ItemStatus.swift */; };
+		D966167E2573E87B00A9758D /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D966167D2573E87B00A9758D /* Modal.swift */; };
+		D966169B257436EB00A9758D /* ConditionalBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = D966169A257436EA00A9758D /* ConditionalBlur.swift */; };
 		D96F697A24A6FC260005923E /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F697924A6FC260005923E /* ItemProperties.swift */; };
 		D96F697F24AD908E0005923E /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D96F697E24AD908E0005923E /* SQLite */; };
 		D96F698124AD90CA0005923E /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F698024AD90CA0005923E /* Database.swift */; };
@@ -81,6 +83,8 @@
 		D910050224A30D03002DF1DA /* SolidButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolidButton.swift; sourceTree = "<group>"; };
 		D910050424A31493002DF1DA /* ItemCardIndicatorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCardIndicatorsView.swift; sourceTree = "<group>"; };
 		D91930432472F70F003ED47A /* ItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatus.swift; sourceTree = "<group>"; };
+		D966167D2573E87B00A9758D /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
+		D966169A257436EA00A9758D /* ConditionalBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionalBlur.swift; sourceTree = "<group>"; };
 		D96F697924A6FC260005923E /* ItemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
 		D96F698024AD90CA0005923E /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		D97504B224A450B8007756D9 /* DomainsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainsModel.swift; sourceTree = "<group>"; };
@@ -304,11 +308,13 @@
 		D9BA89C82468F87A0005CE9A /* View Modifiers */ = {
 			isa = PBXGroup;
 			children = (
+				D966169A257436EA00A9758D /* ConditionalBlur.swift */,
 				D9BA89CF2468F87A0005CE9A /* ListItem.swift */,
 				D9BA89D12468F87A0005CE9A /* BigText.swift */,
 				D9BA89C92468F87A0005CE9A /* OnTapDismissesKeyboard.swift */,
 				D9BA89CA2468F87A0005CE9A /* ClearButton.swift */,
 				D9BA8A1B246906390005CE9A /* ConditionalBackground.swift */,
+				D966167D2573E87B00A9758D /* Modal.swift */,
 			);
 			path = "View Modifiers";
 			sourceTree = "<group>";
@@ -516,10 +522,12 @@
 				D9ECC75224E3A15B0049D0A3 /* ItemListSection.swift in Sources */,
 				D910050324A30D03002DF1DA /* SolidButton.swift in Sources */,
 				D9BA89E02468F87A0005CE9A /* OnTapDismissesKeyboard.swift in Sources */,
+				D966169B257436EB00A9758D /* ConditionalBlur.swift in Sources */,
 				D9BA89EC2468F87A0005CE9A /* AddByNameField.swift in Sources */,
 				D9BA89E82468F87A0005CE9A /* EditableTitle.swift in Sources */,
 				D9BA89EB2468F87A0005CE9A /* ItemCardView.swift in Sources */,
 				D9BA89DE2468F87A0005CE9A /* Domain.swift in Sources */,
+				D966167E2573E87B00A9758D /* Modal.swift in Sources */,
 				D9BA89E52468F87A0005CE9A /* DomainList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

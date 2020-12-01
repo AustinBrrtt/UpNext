@@ -16,6 +16,14 @@ struct DomainItem: Identifiable {
     public var moveOnRelease: Bool
     public var sortIndex: Int64
     public var releaseDate: Date?
+    public var seriesName: String?
+    
+    var displayName: String {
+        if let seriesName = seriesName {
+            return "\(seriesName): \(name)"
+        }
+        return name
+    }
     
     public var displayNotes: String {
         notes ?? ""
@@ -49,11 +57,11 @@ struct DomainItem: Identifiable {
     }
     
     // For Use in SwiftUI Previews
-    public static func createMock(name: String = "Sample", notes: String? = nil, status: ItemStatus = .unstarted, moveOnRelease: Bool = false, sortIndex: Int64 = 0, releaseDate: Date? = nil) -> DomainItem {
-        return DomainItem(id: Int64.random(in: Int64.min...Int64.max), name: name, notes: notes, status: status, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
+    public static func createMock(name: String = "Sample", notes: String? = nil, status: ItemStatus = .unstarted, moveOnRelease: Bool = false, sortIndex: Int64 = 0, releaseDate: Date? = nil, seriesName: String? = nil) -> DomainItem {
+        return DomainItem(id: Int64.random(in: Int64.min...Int64.max), name: name, notes: notes, status: status, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate, seriesName: seriesName)
     }
     
-    init(id: Int64 = Int64.random(in: Int64.min...Int64.max), name: String, notes: String?, status: ItemStatus, moveOnRelease: Bool, sortIndex: Int64, releaseDate: Date?) {
+    init(id: Int64 = Int64.random(in: Int64.min...Int64.max), name: String, notes: String?, status: ItemStatus, moveOnRelease: Bool, sortIndex: Int64, releaseDate: Date?, seriesName: String?) {
         self.id = id
         self.name = name
         self.notes = notes
@@ -61,6 +69,7 @@ struct DomainItem: Identifiable {
         self.moveOnRelease = moveOnRelease
         self.sortIndex = sortIndex
         self.releaseDate = releaseDate
+        self.seriesName = seriesName
     }
 }
 

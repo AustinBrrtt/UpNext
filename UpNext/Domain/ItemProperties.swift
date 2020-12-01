@@ -16,6 +16,8 @@ struct ItemProperties {
     var useDate: Bool
     var date: Date
     var moveOnRelease: Bool
+    var inSeries: Bool
+    var seriesName: String
     
     init(from item: DomainItem) {
         title = item.name
@@ -24,5 +26,18 @@ struct ItemProperties {
         useDate = item.releaseDate != nil
         date = item.releaseDate ?? Date()
         moveOnRelease = item.moveOnRelease
+        inSeries = item.seriesName != nil
+        seriesName = item.seriesName ?? ""
+    }
+    
+    init(title: String, status: ItemStatus, notes: String? = nil, releaseDate: Date? = nil, moveOnRelease: Bool = false, seriesName: String? = nil) {
+        self.title = title
+        self.status = status
+        self.notes = notes ?? ""
+        self.useDate = releaseDate != nil
+        self.date = releaseDate ?? Date()
+        self.moveOnRelease = moveOnRelease
+        self.inSeries = seriesName != nil
+        self.seriesName = seriesName ?? ""
     }
 }
