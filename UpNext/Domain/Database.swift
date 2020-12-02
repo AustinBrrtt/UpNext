@@ -208,8 +208,7 @@ class Database {
     
     private func updateItem(_ id: Int64, update: (Table) -> Update) {
         do {
-            let foo = try db.run(update(items.filter(self.id == id)))
-            print("Success: updateItem #\(id), result = \(foo)")
+            _ = try db.run(update(items.filter(self.id == id)))
         } catch {
             print("Error: updateItem")
             return

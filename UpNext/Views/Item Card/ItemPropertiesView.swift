@@ -17,6 +17,29 @@ struct ItemPropertiesView: View {
     private var dismiss: () -> Void
     let language = DomainSpecificLanguage.defaultLanguage
     
+    private static func generateSequelName(for prequelName: String) -> String {
+        guard prequelName.contains(where: { $0.isNumber }),
+              let regex = try? NSRegularExpression(pattern: "([^0-9]*)([0-9]+\\.?[0-9]*)([^a-zA-Z]*)([a-zA-Z].*)?"),
+              let match = regex.matches(in: prequelName, range: NSRange(prequelName.startIndex..., in: prequelName)).first
+        else {
+            return ""
+        }
+        
+        // Start at index 1 because the first capturing group is the full match
+        let capturingGroups: [String] = (1..<match.numberOfRanges).map({ index in
+            guard let range = Range(match.range(at: index), in: prequelName) else {
+                return ""
+            }
+            return String(prequelName[range])
+        })
+        
+        guard let newNumber = Double(capturingGroups[1])?.rounded(.down) else {
+            return ""
+        }
+        
+        return capturingGroups[0] + String(Int(newNumber) + 1) + capturingGroups[2]
+    }
+    
     init(_ item: DomainItem, domain: Domain, dismiss: @escaping () -> Void) {
         self.item = item
         self._properties = State(initialValue: ItemProperties(from: item))
@@ -25,10 +48,9 @@ struct ItemPropertiesView: View {
     }
     
     init(prequel: DomainItem, domain: Domain, dismiss: @escaping () -> Void) {
-        let name = "" // TODO: #175924619
         self._properties = State(
             initialValue: ItemProperties(
-                title: name,
+                title: ItemPropertiesView.generateSequelName(for: prequel.name),
                 status: .unstarted,
                 notes: prequel.notes,
                 releaseDate: nil,

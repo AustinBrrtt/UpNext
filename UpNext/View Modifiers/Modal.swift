@@ -35,9 +35,6 @@ struct Modal<Content: View, Host: View>: View {
             
             host.blur(if: !isPresented, radius: 10)
         }
-        .onChange(of: isPresented, perform: { value in
-            print("isPresented Changed: \(value)")
-        })
     }
 }
 
