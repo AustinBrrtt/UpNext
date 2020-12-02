@@ -42,7 +42,8 @@ class DomainsModel: ObservableObject {
     }
     
     public func addItem(name: String, in type: ItemStatus, of domain: Domain) -> DomainItem {
-        let item = database.createItem(name: name, with: type, of: domain.id)!
+        let sortIndex = domain.items.sorted().last!.sortIndex + 1
+        let item = database.createItem(name: name, with: type, at: sortIndex, of: domain.id)!
         domains[keyPath: type.keyPath(forDomainIndex: domains.firstIndex(of: domain)!)].append(item)
         return item
     }

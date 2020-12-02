@@ -151,9 +151,9 @@ class Database {
         updateItem(id) { $0.update(self.name <- newValue.name, self.notes <- newValue.notes, self.status <- newValue.status.rawValue, self.moveOnRelease <- newValue.moveOnRelease, self.releaseDate <- newValue.releaseDate, self.seriesName <- newValue.seriesName) }
     }
     
-    func createItem(name: String, with status: ItemStatus, of domainId: Int64) -> DomainItem? {
+    func createItem(name: String, with status: ItemStatus, at sortIndex: Int64, of domainId: Int64) -> DomainItem? {
         do {
-            let id = try db.run(items.insert(self.name <- name, self.domain <- domainId, self.status <- status.rawValue))
+            let id = try db.run(items.insert(self.name <- name, self.domain <- domainId, self.sortIndex <- sortIndex, self.status <- status.rawValue))
             return parseItem(from: try db.pluck(itemsWithAllColumns.filter(self.id == id).limit(1))!)
         } catch {
             print("Error: createItem")
