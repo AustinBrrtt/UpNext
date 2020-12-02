@@ -8,6 +8,11 @@
 
 import SwiftUI
 
+enum ItemPropertiesModalContent {
+    case editItem
+    case addSequel
+}
+
 // TODO: Refactor into smaller views
 // TODO: iPad Navigation
 // TODO: Mac Navigation
@@ -15,8 +20,11 @@ struct ItemCardView: View {
     @Environment(\.editMode) var editMode
     @EnvironmentObject var model: DomainsModel
     let language = DomainSpecificLanguage.defaultLanguage
-    @State var isPropertiesShown: Bool = false
+    @State var modalContent: ItemPropertiesModalContent = .editItem
+    @State var isSequelAddPromptShown: Bool = false
+    @State var isModalShown: Bool = false
     @State var expanded: Bool = false
+    @State var onModalClose: () -> Void = {} // FIXME: Temporary workaround until two-way binding is set up like in Budge It
     
     var item: DomainItem
     @Binding var domain: Domain
@@ -83,11 +91,11 @@ struct ItemCardView: View {
                             expanded.toggle()
                         }
                     }) {
-                        Text(item.name)
+                        Text(item.displayName)
                             .listItem(bold: item.status == .started)
                             .contextMenu {
                                 Button(action: {
-                                    isPropertiesShown = true
+                                    isModalShown = true
                                 }) {
                                     HStack {
                                         Text("Edit")
@@ -111,15 +119,52 @@ struct ItemCardView: View {
                                         Text("Delete")
                                         Image(systemName: "trash")
                                     }
-                                }.foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
+                                }
+                                .foregroundColor(.red) // As of February 2020, coloring this doesn't work due to a bug in SwiftUI
+                            }
+                            .sheet(isPresented: $isModalShown) {
+                                switch modalContent {
+                                case .editItem:
+                                    ItemPropertiesView(item, domain: domain) {
+                                        handleModalClose()
+                                    }
+                                    .environmentObject(model)
+                                case .addSequel:
+                                    ItemPropertiesView(prequel: item, domain: domain) {
+                                        handleModalClose()
+                                    }
+                                    .environmentObject(model)
+                                }
                             }
                     }
                     Spacer()
                     if item.status != .backlog && !editing {
                         SolidButton(startDoneButtonText, foreground: startDoneButtonForegroundColor, background: startDoneButtonBackgroundColor) {
-                            model.updateItemStatus(item: item, to: item.status.next())
+                            let status = item.status.next()
+                            if item.seriesName != nil && status == .completed && !domain.hasSequel(to: item) {
+                                isSequelAddPromptShown = true
+                                onModalClose = {
+                                    model.updateItemStatus(item: item, to: status) // TODO: This causes View to re-initialize and resets all @State vars (two-way binding might fix this)
+                                }
+                            } else {
+                                model.updateItemStatus(item: item, to: status)
+                            }
                         }
                         .accessibility(identifier: "Complete Item " + item.name)
+                        .actionSheet(isPresented: $isSequelAddPromptShown) {
+                            ActionSheet(
+                                title: Text("Add Next in Series?"),
+                                buttons: [
+                                    .default(Text("Add Item")) {
+                                        modalContent = .addSequel
+                                        isModalShown = true
+                                    },
+                                    .cancel(Text("Do Not Add Item")) {
+                                        handleModalClose() // To call and reset onModalClose
+                                    }
+                                ]
+                            )
+                        }
                     }
                 }
                 
@@ -142,7 +187,8 @@ struct ItemCardView: View {
                         HStack {
                             Spacer(minLength: 0)
                             SolidButton("Edit", background: .clear) { // TODO: shared parent for SolidButton without bg
-                                isPropertiesShown = true
+                                modalContent = .editItem
+                                isModalShown = true
                             }
                         }
                     }
@@ -151,13 +197,13 @@ struct ItemCardView: View {
             }
             .foregroundColor(item.hasFutureReleaseDate ? .secondary : .primary)
             .padding()
-            .sheet(isPresented: $isPropertiesShown) {
-                ItemPropertiesView(item) {
-                    isPropertiesShown = false
-                }
-                .environmentObject(model)
-            }
         }
+    }
+    
+    private func handleModalClose() {
+        isModalShown = false
+        onModalClose()
+        onModalClose = {}
     }
 }
 

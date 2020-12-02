@@ -87,6 +87,7 @@ class CodableRoot: Codable {
         public var moveOnRelease: Bool
         public var sortIndex: Int64
         public var releaseDate: Date?
+        public var seriesName: String?
         
         init(_ item: DomainItem) {
             name = item.name
@@ -95,10 +96,11 @@ class CodableRoot: Codable {
             moveOnRelease = item.moveOnRelease
             sortIndex = item.sortIndex
             releaseDate = item.releaseDate
+            seriesName = item.seriesName
         }
         
         func asDomainItem(queued: Bool) -> DomainItem {
-            return DomainItem(id: 0, name: name, notes: notes, status: queued ? ItemStatus(rawValue: status) ?? .unstarted : .backlog, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate)
+            return DomainItem(id: 0, name: name, notes: notes, status: queued ? ItemStatus(rawValue: status) ?? .unstarted : .backlog, moveOnRelease: moveOnRelease, sortIndex: sortIndex, releaseDate: releaseDate, seriesName: seriesName)
         }
     }
 }

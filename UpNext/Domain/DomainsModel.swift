@@ -35,18 +35,17 @@ class DomainsModel: ObservableObject {
         return domains
     }
     
-    public func addDomain(name: String) {
-        domains.append(database.createDomain(name: name)!)
+    public func addDomain(name: String) -> Domain {
+        let domain = database.createDomain(name: name)!
+        domains.append(domain)
+        return domain
     }
     
-    public func addItem(name: String, in type: ItemStatus, of domain: Domain) {
-        let item = database.createItem(name: name, with: type, of: domain.id)!
-        let domainIndex = domains.firstIndex(of: domain)!
-        if type == .unstarted {
-            domains[domainIndex].unstarted.append(item)
-        } else {
-            domains[domainIndex].backlog.append(item)
-        }
+    public func addItem(name: String, in type: ItemStatus, of domain: Domain) -> DomainItem {
+        let sortIndex = domain.items.sorted().last!.sortIndex + 1
+        let item = database.createItem(name: name, with: type, at: sortIndex, of: domain.id)!
+        domains[keyPath: type.keyPath(forDomainIndex: domains.firstIndex(of: domain)!)].append(item)
+        return item
     }
     
     public func renameDomain(_ domain: Domain, to name: String) {
@@ -82,14 +81,13 @@ class DomainsModel: ObservableObject {
     }
     
     public func move(item: DomainItem, to status: ItemStatus, of domain: Domain) {
-        let isMovingToBacklog = status == .backlog
         if (item.status == status) {
             return
         }
         
         let domainIndex = domains.firstIndex(of: domain)!
-        let dstKeyPath = isMovingToBacklog ? \[Domain][domainIndex].backlog : \[Domain][domainIndex].unstarted
-        let srcKeyPath = item.status.keyPath(forDomainIndex: domains.firstIndex(of: domain)!)
+        let dstKeyPath = status.keyPath(forDomainIndex: domainIndex)
+        let srcKeyPath = item.status.keyPath(forDomainIndex: domainIndex)
         domains[keyPath: srcKeyPath].removeAll { $0 == item }
         var newItem = item
         newItem.status = status
@@ -107,9 +105,6 @@ class DomainsModel: ObservableObject {
     }
     
     public func updateItemStatus(item: DomainItem, to status: ItemStatus) {
-        if (status == .completed) {
-            print("updating item #\(item.id) to completed")
-        }
         // Should I be making this one way data flow and only update the database from here, then refetch data? Right now I'm updating the live data, which requires finding nested references.
         // Maybe if I could reload the data and then replace it by diff? Does ObservableObject handle that for me?
         guard let (domainIndex, itemIndex, location) = findItem(byId: item.id) else {
@@ -127,7 +122,8 @@ class DomainsModel: ObservableObject {
         updatedItem.name = properties.title.trimmingCharacters(in: .whitespaces)
         updatedItem.notes = properties.notes.count > 0 ? properties.notes : nil
         updatedItem.releaseDate = properties.useDate ? properties.date : nil
-        updatedItem.moveOnRelease = properties.moveOnRelease
+        updatedItem.moveOnRelease = properties.status == .backlog && properties.moveOnRelease
+        updatedItem.seriesName = properties.inSeries ? properties.seriesName : nil
         
         guard let (domainIndex, itemIndex, location) = findItem(byId: item.id) else {
             return

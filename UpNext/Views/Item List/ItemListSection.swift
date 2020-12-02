@@ -45,17 +45,6 @@ struct ItemListSection: View {
             model.reorderItems(in: status, of: domain, src: src, dst: dst)
         }
     }
-    
-//    private func mappedIndex(for index: Int) -> Int {
-//        if (status == .backlog || status == .completed) {
-//            return index
-//        }
-//        
-//        let offset = (showCompleted ? domain.completed.count : 0) + (status == .unstarted ? domain.started.count : 0)
-//        print(index - offset)
-//        print(itemIndices[index - offset])
-//        return itemIndices[index - offset]
-//    }
 }
 
 struct ItemListSection_Previews: PreviewProvider {

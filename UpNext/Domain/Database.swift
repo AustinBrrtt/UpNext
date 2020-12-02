@@ -23,13 +23,14 @@ class Database {
     let moveOnRelease = Expression<Bool>("moveOnRelease")
     let sortIndex = Expression<Int64>("sortIndex")
     let releaseDate = Expression<Date?>("releaseDate")
+    let seriesName = Expression<String?>("seriesName")
     
     var domainsWithAllColumns: Table {
         domains.select(id, name)
     }
     
     var itemsWithAllColumns: Table {
-        items.select(id, name, domain, notes, status, moveOnRelease, sortIndex, releaseDate)
+        items.select(id, name, domain, notes, status, moveOnRelease, sortIndex, releaseDate, seriesName)
     }
     
     #if os(iOS)
@@ -57,6 +58,7 @@ class Database {
                 t.column(moveOnRelease, defaultValue: false)
                 t.column(sortIndex, defaultValue: 1)
                 t.column(releaseDate, defaultValue: nil)
+                t.column(seriesName, defaultValue: nil)
             })
         } catch {
             assert(false, "Failed to initialize database")
@@ -75,6 +77,7 @@ class Database {
         } catch {
             return nil
         }
+        domainList.sort(by: { lhs, rhs in lhs.name.localizedCompare(rhs.name) == .orderedAscending })
         return domainList
     }
     
@@ -115,7 +118,7 @@ class Database {
     
     // Returns the id of the item if successful, nil if unsucessful
     func importItem(item: DomainItem, domainId: Int64) -> Int64? {
-        return try? db.run(items.insert(self.name <- item.name, self.domain <- domainId, self.notes <- item.notes, self.status <- item.status.rawValue, self.moveOnRelease <- item.moveOnRelease, self.sortIndex <- item.sortIndex, self.releaseDate <- item.releaseDate))
+        return try? db.run(items.insert(self.name <- item.name, self.domain <- domainId, self.notes <- item.notes, self.status <- item.status.rawValue, self.moveOnRelease <- item.moveOnRelease, self.sortIndex <- item.sortIndex, self.releaseDate <- item.releaseDate, self.seriesName <- item.seriesName))
     }
     
     func createDomain(name: String) -> Domain? {
@@ -145,12 +148,12 @@ class Database {
     }
     
     func editItem(_ id: Int64, to newValue: DomainItem) {
-        updateItem(id) { $0.update(self.name <- newValue.name, self.notes <- newValue.notes, self.status <- newValue.status.rawValue, self.moveOnRelease <- newValue.moveOnRelease, self.releaseDate <- newValue.releaseDate) }
+        updateItem(id) { $0.update(self.name <- newValue.name, self.notes <- newValue.notes, self.status <- newValue.status.rawValue, self.moveOnRelease <- newValue.moveOnRelease, self.releaseDate <- newValue.releaseDate, self.seriesName <- newValue.seriesName) }
     }
     
-    func createItem(name: String, with status: ItemStatus, of domainId: Int64) -> DomainItem? {
+    func createItem(name: String, with status: ItemStatus, at sortIndex: Int64, of domainId: Int64) -> DomainItem? {
         do {
-            let id = try db.run(items.insert(self.name <- name, self.domain <- domainId, self.status <- status.rawValue))
+            let id = try db.run(items.insert(self.name <- name, self.domain <- domainId, self.sortIndex <- sortIndex, self.status <- status.rawValue))
             return parseItem(from: try db.pluck(itemsWithAllColumns.filter(self.id == id).limit(1))!)
         } catch {
             print("Error: createItem")
@@ -187,7 +190,7 @@ class Database {
     
     func parseItem(from row: Row) -> DomainItem? {
         do {
-            return try DomainItem(id: row.get(self.id), name: row.get(self.name), notes: row.get(self.notes), status: ItemStatus(rawValue: row.get(self.status))!, moveOnRelease: row.get(self.moveOnRelease), sortIndex: row.get(self.sortIndex), releaseDate: row.get(self.releaseDate))
+            return try DomainItem(id: row.get(self.id), name: row.get(self.name), notes: row.get(self.notes), status: ItemStatus(rawValue: row.get(self.status))!, moveOnRelease: row.get(self.moveOnRelease), sortIndex: row.get(self.sortIndex), releaseDate: row.get(self.releaseDate), seriesName: row.get(self.seriesName))
         } catch {
             print("Error: parseItem")
             return nil
@@ -205,8 +208,7 @@ class Database {
     
     private func updateItem(_ id: Int64, update: (Table) -> Update) {
         do {
-            let foo = try db.run(update(items.filter(self.id == id)))
-            print("Success: updateItem #\(id), result = \(foo)")
+            _ = try db.run(update(items.filter(self.id == id)))
         } catch {
             print("Error: updateItem")
             return

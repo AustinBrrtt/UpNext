@@ -66,6 +66,16 @@ struct Domain: Identifiable {
         }
     }
     
+    public func hasSequel(to prequel: DomainItem) -> Bool {
+        for item in unstarted + backlog + started {
+            if item.seriesName == prequel.seriesName && item.id != prequel.id {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     private mutating func updateSortIndices(for type: ItemStatus) {
         for index in (type == .unstarted ? unstarted : backlog).indices {
             if (type == .unstarted) {

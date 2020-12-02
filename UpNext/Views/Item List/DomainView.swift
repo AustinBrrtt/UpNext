@@ -54,7 +54,7 @@ struct DomainView: View {
                         .accessibility(identifier: "Toggle Completed")
                 }
                 .padding(.horizontal)
-                .padding(.top)
+                .padding(.vertical, 5)
             }
             
             if showBacklog {
