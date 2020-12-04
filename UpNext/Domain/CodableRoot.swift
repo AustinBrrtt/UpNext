@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-// TODO: Reading/Writing from CoreData replacementf
+// TODO: Reading/Writing from CoreData replacement
 class CodableRoot: Codable {
     var domains: [CodableDomain]
     

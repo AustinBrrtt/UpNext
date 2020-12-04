@@ -42,20 +42,3 @@ enum ItemStatus: Int64 {
         }
     }
 }
-
-// TODO: Is this still used?
-extension ItemStatus: Comparable {
-    // .unstarted < .started < .completed
-    static func < (lhs: ItemStatus, rhs: ItemStatus) -> Bool {
-        switch lhs {
-        case .backlog:
-            return rhs != .backlog
-        case .unstarted:
-            return rhs != .unstarted && rhs != .backlog
-        case .started:
-            return rhs == .completed
-        case .completed:
-            return false
-        }
-    }
-}

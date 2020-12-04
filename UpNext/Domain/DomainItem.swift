@@ -80,8 +80,8 @@ extension DomainItem: Equatable, Comparable {
         return lhs.id == rhs.id
     }
     
-    // Sorts by status and then by sortIndex within each status
+    // Sorts by sortIndex
     static func < (lhs: DomainItem, rhs: DomainItem) -> Bool {
-        return lhs.status == rhs.status ? lhs.sortIndex < rhs.sortIndex : lhs.status > rhs.status
+        return lhs.sortIndex < rhs.sortIndex
     }
 }
