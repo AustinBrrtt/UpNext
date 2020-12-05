@@ -18,8 +18,7 @@ enum ItemPropertiesModalContent {
 // TODO: Mac Navigation
 struct ItemCardView: View {
     @Environment(\.editMode) var editMode
-    @EnvironmentObject var model: DomainsModel
-    let language = DomainSpecificLanguage.defaultLanguage
+    @EnvironmentObject var model: AppModel
     @State var modalContent: ItemPropertiesModalContent = .editItem
     @State var isSequelAddPromptShown: Bool = false
     @State var isModalShown: Bool = false
@@ -217,8 +216,8 @@ struct ItemCardView_Previews: PreviewProvider {
     static var complexQueueItem = DomainItem.createMock(name: "Unstarted Queue Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", releaseDate: Date(timeIntervalSinceReferenceDate: 600000000))
     static var futureQueueItem = DomainItem.createMock(name: "Future Unstarted Queue Item with properties", notes: "Well isn't that just a lovely little flipping story? Who d'ya thinks gonna believe that little fairy tale you've cooked up? Ha!", releaseDate: Date(timeIntervalSinceReferenceDate: 6000000000))
     
-    static var model: DomainsModel = {
-        let model = DomainsModel()
+    static var model: AppModel = {
+        let model = AppModel()
         model.domains.append(Domain.createMock(
             name: "Queue Holder",
             unstarted: [
@@ -238,7 +237,7 @@ struct ItemCardView_Previews: PreviewProvider {
     }()
     
     struct PreviewContainer: View {
-        @EnvironmentObject var model: DomainsModel
+        @EnvironmentObject var model: AppModel
         
         var body: some View {
             VStack {

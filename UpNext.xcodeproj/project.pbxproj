@@ -17,15 +17,14 @@
 		D96F697A24A6FC260005923E /* ItemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F697924A6FC260005923E /* ItemProperties.swift */; };
 		D96F697F24AD908E0005923E /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D96F697E24AD908E0005923E /* SQLite */; };
 		D96F698124AD90CA0005923E /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F698024AD90CA0005923E /* Database.swift */; };
-		D97504B324A450B8007756D9 /* DomainsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97504B224A450B8007756D9 /* DomainsModel.swift */; };
+		D97504B324A450B8007756D9 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97504B224A450B8007756D9 /* AppModel.swift */; };
 		D989D84624762AD000C94269 /* ItemStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D989D84524762AD000C94269 /* ItemStatusTests.swift */; };
+		D9BA2329257B3CC70086CF13 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA2328257B3CC70086CF13 /* Publisher.swift */; };
 		D9BA898E2468F8670005CE9A /* UpNextApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA898D2468F8670005CE9A /* UpNextApp.swift */; };
 		D9BA89972468F8670005CE9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9BA89962468F8670005CE9A /* Assets.xcassets */; };
 		D9BA899A2468F8670005CE9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9BA89992468F8670005CE9A /* Preview Assets.xcassets */; };
 		D9BA899D2468F8670005CE9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9BA899B2468F8670005CE9A /* LaunchScreen.storyboard */; };
 		D9BA89B32468F8670005CE9A /* UpNextUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89B22468F8670005CE9A /* UpNextUITests.swift */; };
-		D9BA89DA2468F87A0005CE9A /* DomainSpecificLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89C12468F87A0005CE9A /* DomainSpecificLanguage.swift */; };
-		D9BA89DB2468F87A0005CE9A /* Noun.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89C22468F87A0005CE9A /* Noun.swift */; };
 		D9BA89DC2468F87A0005CE9A /* CodableRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89C32468F87A0005CE9A /* CodableRoot.swift */; };
 		D9BA89DD2468F87A0005CE9A /* DomainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89C42468F87A0005CE9A /* DomainItem.swift */; };
 		D9BA89DE2468F87A0005CE9A /* Domain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BA89C52468F87A0005CE9A /* Domain.swift */; };
@@ -87,8 +86,9 @@
 		D966169A257436EA00A9758D /* ConditionalBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionalBlur.swift; sourceTree = "<group>"; };
 		D96F697924A6FC260005923E /* ItemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProperties.swift; sourceTree = "<group>"; };
 		D96F698024AD90CA0005923E /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
-		D97504B224A450B8007756D9 /* DomainsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainsModel.swift; sourceTree = "<group>"; };
+		D97504B224A450B8007756D9 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		D989D84524762AD000C94269 /* ItemStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatusTests.swift; sourceTree = "<group>"; };
+		D9BA2328257B3CC70086CF13 /* Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
 		D9BA898A2468F8670005CE9A /* UpNext.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UpNext.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BA898D2468F8670005CE9A /* UpNextApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextApp.swift; sourceTree = "<group>"; };
 		D9BA89962468F8670005CE9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,8 +100,6 @@
 		D9BA89AE2468F8670005CE9A /* UpNextUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UpNextUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BA89B22468F8670005CE9A /* UpNextUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextUITests.swift; sourceTree = "<group>"; };
 		D9BA89B42468F8670005CE9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D9BA89C12468F87A0005CE9A /* DomainSpecificLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainSpecificLanguage.swift; sourceTree = "<group>"; };
-		D9BA89C22468F87A0005CE9A /* Noun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Noun.swift; sourceTree = "<group>"; };
 		D9BA89C32468F87A0005CE9A /* CodableRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableRoot.swift; sourceTree = "<group>"; };
 		D9BA89C42468F87A0005CE9A /* DomainItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainItem.swift; sourceTree = "<group>"; };
 		D9BA89C52468F87A0005CE9A /* Domain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Domain.swift; sourceTree = "<group>"; };
@@ -209,6 +207,16 @@
 			path = "Import and Export";
 			sourceTree = "<group>";
 		};
+		D9BA2336257B3EF00086CF13 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				D9BA89C42468F87A0005CE9A /* DomainItem.swift */,
+				D91930432472F70F003ED47A /* ItemStatus.swift */,
+				D96F697924A6FC260005923E /* ItemProperties.swift */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
 		D9BA89812468F8670005CE9A = {
 			isa = PBXGroup;
 			children = (
@@ -284,15 +292,11 @@
 		D9BA89C02468F87A0005CE9A /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				D9BA89C12468F87A0005CE9A /* DomainSpecificLanguage.swift */,
-				D9BA89C22468F87A0005CE9A /* Noun.swift */,
+				D9BA2336257B3EF00086CF13 /* Item */,
+				D97504B224A450B8007756D9 /* AppModel.swift */,
 				D9BA89C32468F87A0005CE9A /* CodableRoot.swift */,
-				D9BA89C42468F87A0005CE9A /* DomainItem.swift */,
-				D9BA89C52468F87A0005CE9A /* Domain.swift */,
-				D91930432472F70F003ED47A /* ItemStatus.swift */,
-				D97504B224A450B8007756D9 /* DomainsModel.swift */,
-				D96F697924A6FC260005923E /* ItemProperties.swift */,
 				D96F698024AD90CA0005923E /* Database.swift */,
+				D9BA89C52468F87A0005CE9A /* Domain.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -324,6 +328,7 @@
 			children = (
 				D9BA89CD2468F87A0005CE9A /* Date.swift */,
 				D9BA8A1D246907560005CE9A /* Color.swift */,
+				D9BA2328257B3CC70086CF13 /* Publisher.swift */,
 			);
 			path = "System Extensions";
 			sourceTree = "<group>";
@@ -370,6 +375,7 @@
 				D9BA89862468F8670005CE9A /* Sources */,
 				D9BA89872468F8670005CE9A /* Frameworks */,
 				D9BA89882468F8670005CE9A /* Resources */,
+				D9BA2340257B46610086CF13 /* Mark TODO and FIXME as warnings */,
 			);
 			buildRules = (
 			);
@@ -492,27 +498,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		D9BA2340257B46610086CF13 /* Mark TODO and FIXME as warnings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Mark TODO and FIXME as warnings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D9BA89862468F8670005CE9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D97504B324A450B8007756D9 /* DomainsModel.swift in Sources */,
+				D97504B324A450B8007756D9 /* AppModel.swift in Sources */,
 				D9BA89E42468F87A0005CE9A /* ListItem.swift in Sources */,
 				D9BA89E92468F87A0005CE9A /* ImportExportView.swift in Sources */,
 				D9BA8A1C246906390005CE9A /* ConditionalBackground.swift in Sources */,
 				D90D8222246CE3B300FF09C5 /* MultilineTextField.swift in Sources */,
 				D91930442472F70F003ED47A /* ItemStatus.swift in Sources */,
 				D910050624A31493002DF1DA /* ItemCardIndicatorsView.swift in Sources */,
-				D9BA89DA2468F87A0005CE9A /* DomainSpecificLanguage.swift in Sources */,
 				D9BA89EE2468F87A0005CE9A /* DomainView.swift in Sources */,
+				D9BA2329257B3CC70086CF13 /* Publisher.swift in Sources */,
 				D9BA89DD2468F87A0005CE9A /* DomainItem.swift in Sources */,
 				D9BA898E2468F8670005CE9A /* UpNextApp.swift in Sources */,
 				D9BA89DC2468F87A0005CE9A /* CodableRoot.swift in Sources */,
 				D9BA89EA2468F87A0005CE9A /* ItemList.swift in Sources */,
 				D9BA89E12468F87A0005CE9A /* ClearButton.swift in Sources */,
 				D9BA89E32468F87A0005CE9A /* Date.swift in Sources */,
-				D9BA89DB2468F87A0005CE9A /* Noun.swift in Sources */,
 				D9BA8A1E246907560005CE9A /* Color.swift in Sources */,
 				D96F698124AD90CA0005923E /* Database.swift in Sources */,
 				D9BA89E62468F87A0005CE9A /* BigText.swift in Sources */,

@@ -23,7 +23,7 @@ class CodableRoot: Codable {
         self.domains = domains.map { CodableDomain($0) }
     }
     
-    func overwrite(model: DomainsModel) throws {
+    func overwrite(model: AppModel) throws {
         model.replace(domains: domains.map{ $0.asDomain() })
     }
     

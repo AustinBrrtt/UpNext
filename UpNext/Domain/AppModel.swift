@@ -1,5 +1,5 @@
 //
-//  DomainsModel.swift
+//  AppModel.swift
 //  UpNext
 //
 //  Created by Austin Barrett on 6/24/20.
@@ -9,12 +9,72 @@
 import Foundation
 import Combine
 
-class DomainsModel: ObservableObject {
+class AppModel: ObservableObject {
     @Published var domains: [Domain] = []
     let database = Database()!
+    var cancellables = Set<AnyCancellable>()
     
     init() {
         self.domains = loadDomains()
+        
+        $domains
+            .pairwise()
+            .sink { [database] (old, new) in
+                // Assumes only one change was made
+                // Since creating/deleting is done through functions, only run if count is the same
+                if new.count == old.count {
+                    for domainIndex in old.indices {
+                        if !Domain.propertiesEqual(old[domainIndex], new[domainIndex]) {
+                            database.update(new[domainIndex])
+                        }
+                        
+                        if !Domain.itemsEqual(old[domainIndex], new[domainIndex]) {
+                            let oldUnstarted = old[domainIndex].unstarted
+                            let oldStarted = old[domainIndex].started
+                            let oldCompleted = old[domainIndex].completed
+                            let oldBacklog = old[domainIndex].backlog
+                            let newUnstarted = new[domainIndex].unstarted
+                            let newStarted = new[domainIndex].started
+                            let newCompleted = new[domainIndex].completed
+                            let newBacklog = new[domainIndex].backlog
+                            
+                            // Since creating/deleting is done through functions, only run if count is the same
+                            // TODO: Simplify copy/pasted code
+                            if oldUnstarted.count == newUnstarted.count {
+                                for updateIndex in old[domainIndex].unstarted.indices {
+                                    if oldUnstarted[updateIndex] != newUnstarted[updateIndex] {
+                                        database.update(newUnstarted[updateIndex], in: old[domainIndex])
+                                    }
+                                }
+                            }
+                            if oldStarted.count == newStarted.count {
+                                for updateIndex in old[domainIndex].started.indices {
+                                    if oldStarted[updateIndex] != newStarted[updateIndex] {
+                                        database.update(newStarted[updateIndex], in: old[domainIndex])
+                                    }
+                                }
+                            }
+                            if oldCompleted.count == newCompleted.count {
+                                for updateIndex in old[domainIndex].completed.indices {
+                                    if oldCompleted[updateIndex] != newCompleted[updateIndex] {
+                                        database.update(newCompleted[updateIndex], in: old[domainIndex])
+                                    }
+                                }
+                            }
+                            if oldBacklog.count == newBacklog.count {
+                                for updateIndex in old[domainIndex].backlog.indices {
+                                    if oldBacklog[updateIndex] != newBacklog[updateIndex] {
+                                        database.update(newBacklog[updateIndex], in: old[domainIndex])
+                                    }
+                                }
+                            }
+                            
+                            
+                        }
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
     
     public func getItemIndices(from type: ItemStatus, of domain: Domain, withStatus status: ItemStatus? = nil) -> AnyPublisher<[Int], Never> {
@@ -34,7 +94,10 @@ class DomainsModel: ObservableObject {
         }
         return domains
     }
-    
+}
+
+// MARK: Creation and Deletion
+extension AppModel {
     public func addDomain(name: String) -> Domain {
         let domain = database.createDomain(name: name)!
         domains.append(domain)
@@ -48,13 +111,8 @@ class DomainsModel: ObservableObject {
         return item
     }
     
-    public func renameDomain(_ domain: Domain, to name: String) {
-        domains[domains.firstIndex(of: domain)!].name = name
-        database.renameDomain(domain.id, to: name)
-    }
-    
     public func delete(_ domain: Domain) {
-        domains.removeAll { $0 == domain }
+        domains.removeAll { $0.id == domain.id }
         database.deleteDomain(id: domain.id)
     }
     
@@ -78,6 +136,56 @@ class DomainsModel: ObservableObject {
             }
         }
         domains = loadDomains() // Allow Database to generate IDs
+    }
+    
+    // Attempt to replace database with current domains in case of failed overwrite
+    private func restoreDatabase() {
+        database.deleteEverything()
+        for domain in domains {
+            let _ = database.importDomain(domain: domain)
+        }
+    }
+    
+    // Returns (domain index, item index, unstarted or backlog) or nil if not found
+    private func findItem(byId id: Int64) -> (Int, Int, ItemStatus)? {
+        var itemIndex: Int? = nil
+        var location: ItemStatus = .completed
+        guard let domainIndex = domains.firstIndex(where: { domain in
+            itemIndex = domain.unstarted.firstIndex(where: { $0.id == id })
+            
+            if itemIndex != nil {
+                location = .unstarted
+            } else {
+                itemIndex = domain.backlog.firstIndex(where: { $0.id == id })
+                
+                if itemIndex != nil {
+                    location = .backlog
+                } else {
+                    itemIndex = domain.started.firstIndex(where: { $0.id == id })
+                    
+                    if itemIndex != nil {
+                        location = .started
+                    } else {
+                        itemIndex = domain.completed.firstIndex(where: { $0.id == id })
+                    }
+                }
+            }
+            
+            return itemIndex != nil
+        }) else {
+            return nil
+        }
+        
+        return (domainIndex, itemIndex!, location)
+    }
+}
+
+// MARK: Deprecated Update Functions
+@available(*, deprecated)
+extension AppModel {
+    public func renameDomain(_ domain: Domain, to name: String) {
+        domains[domains.firstIndex(of: domain)!].name = name
+        database.renameDomain(domain.id, to: name)
     }
     
     public func move(item: DomainItem, to status: ItemStatus, of domain: Domain) {
@@ -136,7 +244,11 @@ class DomainsModel: ObservableObject {
             updateItemStatus(item: updatedItem, to: properties.status)
         }
     }
-    
+}
+
+// MARK: Possibly Deprecatable helpers
+@available(*, deprecated)
+extension AppModel {
     public func item(withId id: Int64) -> DomainItem? {
         guard let (domainIndex, itemIndex, location) = findItem(byId: id) else {
             return nil
@@ -169,49 +281,8 @@ class DomainsModel: ObservableObject {
         return found
     }
     
-    // Attempt to replace database with current domains in case of failed overwrite
-    private func restoreDatabase() {
-        database.deleteEverything()
-        for domain in domains {
-            let _ = database.importDomain(domain: domain)
-        }
-    }
-    
     private func nextSortIndex(for keyPath: WritableKeyPath<[Domain], [DomainItem]>) -> Int64 {
         domains[keyPath: keyPath].isEmpty ? 0 : domains[keyPath: keyPath][domains[keyPath: keyPath].count - 1].sortIndex + 1
-    }
-    
-    // Returns (domain index, item index, unstarted or backlog) or nil if not found
-    private func findItem(byId id: Int64) -> (Int, Int, ItemStatus)? {
-        var itemIndex: Int? = nil
-        var location: ItemStatus = .completed
-        guard let domainIndex = domains.firstIndex(where: { domain in
-            itemIndex = domain.unstarted.firstIndex(where: { $0.id == id })
-            
-            if itemIndex != nil {
-                location = .unstarted
-            } else {
-                itemIndex = domain.backlog.firstIndex(where: { $0.id == id })
-                
-                if itemIndex != nil {
-                    location = .backlog
-                } else {
-                    itemIndex = domain.started.firstIndex(where: { $0.id == id })
-                    
-                    if itemIndex != nil {
-                        location = .started
-                    } else {
-                        itemIndex = domain.completed.firstIndex(where: { $0.id == id })
-                    }
-                }
-            }
-            
-            return itemIndex != nil
-        }) else {
-            return nil
-        }
-        
-        return (domainIndex, itemIndex!, location)
     }
     
     public func finalizeItemOrder(keyPath: WritableKeyPath<[Domain], [DomainItem]>) {

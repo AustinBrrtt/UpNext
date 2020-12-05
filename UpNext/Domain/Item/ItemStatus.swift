@@ -41,4 +41,9 @@ enum ItemStatus: Int64 {
             return \[Domain][index].completed
         }
     }
+    
+    func testMe(value: String = "", handler: (Data?, Error?) -> ()) {
+        print(value)
+        handler(nil, nil)
+    }
 }

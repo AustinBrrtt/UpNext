@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ImportExportView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var model: DomainsModel
+    @EnvironmentObject var model: AppModel
     
     let prettyPrint = false
     

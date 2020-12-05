@@ -9,13 +9,12 @@
 import SwiftUI
 
 struct ItemPropertiesView: View {
-    @EnvironmentObject var model: DomainsModel
+    @EnvironmentObject var model: AppModel
     @State var properties: ItemProperties
     let item: DomainItem?
     let domain: Domain
     
     private var dismiss: () -> Void
-    let language = DomainSpecificLanguage.defaultLanguage
     
     private static func generateSequelName(for prequelName: String) -> String {
         guard prequelName.contains(where: { $0.isNumber }),
@@ -83,7 +82,7 @@ struct ItemPropertiesView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     
-                    TextField(language.itemTitle.title, text: $properties.title)
+                    TextField("Title", text: $properties.title)
                         .autocapitalization(.words)
                         .clearButton(text: $properties.title)
                         .bigText()
@@ -148,7 +147,7 @@ struct ItemPropertiesView: View {
 struct ItemProperties_Previews: PreviewProvider {
     static var previews: some View {
         return ItemPropertiesView(DomainItem.createMock(name: "Sample Item"), domain: Domain.createMock()) { }
-            .environmentObject(DomainsModel())
+            .environmentObject(AppModel())
             .previewLayout(.fixed(width: 450, height: 350))
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 @main
 struct UpNextApp: App {
-    @StateObject var model: DomainsModel = DomainsModel()
+    @StateObject var model: AppModel = AppModel()
     
     var body: some Scene {
         WindowGroup {

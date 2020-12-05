@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DomainView: View {
-    @EnvironmentObject var model: DomainsModel
+    @EnvironmentObject var model: AppModel
     @Binding var domain: Domain
     @State var showBacklog: Bool = false
     @AppStorage("showCompleted") var showCompleted: Bool = false

@@ -9,15 +9,14 @@
 import SwiftUI
 
 struct DomainList: View {
-    @EnvironmentObject var model: DomainsModel
+    @EnvironmentObject var model: AppModel
     @Environment(\.editMode) var editMode
     @Binding var domains: [Domain]
-    let language = DomainSpecificLanguage.defaultLanguage
     
     var body: some View {
         NavigationView {
             VStack {
-                AddByNameField("Add \(language.domain.title)") { (name: String) in
+                AddByNameField("Add List") { (name: String) in
                     model.addDomain(name: name)
                 }
                     .padding()
@@ -40,7 +39,7 @@ struct DomainList: View {
                     }
                 }
             }
-            .navigationBarTitle(language.domain.pluralTitle)
+            .navigationBarTitle("Lists")
             .navigationBarItems(
                 leading: NavigationLink(destination: ImportExportView()) {
                     Text("Import/Export")

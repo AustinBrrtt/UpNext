@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 struct ItemListSection: View {
-    @EnvironmentObject var model: DomainsModel
+    @EnvironmentObject var model: AppModel
     @Binding var domain: Domain
     @Binding var showCompleted: Bool
     @Binding var items: [DomainItem]
@@ -69,7 +69,7 @@ struct ItemListSection_Previews: PreviewProvider {
     
     static var previews: some View {
         ItemListSection(domain, status: .unstarted, showCompleted: .constant(true))
-        .environmentObject(DomainsModel())
+        .environmentObject(AppModel())
         .previewLayout(.fixed(width: 450, height: 350))
     }
 }

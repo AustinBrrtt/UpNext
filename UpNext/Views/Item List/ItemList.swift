@@ -9,10 +9,9 @@
 import SwiftUI
 
 struct ItemList: View {
-    @EnvironmentObject var model: DomainsModel
+    @EnvironmentObject var model: AppModel
     @Binding var domain: Domain
     @Binding var showCompleted: Bool
-    let language = DomainSpecificLanguage.defaultLanguage
     let queue: Bool
     
     
@@ -65,7 +64,7 @@ struct ItemList_Previews: PreviewProvider {
     
     static var previews: some View {
         ItemList(domain, queue: true)
-            .environmentObject({ () -> DomainsModel in  let d = DomainsModel(); d.domains = [domain.wrappedValue]; return d }())
+            .environmentObject({ () -> AppModel in  let d = AppModel(); d.domains = [domain.wrappedValue]; return d }())
         .previewLayout(.fixed(width: 450, height: 350))
     }
 }

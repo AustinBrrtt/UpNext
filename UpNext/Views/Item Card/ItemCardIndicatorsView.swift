@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ItemCardIndicatorsView: View {
-    @EnvironmentObject var model: DomainsModel
+    @EnvironmentObject var model: AppModel
     var item: DomainItem
     
     var body: some View {

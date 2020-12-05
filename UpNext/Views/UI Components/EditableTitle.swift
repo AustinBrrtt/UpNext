@@ -12,7 +12,6 @@ struct EditableTitle: View {
     @Environment(\.editMode) var editMode
     @State var title: String
     var saveTitle: (String) -> Void
-    let language = DomainSpecificLanguage.defaultLanguage
     
     init(title: String, saveTitle: @escaping (String) -> Void) {
         self._title = State(initialValue: title)
@@ -22,7 +21,7 @@ struct EditableTitle: View {
     var body: some View {
         HStack {
             if editMode?.wrappedValue == .active {
-                TextField(language.domainTitle.title, text: $title)
+                TextField("Title", text: $title)
                     .autocapitalization(.words)
                     .clearButton(text: $title)
                     .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)

@@ -76,8 +76,14 @@ struct DomainItem: Identifiable {
 
 extension DomainItem: Equatable, Comparable {
     static func == (lhs: DomainItem, rhs: DomainItem) -> Bool {
-        // return lhs.status == rhs.status && lhs.sortIndex == rhs.sortIndex // TODO: Should == be identity, equality, or sort equality?
-        return lhs.id == rhs.id
+        return lhs.id == rhs.id &&
+            lhs.name == rhs.name &&
+            lhs.notes == rhs.notes &&
+            lhs.status == rhs.status &&
+            lhs.moveOnRelease == rhs.moveOnRelease &&
+            lhs.sortIndex == rhs.sortIndex &&
+            lhs.releaseDate == rhs.releaseDate &&
+            lhs.seriesName == rhs.seriesName
     }
     
     // Sorts by sortIndex

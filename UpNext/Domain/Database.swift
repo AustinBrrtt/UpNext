@@ -65,7 +65,10 @@ class Database {
             return nil
         }
     }
-    
+}
+
+// MARK: Load Data
+extension Database {
     func load() -> [Domain]? {
         var domainList: [Domain] = []
         do {
@@ -79,86 +82,6 @@ class Database {
         }
         domainList.sort(by: { lhs, rhs in lhs.name.localizedCompare(rhs.name) == .orderedAscending })
         return domainList
-    }
-    
-    func deleteEverything() {
-        _ = try? db.run(domains.delete())
-        _ = try? db.run(items.delete())
-    }
-    
-    // TODO: Use diff
-    func save(domains: [Domain]) {
-        // TODO: Is this needed? Currently doing database manipulations on insert/delete/update
-    }
-    
-    // TODO: Allow restoring data by using delete flag?
-    func deleteDomain(id: Int64) {
-        _ = try? db.run(domains.filter(self.id == id).delete())
-    }
-    
-    // TODO: Allow restoring data by using delete flag?
-    func deleteItem(id: Int64) {
-        _ = try? db.run(items.filter(self.id == id).delete())
-    }
-    
-    // Returns the id of the domain if successful, nil if unsucessful
-    func importDomain(domain: Domain) -> Int64? {
-        guard let result = try? db.run(domains.insert(self.name <- domain.name)) else {
-            return nil
-        }
-        
-        for item in domain.items {
-            guard let _ = importItem(item: item, domainId: result) else {
-                return nil
-            }
-        }
-        
-        return result
-    }
-    
-    // Returns the id of the item if successful, nil if unsucessful
-    func importItem(item: DomainItem, domainId: Int64) -> Int64? {
-        return try? db.run(items.insert(self.name <- item.name, self.domain <- domainId, self.notes <- item.notes, self.status <- item.status.rawValue, self.moveOnRelease <- item.moveOnRelease, self.sortIndex <- item.sortIndex, self.releaseDate <- item.releaseDate, self.seriesName <- item.seriesName))
-    }
-    
-    func createDomain(name: String) -> Domain? {
-        do {
-            let id = try db.run(domains.insert(self.name <- name))
-            return parseDomain(from: try db.pluck(domainsWithAllColumns.filter(self.id == id).limit(1))!)
-        } catch {
-            print("Error: createDomain")
-            return nil
-        }
-    }
-    
-    func renameDomain(_ id: Int64, to name: String) {
-        updateDomain(id) { $0.update(self.name <- name) }
-    }
-    
-    func reorderItem(_ id: Int64, to sortIndex: Int64) {
-        updateItem(id) { $0.update(self.sortIndex <- sortIndex) }
-    }
-    
-    func updateItemStatus(_ id: Int64, to status: ItemStatus) {
-        updateItem(id) { $0.update(self.status <- status.rawValue) }
-    }
-    
-    func releaseItem(_ id: Int64) {
-        updateItemStatus(id, to: .unstarted)
-    }
-    
-    func editItem(_ id: Int64, to newValue: DomainItem) {
-        updateItem(id) { $0.update(self.name <- newValue.name, self.notes <- newValue.notes, self.status <- newValue.status.rawValue, self.moveOnRelease <- newValue.moveOnRelease, self.releaseDate <- newValue.releaseDate, self.seriesName <- newValue.seriesName) }
-    }
-    
-    func createItem(name: String, with status: ItemStatus, at sortIndex: Int64, of domainId: Int64) -> DomainItem? {
-        do {
-            let id = try db.run(items.insert(self.name <- name, self.domain <- domainId, self.sortIndex <- sortIndex, self.status <- status.rawValue))
-            return parseItem(from: try db.pluck(itemsWithAllColumns.filter(self.id == id).limit(1))!)
-        } catch {
-            print("Error: createItem")
-            return nil
-        }
     }
     
     func parseDomain(from row: Row) -> Domain? {
@@ -196,6 +119,76 @@ class Database {
             return nil
         }
     }
+}
+
+// MARK: Creation
+extension Database {
+    func createDomain(name: String) -> Domain? {
+        do {
+            let id = try db.run(domains.insert(self.name <- name))
+            return parseDomain(from: try db.pluck(domainsWithAllColumns.filter(self.id == id).limit(1))!)
+        } catch {
+            print("Error: createDomain")
+            return nil
+        }
+    }
+    
+    func createItem(name: String, with status: ItemStatus, at sortIndex: Int64, of domainId: Int64) -> DomainItem? {
+        do {
+            let id = try db.run(items.insert(self.name <- name, self.domain <- domainId, self.sortIndex <- sortIndex, self.status <- status.rawValue))
+            return parseItem(from: try db.pluck(itemsWithAllColumns.filter(self.id == id).limit(1))!)
+        } catch {
+            print("Error: createItem")
+            return nil
+        }
+    }
+}
+
+// MARK: Updates
+extension Database {
+    func update(_ item: DomainItem, in domain: Domain) {
+        updateItem(item.id) {
+            $0.update(
+                self.name <- item.name,
+                self.domain <- domain.id,
+                self.notes <- item.notes,
+                self.status <- item.status.rawValue,
+                self.moveOnRelease <- item.moveOnRelease,
+                self.sortIndex <- item.sortIndex,
+                self.releaseDate <- item.releaseDate,
+                self.seriesName <- item.seriesName
+            )
+        }
+    }
+    
+    func update(_ domain: Domain) {
+        updateDomain(domain.id) { $0.update(self.name <- domain.name) }
+    }
+    
+    @available(*, deprecated)
+    func renameDomain(_ id: Int64, to name: String) {
+        updateDomain(id) { $0.update(self.name <- name) }
+    }
+    
+    @available(*, deprecated)
+    func reorderItem(_ id: Int64, to sortIndex: Int64) {
+        updateItem(id) { $0.update(self.sortIndex <- sortIndex) }
+    }
+    
+    @available(*, deprecated)
+    func updateItemStatus(_ id: Int64, to status: ItemStatus) {
+        updateItem(id) { $0.update(self.status <- status.rawValue) }
+    }
+    
+    @available(*, deprecated)
+    func releaseItem(_ id: Int64) {
+        updateItemStatus(id, to: .unstarted)
+    }
+    
+    @available(*, deprecated)
+    func editItem(_ id: Int64, to newValue: DomainItem) {
+        updateItem(id) { $0.update(self.name <- newValue.name, self.notes <- newValue.notes, self.status <- newValue.status.rawValue, self.moveOnRelease <- newValue.moveOnRelease, self.releaseDate <- newValue.releaseDate, self.seriesName <- newValue.seriesName) }
+    }
     
     private func updateDomain(_ id: Int64, update: (Table) -> Update) {
         do {
@@ -213,5 +206,46 @@ class Database {
             print("Error: updateItem")
             return
         }
+    }
+}
+
+// MARK: Delete
+extension Database {
+    func deleteEverything() {
+        _ = try? db.run(domains.delete())
+        _ = try? db.run(items.delete())
+    }
+    
+    // TODO: Allow restoring data by using delete flag?
+    func deleteDomain(id: Int64) {
+        _ = try? db.run(domains.filter(self.id == id).delete())
+    }
+    
+    // TODO: Allow restoring data by using delete flag?
+    func deleteItem(id: Int64) {
+        _ = try? db.run(items.filter(self.id == id).delete())
+    }
+}
+
+// MARK: Import
+extension Database {
+    // Returns the id of the domain if successful, nil if unsucessful
+    func importDomain(domain: Domain) -> Int64? {
+        guard let result = try? db.run(domains.insert(self.name <- domain.name)) else {
+            return nil
+        }
+        
+        for item in domain.items {
+            guard let _ = importItem(item: item, domainId: result) else {
+                return nil
+            }
+        }
+        
+        return result
+    }
+    
+    // Returns the id of the item if successful, nil if unsucessful
+    func importItem(item: DomainItem, domainId: Int64) -> Int64? {
+        return try? db.run(items.insert(self.name <- item.name, self.domain <- domainId, self.notes <- item.notes, self.status <- item.status.rawValue, self.moveOnRelease <- item.moveOnRelease, self.sortIndex <- item.sortIndex, self.releaseDate <- item.releaseDate, self.seriesName <- item.seriesName))
     }
 }

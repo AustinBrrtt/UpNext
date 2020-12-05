@@ -88,7 +88,29 @@ struct Domain: Identifiable {
 }
 
 extension Domain: Equatable {
-    static func ==(lhs: Domain, rhs: Domain) -> Bool {
-        return lhs.id == rhs.id
+    static func ==(_ lhs: Domain, _ rhs: Domain) -> Bool {
+        return propertiesEqual(lhs, rhs) && itemsEqual(lhs, rhs)
+    }
+    
+    static func propertiesEqual(_ lhs: Domain, _ rhs: Domain) -> Bool {
+        return lhs.id == rhs.id &&
+            lhs.name == rhs.name
+    }
+    
+    static func itemsEqual(_ lhs: Domain, _ rhs: Domain) -> Bool {
+        let lhsItems = lhs.items
+        let rhsItems = rhs.items
+        
+        if lhsItems.count != rhsItems.count {
+            return false
+        }
+        
+        for index in lhsItems.indices {
+            if lhsItems[index] != rhsItems[index] {
+                return false
+            }
+        }
+        
+        return true
     }
 }
